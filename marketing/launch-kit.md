@@ -1,5 +1,7 @@
 # Nodal launch kit
 
+Official account: [@Nodalftech](https://x.com/Nodalftech). The site links to it from the entry page, the header and the footer, and "Share on X" posts credit it with `via @Nodalftech`.
+
 Replace everything in `[brackets]` before posting. Keep the contract address identical everywhere: the site, the bio and every tweet.
 
 ---
@@ -17,6 +19,8 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 
 **Other profile fields**
 - Name: `Nodal 🌙` or `Nodal | $NDL`
+- Handle: @Nodalftech
+- Header: `nodal-x-banner.png` or `nodal-x-banner-logo.png` (1500×500)
 - Website: [website link]
 - Pinned post: the launch tweet
 
