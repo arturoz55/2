@@ -11,33 +11,32 @@
 <style>
 :root{
   color-scheme:dark;
-  --bg:#0E1118; --surface:#161A24; --surface-2:#1D2230; --line:#2A3142; --line-soft:#212736;
-  --text:#EDEFF5; --muted:#8C94A8; --faint:#5E6679;
+  --bg:#0B1020; --surface:#141A2B; --surface-2:#1B2236; --line:#29324A; --line-soft:#1F2740;
+  --text:#EDF1FA; --muted:#8D96AD; --faint:#5F6881;
   --teal:#43D3C3; --teal-ink:#0B2F2B; --amber:#F4B740; --rose:#F2677E; --good:#5BD68A;
-  --tile-a:67,211,195; --tile-b:244,183,64; --tile-base:42,49,66;
-  --shadow:0 24px 60px -24px rgba(0,0,0,.7);
+  --shadow:0 30px 70px -30px rgba(0,0,0,.75);
   --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --r-sm:8px; --r-md:14px; --r-lg:22px;
+  --r-sm:8px; --r-md:14px; --r-lg:20px;
+  /* The hero is a painted night scene in both themes. */
+  --sky-text:#F6F8FF; --sky-muted:rgba(228,236,255,.84); --sky-line:rgba(255,255,255,.26);
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
     color-scheme:light;
-    --bg:#F3F4F8; --surface:#FFFFFF; --surface-2:#EEF0F5; --line:#D8DCE6; --line-soft:#E4E7EE;
-    --text:#141824; --muted:#565E72; --faint:#8A91A3;
+    --bg:#F2F4F9; --surface:#FFFFFF; --surface-2:#EEF1F7; --line:#D7DCE7; --line-soft:#E3E7EF;
+    --text:#131827; --muted:#555E73; --faint:#8990A3;
     --teal:#0E8F83; --teal-ink:#FFFFFF; --amber:#A96E00; --rose:#C3354D; --good:#1C8547;
-    --tile-a:14,143,131; --tile-b:169,110,0; --tile-base:216,220,230;
-    --shadow:0 24px 60px -28px rgba(20,24,36,.28);
+    --shadow:0 30px 70px -30px rgba(10,20,50,.45);
   }
 }
 :root[data-theme="light"]{
   color-scheme:light;
-  --bg:#F3F4F8; --surface:#FFFFFF; --surface-2:#EEF0F5; --line:#D8DCE6; --line-soft:#E4E7EE;
-  --text:#141824; --muted:#565E72; --faint:#8A91A3;
+  --bg:#F2F4F9; --surface:#FFFFFF; --surface-2:#EEF1F7; --line:#D7DCE7; --line-soft:#E3E7EF;
+  --text:#131827; --muted:#555E73; --faint:#8990A3;
   --teal:#0E8F83; --teal-ink:#FFFFFF; --amber:#A96E00; --rose:#C3354D; --good:#1C8547;
-  --tile-a:14,143,131; --tile-b:169,110,0; --tile-base:216,220,230;
-  --shadow:0 24px 60px -28px rgba(20,24,36,.28);
+  --shadow:0 30px 70px -30px rgba(10,20,50,.45);
 }
 :root[data-theme="dark"]{ color-scheme:dark; }
 
@@ -51,51 +50,118 @@ button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:6px}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.02em}
 .eyebrow{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+section[id],main[id]{scroll-margin-top:76px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.up{color:var(--good)} .down{color:var(--rose)}
 
-/* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line-soft)}
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--line-soft);transition:background .3s,border-color .3s}
 .nav .wrap{display:flex;align-items:center;gap:24px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 20px/1 var(--display);letter-spacing:-.03em}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 20px/1 var(--display);letter-spacing:-.03em;transition:color .3s}
 .brand svg{width:26px;height:26px}
-.nav-links{display:flex;gap:4px;margin-left:8px}
+.nav-links{display:flex;gap:2px;margin-left:8px}
 .nav-links a{text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:999px;font-weight:500;transition:color .2s,background .2s}
-.nav-links a:hover{color:var(--text);background:var(--surface-2)}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--surface-2)}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.icon-btn{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);transition:color .2s,border-color .2s}
+.icon-btn{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);transition:color .2s,border-color .2s,background .2s}
 .icon-btn:hover{color:var(--text);border-color:var(--faint)}
 .icon-btn svg{width:18px;height:18px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;border:1px solid transparent;font-weight:600;text-decoration:none;transition:transform .15s,background .2s,border-color .2s,color .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;border:1px solid transparent;font-weight:600;text-decoration:none;transition:transform .15s,background .2s,border-color .2s,color .2s,filter .2s;white-space:nowrap}
 .btn:active{transform:scale(.98)}
 .btn-primary{background:var(--teal);color:var(--teal-ink)}
 .btn-primary:hover{filter:brightness(1.08)}
 .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
 .btn-ghost:hover{border-color:var(--faint)}
+.btn-light{background:#fff;color:#0B1633}
+.btn-light:hover{background:#E9F0FF}
+.btn-glass{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4);color:#fff;backdrop-filter:blur(6px)}
+.btn-glass:hover{background:rgba(255,255,255,.16)}
 .wallet-pill{font-family:var(--mono);font-size:13px}
 .wallet-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 25%,transparent)}
 .menu-btn{display:none}
+/* Over the night scene the nav goes transparent with light ink. */
+.nav.on-hero{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.nav.on-hero .brand,.nav.on-hero .nav-links:not(.open) a{color:var(--sky-text)}
+.nav.on-hero .nav-links:not(.open) a:hover{background:rgba(255,255,255,.12)}
+.nav.on-hero .icon-btn,.nav.on-hero .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);color:#fff}
+.nav.on-hero .btn-primary{background:#fff;color:#0B1633}
 
-/* hero */
-.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft)}
-#mosaic{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 80% at 30% 45%,var(--bg) 20%,transparent 75%),linear-gradient(to bottom,transparent 70%,var(--bg))}
-.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,440px);gap:clamp(32px,5vw,72px);align-items:center;padding-block:clamp(48px,8vw,96px)}
-.hero h1{font-size:clamp(40px,6.2vw,76px);line-height:.98;font-weight:800;margin:18px 0 20px}
-.hero h1 em{font-style:normal;color:var(--teal);position:relative;white-space:nowrap}
-.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.12em;background:var(--amber);border-radius:2px;transform-origin:left;animation:underline 1s .6s cubic-bezier(.7,0,.2,1) both}
-@keyframes underline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.hero p.lede{font-size:18px;color:var(--muted);max-width:52ch;margin:0 0 28px}
+/* ---------- hero scene ---------- */
+.hero{position:relative;overflow:hidden;margin-top:-65px;padding-top:65px;background:#0A1834;color:var(--sky-text)}
+#sky{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.gridlines{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:80px 80px;background-position:center top;-webkit-mask-image:linear-gradient(to bottom,#000 10%,rgba(0,0,0,.6) 55%,transparent 85%);mask-image:linear-gradient(to bottom,#000 10%,rgba(0,0,0,.6) 55%,transparent 85%)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 22% 28%,rgba(4,10,28,.5),transparent 70%)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:180px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--bg))}
+.hero-top{position:relative;z-index:2;padding-block:clamp(56px,9vw,112px) 0}
+.hero h1{font-size:clamp(38px,6vw,78px);line-height:1.02;font-weight:800;letter-spacing:-.035em;text-shadow:0 2px 30px rgba(3,10,30,.45)}
+.hero h1 span{display:block}
+.hero h1 .accent{color:#9FEFE4}
+.hero-rule{height:1px;background:var(--sky-line);margin:34px 0 22px;transform-origin:left;animation:grow 1.1s .4s cubic-bezier(.7,0,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hero-sub{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:start}
+.hero-sub .eyebrow{color:#9FEFE4}
+.ticker{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font:500 13px/1.3 var(--mono);color:var(--sky-muted)}
+.ticker b{color:var(--sky-text);font-weight:500}
+.ticker .up{color:#7EF0A8} .ticker .down{color:#FF9DAE}
+.hero-sub p{margin:0 0 20px;color:var(--sky-muted);font-size:17px;max-width:54ch}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
-.hero-meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:36px;color:var(--muted);font-size:13px}
-.hero-meta b{display:block;color:var(--text);font:500 20px/1.2 var(--mono)}
-.rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
-.rise.d1{animation-delay:.08s}.rise.d2{animation-delay:.16s}.rise.d3{animation-delay:.24s}.rise.d4{animation-delay:.32s}
-@keyframes rise{from{transform:translateY(14px);opacity:.35}to{transform:none;opacity:1}}
+.rise{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.rise.d1{animation-delay:.1s}.rise.d2{animation-delay:.2s}.rise.d3{animation-delay:.3s}.rise.d4{animation-delay:.42s}
+@keyframes rise{from{transform:translateY(16px);opacity:.3}to{transform:none;opacity:1}}
 
-/* swap card */
-.swap-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;box-shadow:var(--shadow);position:relative}
+.app-row{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,430px) minmax(0,290px);gap:18px;align-items:start;padding-block:56px 72px;color:var(--text)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+
+/* chart panel */
+.chart-panel{padding:18px 18px 12px}
+.cp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.cp-pair{display:flex;align-items:center;gap:10px}
+.cp-pair .icons{display:flex}
+.cp-pair .icons .tok-icon+.tok-icon{margin-left:-8px;box-shadow:0 0 0 2px var(--surface)}
+.cp-pair h3{font-size:16px;font-weight:700}
+.cp-pair button{border:0;background:none;color:var(--muted);padding:4px;border-radius:6px;display:grid;place-items:center}
+.cp-pair button:hover{color:var(--teal)}
+.cp-pair button svg{width:16px;height:16px}
+.cp-price{margin-top:10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.cp-price b{font:500 28px/1.1 var(--mono);letter-spacing:-.02em}
+.cp-price span{font:500 13px var(--mono)}
+.tf{display:flex;gap:2px;background:var(--surface-2);border-radius:10px;padding:3px}
+.tf button{border:0;background:none;height:28px;padding:0 10px;border-radius:7px;font:500 12px var(--mono);color:var(--muted)}
+.tf button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.chart{position:relative;margin-top:10px;height:230px;touch-action:pan-y}
+.chart svg{display:block;width:100%;height:100%;overflow:visible}
+.chart .grid line{stroke:var(--line-soft);stroke-width:1}
+.chart .axis text{fill:var(--faint);font:11px var(--mono)}
+.chart .line{fill:none;stroke:var(--teal);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .cross{stroke:var(--faint);stroke-width:1;stroke-dasharray:3 3}
+.chart .dot{fill:var(--teal);stroke:var(--surface);stroke-width:2}
+.tip{position:absolute;top:0;pointer-events:none;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;white-space:nowrap;box-shadow:var(--shadow);transform:translateX(-50%)}
+.tip b{display:block;font:500 14px var(--mono)}
+.tip span{color:var(--muted);font-family:var(--mono)}
+.chart-empty{display:grid;place-items:center;height:100%;color:var(--muted);font-size:14px}
+
+/* markets panel */
+.markets{padding:16px 8px 8px}
+.mk-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 10px}
+.mk-head h3{font-size:16px}
+.mk-list{list-style:none;margin:0;padding:0}
+.mk-list button{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) 56px auto;align-items:center;gap:10px;padding:9px 8px;border:0;background:none;border-radius:12px;text-align:left}
+.mk-list button:hover,.mk-list button:focus-visible{background:var(--surface-2)}
+.mk-list .sym b{display:block;font-size:14px}
+.mk-list .sym span{font-size:11px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk-list svg{width:56px;height:22px;overflow:visible}
+.mk-list svg polyline{fill:none;stroke:var(--teal);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.mk-list .px{text-align:right;font:500 13px var(--mono)}
+.mk-list .px small{display:block;font-size:11px}
+.mk-note{font-size:11px;color:var(--faint);padding:6px 8px 4px;margin:0}
+
+/* ---------- swap card ---------- */
+.swap-card{padding:14px;position:relative}
+.swap-card.pulse{animation:pulse .9s}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--teal) 55%,transparent),var(--shadow)}100%{box-shadow:0 0 0 14px transparent,var(--shadow)}}
 .swap-head{display:flex;align-items:center;gap:8px;padding:4px 6px 12px}
 .swap-head h2{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .swap-head .spacer{flex:1}
@@ -122,8 +188,9 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.
 .leg:focus-within{border-color:var(--line)}
 .leg-top,.leg-bot{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .leg-top{font-size:13px;color:var(--muted);margin-bottom:6px}
-.leg-bot{margin-top:6px;font-size:13px;color:var(--muted)}
-.amount{flex:1;min-width:0;width:100%;border:0;background:transparent;outline:none;font:500 32px/1.2 var(--mono);letter-spacing:-.02em;padding:0;color:var(--text)}
+.leg-bot{margin-top:6px;font-size:13px;color:var(--muted);min-height:24px}
+.leg-mid{display:flex;align-items:center;gap:10px}
+.amount{flex:1;min-width:0;width:100%;border:0;background:transparent;outline:none;font:500 30px/1.2 var(--mono);letter-spacing:-.02em;padding:0;color:var(--text)}
 .amount::placeholder{color:var(--faint)}
 .amount[readonly]{cursor:default}
 .amount.flash{animation:flash .6s}
@@ -135,8 +202,9 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.
 .tok-btn.empty svg{color:inherit}
 .tok-icon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 11px/1 var(--display);color:#fff;flex-shrink:0;position:relative;overflow:hidden}
 .tok-icon::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 55%)}
-.max{border:0;background:none;color:var(--teal);font:600 12px var(--mono);letter-spacing:.06em;padding:2px 4px;border-radius:5px}
-.max:hover{background:color-mix(in srgb,var(--teal) 14%,transparent)}
+.pcts{display:flex;gap:4px}
+.pcts button{border:1px solid var(--line);background:var(--surface);color:var(--muted);font:500 11px var(--mono);height:24px;padding:0 7px;border-radius:6px}
+.pcts button:hover{color:var(--teal);border-color:var(--teal)}
 .flip-wrap{height:8px;display:flex;justify-content:center;align-items:center;position:relative;z-index:2}
 .flip{width:40px;height:40px;border-radius:12px;border:4px solid var(--surface);background:var(--surface-2);display:grid;place-items:center;color:var(--muted);transition:transform .35s cubic-bezier(.3,1.4,.5,1),color .2s}
 .flip:hover{color:var(--teal)}
@@ -152,6 +220,8 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.
 .details{padding:4px 6px 8px;display:grid;gap:8px;font-size:13px}
 .details .kv{display:flex;justify-content:space-between;gap:12px}
 .details .kv span:first-child{color:var(--muted)}
+.link-btn{border:0;background:none;padding:0;color:var(--teal);font-size:13px;font-weight:500;justify-self:start}
+.link-btn:hover{text-decoration:underline}
 .impact-ok{color:var(--good)} .impact-warn{color:var(--amber)} .impact-bad{color:var(--rose)}
 
 .routebar{display:flex;height:10px;border-radius:999px;overflow:hidden;gap:2px;margin:6px 0 2px;background:var(--surface-2)}
@@ -167,14 +237,16 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.
 .action.danger:disabled{color:var(--rose)}
 .spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.demo-flag{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:10px;font-size:12px;color:var(--faint)}
-.demo-flag b{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 45%,transparent);border-radius:5px;padding:4px 6px}
+.demo-flag{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:10px;font-size:12px;color:var(--faint);text-align:center}
+.demo-flag b{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 45%,transparent);border-radius:5px;padding:4px 6px;flex-shrink:0}
 
-/* sections */
+/* ---------- sections ---------- */
 section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--line-soft)}
 .sec-head{display:grid;gap:14px;max-width:640px;margin-bottom:44px}
 .sec-head h2{font-size:clamp(30px,4vw,46px);line-height:1.04;font-weight:800}
 .sec-head p{margin:0;color:var(--muted);font-size:17px}
+.sec-head-row{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:44px}
+.sec-head-row .sec-head{margin-bottom:0}
 
 .route-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,56px);align-items:start}
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:4px}
@@ -183,13 +255,17 @@ section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--
 .steps .n{font:500 13px/1 var(--mono);color:var(--teal);border:1px solid var(--line);border-radius:10px;height:34px;display:grid;place-items:center}
 .steps h3{font-size:19px;font-weight:700;margin-bottom:4px}
 .steps p{margin:0;color:var(--muted);max-width:48ch}
-.route-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow)}
-.route-panel header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.route-panel{padding:22px}
+.route-panel header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .route-panel header h3{font-size:18px}
 .route-panel header span{font-size:13px;color:var(--muted)}
+.presets{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.presets button{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);font:500 12px var(--mono)}
+.presets button:hover{border-color:var(--teal);color:var(--teal)}
+.presets button[aria-pressed="true"]{border-color:var(--teal);color:var(--teal)}
 .legs{display:grid;gap:10px}
 .legrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--surface-2)}
-.legrow .v{display:flex;align-items:center;gap:10px;font-weight:600;min-width:0}
+.legrow .v{display:flex;align-items:center;gap:10px;font-weight:600;min-width:0;flex-wrap:wrap}
 .legrow .v i{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .legrow .v small{color:var(--muted);font:400 12px var(--mono)}
 .legrow .out{font:500 14px var(--mono);text-align:right}
@@ -208,6 +284,7 @@ section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--
 .feature h3{font-size:21px;font-weight:700}
 .feature p{margin:0;color:var(--muted)}
 .feature code{font:500 13px var(--mono);color:var(--text);background:var(--surface-2);padding:1px 6px;border-radius:5px}
+.feature .link-btn{margin-top:4px}
 
 .specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
 .spec{border-top:2px solid var(--line);padding-top:16px}
@@ -226,6 +303,7 @@ section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--
 
 .cta-band{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .cta-band h2{font-size:clamp(28px,4vw,44px);font-weight:800;max-width:18ch}
+.cta-band .hero-ctas{gap:10px}
 
 footer{padding-block:40px 48px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
@@ -233,7 +311,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}
 footer a,footer button.linklike{color:var(--muted);text-decoration:none;background:none;border:0;padding:0}
 footer a:hover,footer button.linklike:hover{color:var(--text)}
 
-/* dialogs */
+.to-top{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);display:grid;place-items:center;box-shadow:var(--shadow);transition:opacity .25s,transform .25s}
+.to-top svg{width:18px;height:18px}
+.to-top.away{opacity:0;transform:translateY(10px);pointer-events:none}
+
+/* ---------- dialogs ---------- */
 dialog{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--text);padding:0;width:min(440px,calc(100vw - 32px));max-height:min(640px,calc(100vh - 48px));box-shadow:var(--shadow)}
 dialog[open]{animation:pop .22s cubic-bezier(.2,.8,.3,1.1)}
 @keyframes pop{from{transform:translateY(10px) scale(.98);opacity:0}to{transform:none;opacity:1}}
@@ -262,17 +344,22 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 .wallet-opt:disabled{opacity:.55;cursor:not-allowed}
 .wallet-opt .wi{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
 .wallet-opt b{display:block}
-.wallet-opt span{font-size:12px;color:var(--muted)}
+.wallet-opt .sub{font-size:12px;color:var(--muted)}
 .fine{font-size:12px;color:var(--faint);margin:8px 0 0}
 .review-pair{display:grid;gap:4px;background:var(--surface-2);border-radius:14px;padding:14px 16px;margin-bottom:10px}
 .review-pair .lbl{font-size:12px;color:var(--muted)}
 .review-pair .amt{display:flex;justify-content:space-between;align-items:center;font:500 24px var(--mono)}
 .review-kv{display:grid;gap:8px;font-size:13px;margin:14px 0}
 .review-kv div{display:flex;justify-content:space-between;gap:10px}
-.review-kv span:first-child{color:var(--muted)}
+.review-kv span:first-child{color:var(--muted);flex-shrink:0}
+.review-kv span:last-child{text-align:right}
 .license-text{font:12.5px/1.65 var(--mono);white-space:pre-wrap;color:var(--muted);background:var(--surface-2);border-radius:12px;padding:16px;margin:0}
 .acct{display:grid;gap:10px}
 .acct .addr{font:500 15px var(--mono);background:var(--surface-2);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.acct .lbl{font-size:13px;color:var(--muted)}
+.holdings{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:13px}
+.holdings div{display:flex;justify-content:space-between;gap:8px}
+.holdings span:last-child{font-family:var(--mono);color:var(--muted)}
 .activity{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .activity li{font-size:13px;display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line-soft);padding-bottom:8px}
 .activity li span:last-child{font-family:var(--mono);color:var(--muted)}
@@ -286,18 +373,23 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 .toast .ti{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px}
 .toast.ok .ti{background:color-mix(in srgb,var(--good) 20%,transparent);color:var(--good)}
 .toast.err .ti{background:color-mix(in srgb,var(--rose) 20%,transparent);color:var(--rose)}
-.toast b{display:block;font-size:14px}
-.toast span{font-size:13px;color:var(--muted);word-break:break-word}
-.toast button{border:0;background:none;color:var(--faint);font-size:18px;line-height:1;padding:0 2px}
+.toast .tt{display:block;font-size:14px;font-weight:600}
+.toast .tb{display:block;font-size:13px;color:var(--muted);word-break:break-word}
+.toast .tx{border:0;background:none;color:var(--faint);font-size:18px;line-height:1;padding:0 2px}
 
+@media (max-width:1120px){
+  .app-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .swap-card{order:1} .markets{order:2} .chart-panel{order:3;grid-column:1/-1}
+}
 @media (max-width:920px){
-  .hero .wrap{grid-template-columns:minmax(0,1fr)}
-  .swap-card{max-width:480px;width:100%}
+  .hero-sub{grid-template-columns:minmax(0,1fr)}
   .route-grid{grid-template-columns:minmax(0,1fr)}
   .features{grid-template-columns:minmax(0,1fr)}
   .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media (max-width:720px){
+@media (max-width:760px){
+  .app-row{grid-template-columns:minmax(0,1fr);padding-block:40px 56px}
+  .chart-panel{grid-column:auto}
   .nav-links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 16px;margin:0}
   .nav-links.open{display:flex}
   .menu-btn{display:grid}
@@ -305,9 +397,10 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
   .wallet-pill .addr-text{display:none}
 }
 @media (max-width:440px){
-  .amount{font-size:26px}
+  .amount{font-size:25px}
   .route-sum{grid-template-columns:1fr 1fr}
   .nav-right .btn{padding:0 12px}
+  .hero-ctas .btn{flex:1}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -317,20 +410,20 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 </head>
 <body>
 
-<header class="nav">
+<header class="nav on-hero" id="nav">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Tessera home">
-      <svg viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="2.5" fill="var(--teal)"/><rect x="14" y="1" width="11" height="11" rx="2.5" fill="var(--amber)"/><rect x="1" y="14" width="11" height="11" rx="2.5" fill="var(--amber)" opacity=".55"/><rect x="14" y="14" width="11" height="11" rx="2.5" fill="var(--teal)" opacity=".55"/></svg>
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="2.5" fill="#43D3C3"/><rect x="14" y="1" width="11" height="11" rx="2.5" fill="#F4B740"/><rect x="1" y="14" width="11" height="11" rx="2.5" fill="#F4B740" opacity=".6"/><rect x="14" y="14" width="11" height="11" rx="2.5" fill="#43D3C3" opacity=".6"/></svg>
       Tessera
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="#swap">Swap</a>
-      <a href="#routing">Routing</a>
-      <a href="#safety">Safety</a>
-      <a href="#faq">FAQ</a>
+      <a href="#top" data-sec="hero">Swap</a>
+      <a href="#routing" data-sec="routing">Routing</a>
+      <a href="#safety" data-sec="safety">Safety</a>
+      <a href="#faq" data-sec="faq">FAQ</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle color theme">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to light theme">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
       <button class="btn btn-primary" id="connectBtn" type="button">Connect wallet</button>
@@ -342,25 +435,57 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 </header>
 
 <main id="top">
-  <section class="hero" id="swap">
-    <canvas id="mosaic" aria-hidden="true"></canvas>
-    <div class="wrap">
-      <div class="hero-copy">
-        <div class="eyebrow rise">Split-route DEX aggregator</div>
-        <h1 class="rise d1">Every trade, cut into its <em>best pieces</em>.</h1>
-        <p class="lede rise d2">Tessera breaks a large order into smaller legs, sends each leg to the venue that prices it best, and settles everything in one transaction. You get more out and pay less in price impact.</p>
-        <div class="hero-ctas rise d3">
-          <a class="btn btn-primary" href="#amountIn" id="startBtn">Start swapping</a>
-          <a class="btn btn-ghost" href="#routing">See how routing works</a>
+  <section class="hero" id="hero" aria-label="Tessera swap">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="gridlines" aria-hidden="true"></div>
+
+    <div class="wrap hero-top">
+      <h1>
+        <span class="rise">Every trade, split smart.</span>
+        <span class="rise d1">Five venues, one quote.</span>
+        <span class="rise d2 accent">Settled in a single transaction.</span>
+      </h1>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <div class="hero-sub">
+        <div class="rise d3">
+          <div class="eyebrow">Split-route DEX aggregator</div>
+          <div class="ticker" id="ticker" aria-label="Live prices"></div>
         </div>
-        <div class="hero-meta rise d4">
-          <div><b class="num" id="metaVenues">5</b>venues in the router</div>
-          <div><b class="num">5%</b>split granularity</div>
-          <div><b class="num">0.05%</b>protocol fee</div>
+        <div class="rise d4">
+          <p>Tessera breaks a large order into small slices, sends each slice to the venue that prices it best, and settles all of them together. You get more out and pay less in price impact.</p>
+          <div class="hero-ctas">
+            <button class="btn btn-glass" type="button" id="heroRoute">See how routing works</button>
+            <button class="btn btn-light" type="button" id="heroStart">Start swapping</button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="swap-card rise d2" aria-label="Swap">
+    <div class="wrap app-row">
+      <!-- price chart -->
+      <div class="panel chart-panel rise d3" id="chartPanel">
+        <div class="cp-head">
+          <div>
+            <div class="cp-pair">
+              <span class="icons" id="cpIcons"></span>
+              <h3 id="cpTitle">ETH / USDC</h3>
+              <button type="button" id="cpInvert" aria-label="Invert chart pair" title="Invert pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg></button>
+            </div>
+            <div class="cp-price"><b id="cpPrice">–</b><span id="cpChange"></span></div>
+          </div>
+          <div class="tf" role="group" aria-label="Chart time range">
+            <button type="button" data-tf="1H" aria-pressed="false">1H</button>
+            <button type="button" data-tf="1D" aria-pressed="true">1D</button>
+            <button type="button" data-tf="1W" aria-pressed="false">1W</button>
+            <button type="button" data-tf="1M" aria-pressed="false">1M</button>
+          </div>
+        </div>
+        <div class="chart" id="chart"></div>
+        <p class="sr-only" id="chartSummary" aria-live="polite"></p>
+      </div>
+
+      <!-- swap -->
+      <div class="panel swap-card rise d2" id="swapCard" aria-label="Swap">
         <div class="swap-head">
           <h2>Swap</h2>
           <span class="spacer"></span>
@@ -369,7 +494,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <span id="refreshTxt">12s</span>
           </button>
           <button class="icon-btn" id="settingsBtn" type="button" aria-label="Swap settings" aria-expanded="false" aria-controls="settings">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
           </button>
         </div>
 
@@ -388,20 +513,23 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <label for="deadline">Transaction deadline</label>
             <span class="deadline"><input id="deadline" inputmode="numeric" value="20" autocomplete="off"> min</span>
           </div>
+          <div class="row"><button class="link-btn" type="button" id="resetSettings">Reset to defaults</button></div>
         </div>
 
         <div class="leg">
           <div class="leg-top"><label for="amountIn">You pay</label><span id="usdIn" class="num">$0.00</span></div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <input class="amount num" id="amountIn" inputmode="decimal" autocomplete="off" placeholder="0" value="25" aria-label="Amount to pay">
+          <div class="leg-mid">
+            <input class="amount num" id="amountIn" inputmode="decimal" autocomplete="off" placeholder="0" value="25" aria-label="Amount to pay" title="Press / to focus">
             <button class="tok-btn" id="tokInBtn" type="button" data-side="in" aria-label="Select token to pay"></button>
           </div>
-          <div class="leg-bot"><span>Balance: <span class="num" id="balIn">–</span></span><button class="max" id="maxBtn" type="button" hidden>MAX</button></div>
+          <div class="leg-bot"><span>Balance: <span class="num" id="balIn">–</span></span>
+            <span class="pcts" id="pcts" hidden><button type="button" data-pct="25">25%</button><button type="button" data-pct="50">50%</button><button type="button" data-pct="100">MAX</button></span>
+          </div>
         </div>
         <div class="flip-wrap"><button class="flip" id="flipBtn" type="button" aria-label="Switch pay and receive tokens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></button></div>
         <div class="leg">
           <div class="leg-top"><label for="amountOut">You receive</label><span id="usdOut" class="num">$0.00</span></div>
-          <div style="display:flex;align-items:center;gap:10px">
+          <div class="leg-mid">
             <input class="amount num" id="amountOut" readonly placeholder="0" aria-label="Estimated amount received" tabindex="-1">
             <button class="tok-btn" id="tokOutBtn" type="button" data-side="out" aria-label="Select token to receive"></button>
           </div>
@@ -418,6 +546,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <div class="kv"><span>Minimum received</span><span class="num" id="dMin"></span></div>
             <div class="kv"><span>Network fee</span><span class="num" id="dGas"></span></div>
             <div class="kv"><span>Max slippage</span><span class="num" id="dSlip"></span></div>
+            <div class="kv"><button class="link-btn" type="button" id="copyQuote">Copy quote</button><button class="link-btn" type="button" id="viewRoute">View full route</button></div>
           </div>
           <div class="routebar" id="routeBar" aria-hidden="true"></div>
           <div class="route-legend" id="routeLegend"></div>
@@ -425,6 +554,20 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 
         <button class="action" id="actionBtn" type="button">Connect wallet</button>
         <div class="demo-flag"><b>Demo</b> Prices and wallets are simulated. No real funds move.</div>
+      </div>
+
+      <!-- markets -->
+      <div class="panel markets rise d4" id="markets">
+        <div class="mk-head">
+          <h3>Markets</h3>
+          <div class="tf" role="group" aria-label="Filter markets">
+            <button type="button" data-mk="all" aria-pressed="true">All</button>
+            <button type="button" data-mk="vol" aria-pressed="false">Volatile</button>
+            <button type="button" data-mk="stable" aria-pressed="false">Stable</button>
+          </div>
+        </div>
+        <ul class="mk-list" id="mkList"></ul>
+        <p class="mk-note">Pick a token to pay with it. Sparklines show 24h.</p>
       </div>
     </div>
   </section>
@@ -443,8 +586,15 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
           <li><span class="n">3</span><div><h3>Weigh the gas</h3><p>Every extra leg costs gas. A split is kept only when the extra output beats the extra network fee.</p></div></li>
           <li><span class="n">4</span><div><h3>Settle atomically</h3><p>All legs execute in one transaction. If the total falls below your minimum received, the whole swap reverts.</p></div></li>
         </ol>
-        <div class="route-panel" aria-live="polite">
+        <div class="panel route-panel" aria-live="polite">
           <header><h3 id="rpTitle">Live route</h3><span id="rpSub"></span></header>
+          <div class="presets" role="group" aria-label="Try an order size">
+            <span>Try an order:</span>
+            <button type="button" data-preset="1" aria-pressed="false">1 ETH</button>
+            <button type="button" data-preset="25" aria-pressed="false">25 ETH</button>
+            <button type="button" data-preset="250" aria-pressed="false">250 ETH</button>
+            <button type="button" data-preset="1500" aria-pressed="false">1,500 ETH</button>
+          </div>
           <div class="legs" id="rpLegs"></div>
           <div class="route-sum">
             <div>Legs used<b id="rpCount">–</b></div>
@@ -467,16 +617,19 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
           <svg class="glyph" viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="2" width="40" height="40" rx="11" fill="var(--surface-2)"/><path d="M13 29l7-7 5 4 7-10" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 32h21" stroke="var(--amber)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3 4"/></svg>
           <h3>Slippage floor</h3>
           <p>You set a max slippage. The contract checks the total output against <code>minOut</code> and reverts if the market moved further than that.</p>
+          <button class="link-btn" type="button" data-open-settings>Set your slippage</button>
         </article>
         <article class="feature">
           <svg class="glyph" viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="2" width="40" height="40" rx="11" fill="var(--surface-2)"/><circle cx="22" cy="22" r="9" fill="none" stroke="var(--teal)" stroke-width="2.6"/><path d="M22 17v5l3.5 2.5" fill="none" stroke="var(--amber)" stroke-width="2.6" stroke-linecap="round"/></svg>
           <h3>Deadline</h3>
           <p>A signed swap that sits in the mempool too long expires. The default is 20 minutes and you can change it in settings.</p>
+          <button class="link-btn" type="button" data-open-settings>Change the deadline</button>
         </article>
         <article class="feature">
           <svg class="glyph" viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="2" width="40" height="40" rx="11" fill="var(--surface-2)"/><path d="M22 11l9 4v6c0 6-4 10-9 12-5-2-9-6-9-12v-6z" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linejoin="round"/><path d="M22 18v5M22 27h0" stroke="var(--amber)" stroke-width="2.8" stroke-linecap="round"/></svg>
           <h3>Impact warnings</h3>
           <p>Price impact above 3% turns amber, and above 15% the swap button locks. Trading that size needs a smaller order or a deeper market.</p>
+          <button class="link-btn" type="button" data-preset-jump="4000">See a locked swap</button>
         </article>
       </div>
     </div>
@@ -495,15 +648,19 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 
   <section class="block" id="faq">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">FAQ</span>
-        <h2>Questions people ask first.</h2>
+      <div class="sec-head-row">
+        <div class="sec-head">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions people ask first.</h2>
+        </div>
+        <button class="btn btn-ghost" type="button" id="faqToggle">Expand all</button>
       </div>
-      <div class="faq">
+      <div class="faq" id="faqList">
         <details><summary>Is this swapping real tokens?</summary><p>No. This site is a working demonstration of the routing engine. Prices drift on a timer, the wallet is a simulated account, and swaps only update the balances shown on this page.</p></details>
         <details><summary>Why split an order at all?</summary><p>Automated market makers price along a curve. The more you buy from one pool, the worse each extra unit gets. Two half-size trades in two pools usually beat one full-size trade in either.</p></details>
         <details><summary>What is price impact versus slippage?</summary><p>Price impact is how much your own trade moves the price, and it is known when you get the quote. Slippage is how much the market moves between quoting and settlement. Your max slippage caps the second one.</p></details>
         <details><summary>Where does the 0.05% fee go?</summary><p>In a live deployment it would go to the protocol treasury. It is already included in the quote you see, so the receive amount is what you would get.</p></details>
+        <details><summary>Are there keyboard shortcuts?</summary><p>Press / to jump to the amount field. In the token picker, type to search, use the arrow keys to move, and press Enter to choose.</p></details>
         <details><summary>Can I use Tessera's code?</summary><p>Yes. The site is released under the MIT License. You can read the full text from the link in the footer.</p></details>
       </div>
     </div>
@@ -512,7 +669,10 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
   <section class="block">
     <div class="wrap cta-band">
       <h2>Try a large order and watch it split.</h2>
-      <a class="btn btn-primary" href="#amountIn" id="ctaTry">Open the swap</a>
+      <div class="hero-ctas">
+        <button class="btn btn-ghost" type="button" id="ctaWallet">Connect demo wallet</button>
+        <button class="btn btn-primary" type="button" id="ctaTry">Open the swap</button>
+      </div>
     </div>
   </section>
 </main>
@@ -522,11 +682,14 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
     <span>© <span id="year">2026</span> Tessera. Released under the MIT License.</span>
     <nav aria-label="Footer">
       <a href="#routing">Routing</a>
+      <a href="#safety">Safety</a>
       <a href="#faq">FAQ</a>
       <button class="linklike" type="button" id="licenseBtn">License</button>
     </nav>
   </div>
 </footer>
+
+<button class="to-top away" id="toTop" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <!-- token picker -->
 <dialog id="tokDlg" aria-labelledby="tokDlgTitle">
@@ -589,29 +752,54 @@ SOFTWARE.</pre></div>
   "use strict";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const smooth = () => (reduce.matches ? "auto" : "smooth");
+
+  // Small seeded RNG so generated history and scenery are stable between loads.
+  function rng(seed) {
+    return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
 
   // ---------- data ----------
   const TOKENS = {
-    ETH:  { name: "Ether",            color: "#6A7BD8", price: 2450,  stable: false },
-    WBTC: { name: "Wrapped Bitcoin",  color: "#E0892F", price: 64200, stable: false },
+    ETH:  { name: "Ether",            color: "#6A7BD8", price: 2450,  stable: false, vol: 0.006 },
+    WBTC: { name: "Wrapped Bitcoin",  color: "#E0892F", price: 64200, stable: false, vol: 0.004 },
     USDC: { name: "USD Coin",         color: "#2F79D0", price: 1,     stable: true },
     USDT: { name: "Tether USD",       color: "#2A9D7C", price: 1,     stable: true },
     DAI:  { name: "Dai Stablecoin",   color: "#D9A21B", price: 1,     stable: true },
-    ARB:  { name: "Arbitrum",         color: "#3A86C8", price: 0.62,  stable: false },
-    LINK: { name: "Chainlink",        color: "#3558C9", price: 11.4,  stable: false },
-    TSR:  { name: "Tessera",          color: "#1FA898", price: 0.84,  stable: false },
+    ARB:  { name: "Arbitrum",         color: "#3A86C8", price: 0.62,  stable: false, vol: 0.009 },
+    LINK: { name: "Chainlink",        color: "#3558C9", price: 11.4,  stable: false, vol: 0.008 },
+    TSR:  { name: "Tessera",          color: "#1FA898", price: 0.84,  stable: false, vol: 0.011 },
   };
   const POPULAR = ["ETH", "USDC", "WBTC", "DAI"];
   const VENUES = [
-    { name: "Arc v3",       fee: 0.0005, depth: 18e6, color: "var(--teal)" },
+    { name: "Arc v3",       fee: 0.0005, depth: 18e6, color: "#43D3C3" },
     { name: "Basin Stable", fee: 0.0001, depth: 40e6, color: "#8C7CF0", stableOnly: true },
-    { name: "Kiln AMM",     fee: 0.003,  depth: 9e6,  color: "var(--amber)" },
+    { name: "Kiln AMM",     fee: 0.003,  depth: 9e6,  color: "#F4B740" },
     { name: "Loom RFQ",     fee: 0.0002, depth: 6e6,  color: "#E7708A" },
     { name: "Ferry v2",     fee: 0.003,  depth: 4e6,  color: "#6FA8E8" },
   ];
   const PROTOCOL_FEE = 0.0005, SLICES = 20, MAX_LEGS = 4, REFRESH = 12;
   const GAS_BASE = 90000, GAS_PER_LEG = 55000, GWEI = 14;
   const DEMO_BALANCES = { ETH: 40, WBTC: 0.8, USDC: 25000, USDT: 5000, DAI: 3000, ARB: 1200, LINK: 150, TSR: 10000 };
+
+  // Price history: 1,440 half-hour points (30 days) and 60 one-minute points per token.
+  const LONG_N = 1440, SHORT_N = 60, HALF_HOUR = 30 * 60e3, MINUTE = 60e3;
+  Object.entries(TOKENS).forEach(([sym, t], k) => {
+    const r = rng(9001 + k * 77);
+    const walk = (n, vol) => {
+      const out = new Array(n); let p = t.price; out[n - 1] = p;
+      for (let i = n - 2; i >= 0; i--) {
+        if (t.stable) p = 1 + (p - 1) * 0.6 + (r() - 0.5) * 0.0012;
+        else p = p / (1 + (r() - 0.5) * 2 * vol + 0.00004);
+        out[i] = p;
+      }
+      return out;
+    };
+    t.long = walk(LONG_N, t.vol || 0);
+    t.short = walk(SHORT_N, (t.vol || 0) / 4);
+  });
+  const change24h = t => t.long[LONG_N - 1] / t.long[LONG_N - 49] - 1;
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem("tessera:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -623,7 +811,7 @@ SOFTWARE.</pre></div>
     slippage: clampSlip(store.get("slippage", 0.5)), deadline: 20,
     connected: false, address: null, balances: {},
     invert: false, refreshIn: REFRESH, pending: false, activity: [],
-    quote: null, picking: null,
+    quote: null, picking: null, tf: "1D", mkFilter: "all",
   };
   function clampSlip(v) { v = Number(v); return Number.isFinite(v) && v > 0 && v <= 50 ? v : 0.5; }
 
@@ -640,13 +828,11 @@ SOFTWARE.</pre></div>
     return nf(0, 6).format(n);
   }
   const fmtUsd = n => (Number.isFinite(n) ? usdF.format(n) : "$0.00");
+  const fmtPx = n => (n >= 1000 ? nf(2, 2).format(n) : n >= 1 ? nf(2, 4).format(n) : n.toPrecision(4));
   const pct = (n, d = 2) => nf(d, d).format(n * 100) + "%";
-  function fmtRate(n) {
-    if (!Number.isFinite(n)) return "–";
-    if (n >= 1000) return nf(2, 2).format(n);
-    if (n >= 1) return nf(2, 4).format(n);
-    return n.toPrecision(4);
-  }
+  const signed = n => (n >= 0 ? "▲ " : "▼ ") + pct(Math.abs(n));
+  const fmtRate = n => (Number.isFinite(n) ? fmtPx(n) : "–");
+  const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
   // ---------- router ----------
   // Constant-product style output for x USD into a venue of depth D.
@@ -654,23 +840,22 @@ SOFTWARE.</pre></div>
   function eligible(a, b) { const both = TOKENS[a].stable && TOKENS[b].stable; return VENUES.filter(v => !v.stableOnly || both); }
 
   function route(inAmt, a, b) {
+    if (!a || !b || a === b) return null;
     const pIn = TOKENS[a].price, pOut = TOKENS[b].price;
     const usdIn = inAmt * pIn;
+    if (!(usdIn > 0)) return null;
     const venues = eligible(a, b);
-    if (!(usdIn > 0) || a === b) return null;
 
-    // Best single venue for comparison
     let single = null;
     for (const v of venues) {
       const out = cp(usdIn, v.depth) * (1 - v.fee);
       if (!single || out > single.out) single = { venue: v, out };
     }
 
-    // Greedy slicing
     const slice = usdIn / SLICES;
     const alloc = new Map(venues.map(v => [v, 0]));
     for (let i = 0; i < SLICES; i++) {
-      const used = [...alloc].filter(([, x]) => x > 0).length;
+      const used = [...alloc.values()].filter(x => x > 0).length;
       let best = null, bestGain = -Infinity;
       for (const v of venues) {
         const x = alloc.get(v);
@@ -693,25 +878,24 @@ SOFTWARE.</pre></div>
 
     const afterProtocol = outUsd * (1 - PROTOCOL_FEE);
     const ideal = legs.reduce((s, l) => s + l.usd * (1 - l.venue.fee), 0);
-    const impact = Math.max(0, 1 - outUsd / ideal);
-    const out = afterProtocol / pOut;
     return {
-      a, b, inAmt, usdIn, out, outUsd: afterProtocol, impact,
+      a, b, inAmt, usdIn, out: afterProtocol / pOut, outUsd: afterProtocol,
+      impact: Math.max(0, 1 - outUsd / ideal),
       legs: legs.map(l => ({ ...l, share: l.usd / usdIn, out: (l.outUsd * (1 - PROTOCOL_FEE)) / pOut })),
       gasUsd: gasUsd(legs.length),
       singleOut: (single.out * (1 - PROTOCOL_FEE)) / pOut, singleVenue: single.venue,
-      allVenues: eligible(a, b),
+      allVenues: venues,
     };
   }
 
   // ---------- elements ----------
   const el = {
     amountIn: $("#amountIn"), amountOut: $("#amountOut"), usdIn: $("#usdIn"), usdOut: $("#usdOut"),
-    tokIn: $("#tokInBtn"), tokOut: $("#tokOutBtn"), balIn: $("#balIn"), balOut: $("#balOut"), max: $("#maxBtn"),
+    tokIn: $("#tokInBtn"), tokOut: $("#tokOutBtn"), balIn: $("#balIn"), balOut: $("#balOut"), pcts: $("#pcts"),
     flip: $("#flipBtn"), rate: $("#rateBtn"), details: $("#details"), detailsBtn: $("#detailsBtn"),
     dImpact: $("#dImpact"), dMin: $("#dMin"), dGas: $("#dGas"), dSlip: $("#dSlip"),
     bar: $("#routeBar"), legend: $("#routeLegend"), quoteBlock: $("#quoteBlock"),
-    action: $("#actionBtn"), connect: $("#connectBtn"),
+    action: $("#actionBtn"), connect: $("#connectBtn"), card: $("#swapCard"),
     ring: $("#refreshRing"), refreshTxt: $("#refreshTxt"),
   };
 
@@ -731,15 +915,17 @@ SOFTWARE.</pre></div>
 
   function requote(flash) {
     const amt = parsedIn();
-    state.quote = amt && state.tokenIn && state.tokenOut ? route(amt, state.tokenIn, state.tokenOut) : null;
+    state.quote = amt ? route(amt, state.tokenIn, state.tokenOut) : null;
     render(flash);
   }
+
+  const impactClass = i => (i >= 0.15 ? "impact-bad" : i >= 0.03 ? "impact-warn" : "impact-ok");
+  const minOut = q => q.out * (1 - state.slippage / 100);
 
   function render(flash) {
     const q = state.quote, { tokenIn: a, tokenOut: b } = state;
     renderTokBtn(el.tokIn, a); renderTokBtn(el.tokOut, b);
-    const amt = parsedIn();
-    el.usdIn.textContent = a ? fmtUsd(amt * TOKENS[a].price) : "$0.00";
+    el.usdIn.textContent = a ? fmtUsd(parsedIn() * TOKENS[a].price) : "$0.00";
 
     if (q) {
       const txt = fmtTok(q.out, b).replace(/,/g, "");
@@ -763,32 +949,29 @@ SOFTWARE.</pre></div>
       el.quoteBlock.hidden = true;
     }
 
-    // balances
     if (state.connected) {
       el.balIn.textContent = a ? fmtTok(state.balances[a] || 0, a) : "–";
       el.balOut.textContent = b ? fmtTok(state.balances[b] || 0, b) : "–";
-      el.max.hidden = !a || !(state.balances[a] > 0);
+      el.pcts.hidden = !a || !(state.balances[a] > 0);
     } else {
-      el.balIn.textContent = "–"; el.balOut.textContent = "–"; el.max.hidden = true;
+      el.balIn.textContent = "–"; el.balOut.textContent = "–"; el.pcts.hidden = true;
     }
 
     renderAction();
     renderConnect();
     renderRoutePanel();
+    renderChart();
   }
-
-  const impactClass = i => (i >= 0.15 ? "impact-bad" : i >= 0.03 ? "impact-warn" : "impact-ok");
-  const minOut = q => q.out * (1 - state.slippage / 100);
 
   function actionState() {
     const amt = parsedIn(), a = state.tokenIn, b = state.tokenOut, q = state.quote;
     if (state.pending) return { label: `<span class="spinner"></span>Confirming swap`, disabled: true };
     if (!a || !b) return { label: "Select a token", disabled: true };
-    if (!amt) return { label: "Enter an amount", disabled: true };
+    if (!amt) return { label: "Enter an amount", disabled: false, act: "focus" };
     if (!state.connected) return { label: "Connect wallet", disabled: false, act: "connect" };
-    if (amt > (state.balances[a] || 0) + 1e-12) return { label: `Insufficient ${a} balance`, disabled: true, danger: true };
     if (!q) return { label: "No route found", disabled: true };
     if (q.impact >= 0.15) return { label: "Price impact too high", disabled: true, danger: true };
+    if (amt > (state.balances[a] || 0) + 1e-12) return { label: `Insufficient ${a} balance`, disabled: true, danger: true };
     return { label: q.impact >= 0.03 ? "Swap anyway" : "Swap", disabled: false, act: "review" };
   }
   function renderAction() {
@@ -798,6 +981,7 @@ SOFTWARE.</pre></div>
     el.action.classList.toggle("danger", !!s.danger);
     el.action.dataset.act = s.act || "";
   }
+  const short = a => a.slice(0, 6) + "…" + a.slice(-4);
   function renderConnect() {
     if (state.connected) {
       el.connect.className = "btn btn-ghost wallet-pill";
@@ -809,13 +993,13 @@ SOFTWARE.</pre></div>
       el.connect.removeAttribute("aria-label");
     }
   }
-  const short = a => a.slice(0, 6) + "…" + a.slice(-4);
 
   function renderRoutePanel() {
     const q = state.quote;
     const title = $("#rpTitle"), sub = $("#rpSub"), legsEl = $("#rpLegs");
+    $$("[data-preset]").forEach(b => b.setAttribute("aria-pressed", String(state.tokenIn === "ETH" && state.tokenOut === "USDC" && parsedIn() === Number(b.dataset.preset))));
     if (!q) {
-      title.textContent = "Live route"; sub.textContent = "Enter an amount above to see a route.";
+      title.textContent = "Live route"; sub.textContent = "Enter an amount to see a route.";
       legsEl.innerHTML = ""; $("#rpCount").textContent = "–"; $("#rpSingle").textContent = "–"; $("#rpGain").textContent = "–";
       return;
     }
@@ -824,18 +1008,127 @@ SOFTWARE.</pre></div>
     const byVenue = new Map(q.legs.map(l => [l.venue, l]));
     legsEl.innerHTML = q.allVenues.map(v => {
       const l = byVenue.get(v);
-      const share = l ? l.share : 0;
       return `<div class="legrow${l ? "" : " idle"}">
         <div class="v"><i style="background:${v.color}"></i><span>${v.name}</span><small>${(v.fee * 100).toFixed(2)}% fee</small></div>
         <div class="out">${l ? `${fmtTok(l.out, q.b)} ${q.b}` : "not used"}</div>
-        <div class="bar"><i style="width:${(share * 100).toFixed(1)}%;background:${v.color}"></i></div>
+        <div class="bar"><i style="width:${((l ? l.share : 0) * 100).toFixed(1)}%;background:${v.color}"></i></div>
       </div>`;
     }).join("");
     $("#rpCount").textContent = `${q.legs.length} of ${q.allVenues.length}`;
-    $("#rpSingle").textContent = `${fmtTok(q.singleOut, q.b)}`;
+    $("#rpSingle").textContent = fmtTok(q.singleOut, q.b);
     const gainUsd = (q.out - q.singleOut) * TOKENS[q.b].price;
     $("#rpGain").textContent = gainUsd > 0.005 ? `+${fmtUsd(gainUsd)}` : "$0.00";
   }
+
+  // ---------- price chart ----------
+  const chartEl = $("#chart");
+  const TF = {
+    "1H": { src: "short", n: SHORT_N, step: MINUTE, every: 1, label: d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) },
+    "1D": { src: "long", n: 48, step: HALF_HOUR, every: 1, label: d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) },
+    "1W": { src: "long", n: 336, step: HALF_HOUR, every: 3, label: d => d.toLocaleDateString("en-US", { weekday: "short", day: "numeric" }) },
+    "1M": { src: "long", n: LONG_N, step: HALF_HOUR, every: 12, label: d => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) },
+  };
+  function pairSeries() {
+    let a = state.tokenIn, b = state.tokenOut;
+    if (!a || !b || a === b) return null;
+    if (state.invert) [a, b] = [b, a];
+    const tf = TF[state.tf], A = TOKENS[a][tf.src], B = TOKENS[b][tf.src], len = A.length, now = Date.now(), pts = [];
+    for (let i = len - tf.n; i < len; i += tf.every) pts.push({ t: now - (len - 1 - i) * tf.step, v: A[i] / B[i] });
+    if (pts[pts.length - 1].t !== now) pts.push({ t: now, v: A[len - 1] / B[len - 1] });
+    return { a, b, pts };
+  }
+  let chartGeom = null;
+  function renderChart() {
+    const s = pairSeries();
+    $("#cpIcons").innerHTML = s ? tokIcon(s.a) + tokIcon(s.b) : "";
+    $("#cpTitle").textContent = s ? `${s.a} / ${s.b}` : "Price";
+    if (!s) { chartEl.innerHTML = `<div class="chart-empty">Pick two different tokens to see their price.</div>`; $("#cpPrice").textContent = "–"; $("#cpChange").textContent = ""; chartGeom = null; return; }
+    const { pts } = s, last = pts[pts.length - 1].v, first = pts[0].v, ch = last / first - 1;
+    $("#cpPrice").textContent = fmtPx(last);
+    const chEl = $("#cpChange"); chEl.textContent = `${signed(ch)} · ${state.tf}`; chEl.className = ch >= 0 ? "up" : "down";
+    $("#chartSummary").textContent = `${s.a} priced in ${s.b}: ${fmtPx(last)}, ${ch >= 0 ? "up" : "down"} ${pct(Math.abs(ch))} over ${state.tf}.`;
+
+    const W = chartEl.clientWidth || 600, H = chartEl.clientHeight || 230;
+    const pad = { l: 4, r: 64, t: 10, b: 24 };
+    let lo = Math.min(...pts.map(p => p.v)), hi = Math.max(...pts.map(p => p.v));
+    const span = hi - lo || Math.abs(hi) * 0.002 || 1; lo -= span * 0.12; hi += span * 0.12;
+    const x = i => pad.l + (i / (pts.length - 1)) * (W - pad.l - pad.r);
+    const y = v => pad.t + (1 - (v - lo) / (hi - lo)) * (H - pad.t - pad.b);
+    const line = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+    const area = `${line}L${x(pts.length - 1).toFixed(1)},${H - pad.b}L${x(0).toFixed(1)},${H - pad.b}Z`;
+    const ticks = [0, 1, 2, 3].map(k => lo + ((hi - lo) * (k + 0.5)) / 4);
+    const xl = [0, Math.floor((pts.length - 1) / 2), pts.length - 1];
+    chartEl.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${s.a} price in ${s.b}, ${state.tf}">
+      <defs><linearGradient id="cfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--teal)" stop-opacity=".28"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs>
+      <g class="grid">${ticks.map(v => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/>`).join("")}</g>
+      <g class="axis">${ticks.map(v => `<text x="${W - pad.r + 8}" y="${(y(v) + 4).toFixed(1)}">${fmtPx(v)}</text>`).join("")}
+        ${xl.map((i, k) => `<text x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 2 ? "end" : "middle"}">${TF[state.tf].label(new Date(pts[i].t))}</text>`).join("")}</g>
+      <path d="${area}" fill="url(#cfill)"/>
+      <path class="line" d="${line}"/>
+      <line class="cross" id="cx" y1="${pad.t}" y2="${H - pad.b}" x1="-10" x2="-10" visibility="hidden"/>
+      <circle class="dot" id="cdot" r="4.5" cx="${x(pts.length - 1).toFixed(1)}" cy="${y(last).toFixed(1)}"/>
+    </svg><div class="tip" id="ctip" hidden></div>`;
+    chartGeom = { pts, x, y, W, pad, s };
+  }
+  function chartHover(e) {
+    if (!chartGeom) return;
+    const { pts, x, y, W, pad, s } = chartGeom, r = chartEl.getBoundingClientRect();
+    const px = ((e.clientX - r.left) / r.width) * W;
+    const i = Math.max(0, Math.min(pts.length - 1, Math.round(((px - pad.l) / (W - pad.l - pad.r)) * (pts.length - 1))));
+    const cx = $("#cx"), dot = $("#cdot"), tip = $("#ctip"); if (!cx) return;
+    cx.setAttribute("x1", x(i)); cx.setAttribute("x2", x(i)); cx.setAttribute("visibility", "visible");
+    dot.setAttribute("cx", x(i)); dot.setAttribute("cy", y(pts[i].v));
+    const d = new Date(pts[i].t);
+    tip.innerHTML = `<b>${fmtPx(pts[i].v)} ${s.b}</b><span>${d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>`;
+    tip.hidden = false;
+    const left = (x(i) / W) * r.width;
+    tip.style.left = Math.max(70, Math.min(r.width - 70, left)) + "px";
+  }
+  function chartLeave() {
+    if (!chartGeom) return;
+    const { pts, x, y } = chartGeom, last = pts.length - 1;
+    const cx = $("#cx"), dot = $("#cdot"), tip = $("#ctip"); if (!cx) return;
+    cx.setAttribute("visibility", "hidden"); dot.setAttribute("cx", x(last)); dot.setAttribute("cy", y(pts[last].v)); tip.hidden = true;
+  }
+  chartEl.addEventListener("pointermove", chartHover);
+  chartEl.addEventListener("pointerdown", chartHover);
+  chartEl.addEventListener("pointerleave", chartLeave);
+  $$("[data-tf]").forEach(b => b.addEventListener("click", () => {
+    state.tf = b.dataset.tf;
+    $$("[data-tf]").forEach(o => o.setAttribute("aria-pressed", String(o === b)));
+    renderChart();
+  }));
+  $("#cpInvert").addEventListener("click", () => { state.invert = !state.invert; render(false); });
+  new ResizeObserver(() => renderChart()).observe(chartEl);
+
+  // ---------- markets + ticker ----------
+  function spark(arr) {
+    const s = arr.slice(-48), lo = Math.min(...s), hi = Math.max(...s), r = hi - lo || 1;
+    return `<svg viewBox="0 0 56 22" aria-hidden="true"><polyline points="${s.map((v, i) => `${((i / (s.length - 1)) * 56).toFixed(1)},${(20 - ((v - lo) / r) * 18).toFixed(1)}`).join(" ")}"/></svg>`;
+  }
+  function renderMarkets() {
+    const list = Object.keys(TOKENS).filter(k => state.mkFilter === "all" || (state.mkFilter === "stable") === TOKENS[k].stable);
+    $("#mkList").innerHTML = list.map(k => {
+      const t = TOKENS[k], c = change24h(t);
+      return `<li><button type="button" data-mk-sym="${k}" aria-label="Pay with ${t.name}, ${fmtUsd(t.price)}">
+        ${tokIcon(k)}<span class="sym"><b>${k}</b><span>${t.name}</span></span>${spark(t.long)}
+        <span class="px">${t.price >= 1 ? fmtUsd(t.price) : "$" + t.price.toFixed(4)}<small class="${c >= 0 ? "up" : "down"}">${signed(c)}</small></span></button></li>`;
+    }).join("");
+    $("#ticker").innerHTML = ["ETH", "WBTC", "LINK", "TSR"].map(k => {
+      const c = change24h(TOKENS[k]);
+      return `<span>${k} <b>${fmtUsd(TOKENS[k].price)}</b> <span class="${c >= 0 ? "up" : "down"}">${signed(c)}</span></span>`;
+    }).join("");
+  }
+  $$("[data-mk]").forEach(b => b.addEventListener("click", () => {
+    state.mkFilter = b.dataset.mk;
+    $$("[data-mk]").forEach(o => o.setAttribute("aria-pressed", String(o === b)));
+    renderMarkets();
+  }));
+  $("#mkList").addEventListener("click", e => {
+    const b = e.target.closest("[data-mk-sym]"); if (!b) return;
+    state.picking = "in"; pickToken(b.dataset.mkSym);
+    focusSwap();
+  });
 
   // ---------- input ----------
   function sanitize(v) {
@@ -846,6 +1139,7 @@ SOFTWARE.</pre></div>
     if (v.startsWith(".")) v = "0" + v;
     return v.slice(0, 20);
   }
+  function setAmount(v, flash) { state.amountIn = v; el.amountIn.value = v; requote(flash); }
   el.amountIn.addEventListener("input", () => {
     const pos = el.amountIn.selectionStart, before = el.amountIn.value;
     const clean = sanitize(before);
@@ -858,20 +1152,19 @@ SOFTWARE.</pre></div>
     state.refreshIn = REFRESH;
     requote(false);
   });
-  el.max.addEventListener("click", () => {
-    const bal = state.balances[state.tokenIn] || 0;
-    // Leave a little ETH for gas.
-    const v = state.tokenIn === "ETH" ? Math.max(0, bal - 0.01) : bal;
-    state.amountIn = String(Math.floor(v * 1e8) / 1e8);
-    el.amountIn.value = state.amountIn;
-    requote(true);
+  el.pcts.addEventListener("click", e => {
+    const b = e.target.closest("[data-pct]"); if (!b) return;
+    const bal = state.balances[state.tokenIn] || 0, p = Number(b.dataset.pct) / 100;
+    // MAX on ETH leaves a little for gas.
+    const v = p === 1 && state.tokenIn === "ETH" ? Math.max(0, bal - 0.01) : bal * p;
+    setAmount(String(Math.floor(v * 1e6) / 1e6), true);
   });
   el.flip.addEventListener("click", () => {
     el.flip.classList.toggle("spin");
     const { tokenIn, tokenOut, quote } = state;
     state.tokenIn = tokenOut; state.tokenOut = tokenIn;
-    if (quote) { state.amountIn = String(+quote.out.toFixed(TOKENS[tokenOut].stable ? 2 : 6)); el.amountIn.value = state.amountIn; }
-    requote(true);
+    if (quote) setAmount(String(+quote.out.toFixed(TOKENS[tokenOut].stable ? 2 : 6)), true);
+    else requote(true);
   });
   el.rate.addEventListener("click", () => { state.invert = !state.invert; render(false); });
   el.detailsBtn.addEventListener("click", () => {
@@ -879,65 +1172,85 @@ SOFTWARE.</pre></div>
     el.details.hidden = !open;
     el.detailsBtn.setAttribute("aria-expanded", String(open));
   });
+  $("#copyQuote").addEventListener("click", e => {
+    const q = state.quote; if (!q) return;
+    const text = `Tessera quote: ${fmtTok(q.inAmt, q.a)} ${q.a} → ${fmtTok(q.out, q.b)} ${q.b} (min ${fmtTok(minOut(q), q.b)}, impact ${pct(q.impact)}). Route: ${q.legs.map(l => `${l.venue.name} ${pct(l.share, 0)}`).join(", ")}.`;
+    copyText(text, e.currentTarget, "Copy quote");
+  });
+  $("#viewRoute").addEventListener("click", () => $("#routing").scrollIntoView({ behavior: smooth() }));
   el.action.addEventListener("click", () => {
     const act = el.action.dataset.act;
     if (act === "connect") openWallet();
     else if (act === "review") openReview();
+    else if (act === "focus") el.amountIn.focus();
   });
   el.connect.addEventListener("click", openWallet);
-  ["#startBtn", "#ctaTry"].forEach(s => $(s).addEventListener("click", e => {
-    e.preventDefault();
-    $("#swap").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-    setTimeout(() => el.amountIn.focus({ preventScroll: true }), 350);
-  }));
+
+  function focusSwap() {
+    el.card.scrollIntoView({ behavior: smooth(), block: "center" });
+    el.card.classList.remove("pulse"); void el.card.offsetWidth; el.card.classList.add("pulse");
+    setTimeout(() => el.amountIn.focus({ preventScroll: true }), reduce.matches ? 0 : 400);
+  }
+  $("#heroStart").addEventListener("click", focusSwap);
+  $("#ctaTry").addEventListener("click", focusSwap);
+  $("#ctaWallet").addEventListener("click", () => (state.connected ? focusSwap() : openWallet()));
+  $("#heroRoute").addEventListener("click", () => $("#routing").scrollIntoView({ behavior: smooth() }));
+  document.addEventListener("keydown", e => {
+    if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target;
+    if (t.closest && t.closest("input,textarea,[contenteditable],dialog[open]")) return;
+    e.preventDefault(); focusSwap();
+  });
+
+  // route presets
+  function applyPreset(n) {
+    state.tokenIn = "ETH"; state.tokenOut = "USDC";
+    setAmount(String(n), true);
+  }
+  $$("[data-preset]").forEach(b => b.addEventListener("click", () => applyPreset(Number(b.dataset.preset))));
+  $$("[data-preset-jump]").forEach(b => b.addEventListener("click", () => { applyPreset(Number(b.dataset.presetJump)); focusSwap(); }));
 
   // ---------- settings ----------
   const settingsBtn = $("#settingsBtn"), settings = $("#settings"), slipCustom = $("#slipCustom"), slipNote = $("#slipNote"), customWrap = $("#customWrap");
-  settingsBtn.addEventListener("click", () => {
-    const open = settings.hidden;
-    settings.hidden = !open;
-    settingsBtn.setAttribute("aria-expanded", String(open));
-  });
+  function setSettingsOpen(open) { settings.hidden = !open; settingsBtn.setAttribute("aria-expanded", String(open)); }
+  settingsBtn.addEventListener("click", () => setSettingsOpen(settings.hidden));
+  $$("[data-open-settings]").forEach(b => b.addEventListener("click", () => { setSettingsOpen(true); focusSwap(); }));
   function renderSlip() {
-    const presets = $$("[data-slip]");
     let matched = false;
-    presets.forEach(b => { const on = Number(b.dataset.slip) === state.slippage; matched ||= on; b.setAttribute("aria-pressed", String(on)); });
+    $$("[data-slip]").forEach(b => { const on = Number(b.dataset.slip) === state.slippage; matched ||= on; b.setAttribute("aria-pressed", String(on)); });
     customWrap.classList.toggle("active", !matched);
-    if (!matched && document.activeElement !== slipCustom) slipCustom.value = String(state.slippage);
-    if (matched && document.activeElement !== slipCustom) slipCustom.value = "";
+    if (document.activeElement !== slipCustom) slipCustom.value = matched ? "" : String(state.slippage);
     slipNote.hidden = true; slipNote.className = "note";
     if (state.slippage < 0.05) { slipNote.hidden = false; slipNote.classList.add("warn"); slipNote.textContent = "Very low slippage. The swap may revert if the price moves at all."; }
     else if (state.slippage > 5) { slipNote.hidden = false; slipNote.classList.add("warn"); slipNote.textContent = "High slippage. You may receive much less than quoted."; }
   }
-  $$("[data-slip]").forEach(b => b.addEventListener("click", () => {
-    state.slippage = Number(b.dataset.slip); slipCustom.value = ""; store.set("slippage", state.slippage); renderSlip(); render(false);
-  }));
+  function setSlip(v) { state.slippage = v; store.set("slippage", v); renderSlip(); render(false); }
+  $$("[data-slip]").forEach(b => b.addEventListener("click", () => { slipCustom.value = ""; setSlip(Number(b.dataset.slip)); }));
   slipCustom.addEventListener("input", () => {
     const v = sanitize(slipCustom.value);
     slipCustom.value = v;
+    if (!v) return;
     const n = parseFloat(v);
-    if (!v) { return; }
-    if (!(n > 0) || n > 50) {
+    if (!(n >= 0.01) || n > 50) {
       slipNote.hidden = false; slipNote.className = "note err"; slipNote.textContent = "Enter a slippage between 0.01% and 50%.";
       return;
     }
-    state.slippage = n; store.set("slippage", n); renderSlip(); render(false);
+    setSlip(n);
   });
   slipCustom.addEventListener("blur", renderSlip);
-  $("#deadline").addEventListener("input", e => {
-    const v = e.target.value.replace(/\D/g, "").slice(0, 4);
-    e.target.value = v;
+  const deadlineEl = $("#deadline");
+  deadlineEl.addEventListener("input", () => {
+    const v = deadlineEl.value.replace(/\D/g, "").slice(0, 4);
+    deadlineEl.value = v;
     const n = parseInt(v, 10);
     state.deadline = n >= 1 && n <= 4320 ? n : 20;
   });
-  $("#deadline").addEventListener("blur", e => { e.target.value = String(state.deadline); });
+  deadlineEl.addEventListener("blur", () => { deadlineEl.value = String(state.deadline); });
+  $("#resetSettings").addEventListener("click", () => { state.deadline = 20; deadlineEl.value = "20"; slipCustom.value = ""; setSlip(0.5); });
 
   // ---------- dialogs ----------
-  function wireDialog(d) {
-    d.addEventListener("click", e => { if (e.target === d || e.target.closest("[data-close]")) d.close(); });
-  }
-  $$("dialog").forEach(wireDialog);
-  function openDlg(d) { if (!d.open) d.showModal(); }
+  $$("dialog").forEach(d => d.addEventListener("click", e => { if (e.target === d || e.target.closest("[data-close]")) d.close(); }));
+  const openDlg = d => { if (!d.open) d.showModal(); };
 
   // token picker
   const tokDlg = $("#tokDlg"), tokSearch = $("#tokSearch"), tokList = $("#tokList"), tokChips = $("#tokChips");
@@ -950,7 +1263,7 @@ SOFTWARE.</pre></div>
   }));
   tokSearch.addEventListener("input", renderTokList);
   tokSearch.addEventListener("keydown", e => {
-    if (e.key === "Enter") { e.preventDefault(); const first = tokList.querySelector("button"); if (first) first.click(); }
+    if (e.key === "Enter") { e.preventDefault(); tokList.querySelector("button")?.click(); }
     if (e.key === "ArrowDown") { e.preventDefault(); tokList.querySelector("button")?.focus(); }
   });
   tokList.addEventListener("keydown", e => {
@@ -966,20 +1279,17 @@ SOFTWARE.</pre></div>
     if (state.connected) syms.sort((x, y) => (state.balances[y] || 0) * TOKENS[y].price - (state.balances[x] || 0) * TOKENS[x].price);
     tokList.innerHTML = syms.length ? syms.map(s => `<li><button type="button" data-sym="${s}" ${s === current ? 'aria-current="true"' : ""}>
       ${tokIcon(s)}<span class="meta"><b>${s}</b><span>${TOKENS[s].name}</span></span>
-      <span class="bal">${state.connected ? fmtTok(state.balances[s] || 0, s) : ""}</span></button></li>`).join("")
+      <span class="bal">${state.connected ? fmtTok(state.balances[s] || 0, s) : fmtUsd(TOKENS[s].price)}</span></button></li>`).join("")
       : `<li class="empty-state">No token matches “${escapeHtml(tokSearch.value)}”.</li>`;
   }
-  function escapeHtml(s) { return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
   tokDlg.addEventListener("click", e => {
-    const b = e.target.closest("[data-sym]");
-    if (!b) return;
+    const b = e.target.closest("[data-sym]"); if (!b) return;
     pickToken(b.dataset.sym);
     tokDlg.close();
   });
+  // Picking the token already on the other side swaps the two sides.
   function pickToken(sym) {
-    const side = state.picking;
-    // Picking the token already on the other side swaps the two sides.
-    if (side === "in") {
+    if (state.picking === "in") {
       if (sym === state.tokenOut) state.tokenOut = state.tokenIn === sym ? null : state.tokenIn;
       state.tokenIn = sym;
     } else {
@@ -991,16 +1301,23 @@ SOFTWARE.</pre></div>
 
   // wallet
   const walletDlg = $("#walletDlg"), walletBody = $("#walletBody");
+  const logo = `<svg width="20" height="20" viewBox="0 0 26 26"><rect x="1" y="1" width="11" height="11" rx="2.5" fill="#43D3C3"/><rect x="14" y="1" width="11" height="11" rx="2.5" fill="#F4B740"/><rect x="1" y="14" width="11" height="11" rx="2.5" fill="#F4B740" opacity=".6"/><rect x="14" y="14" width="11" height="11" rx="2.5" fill="#43D3C3" opacity=".6"/></svg>`;
   function openWallet() {
     if (state.connected) {
       $("#walletDlgTitle").textContent = "Account";
+      const held = Object.keys(TOKENS).filter(k => state.balances[k] > 0);
+      const total = held.reduce((s, k) => s + state.balances[k] * TOKENS[k].price, 0);
       walletBody.innerHTML = `<div class="acct">
         <div class="addr"><span>${short(state.address)}</span><button class="btn btn-ghost" type="button" id="copyAddr" style="height:34px">Copy</button></div>
-        <div class="lbl" style="font-size:13px;color:var(--muted)">Recent activity</div>
-        ${state.activity.length ? `<ul class="activity">${state.activity.map(a => `<li><span>${a.text}</span><span>${a.hash}</span></li>`).join("")}</ul>` : `<p class="fine" style="margin:0">No swaps yet.</p>`}
+        <div class="lbl">Holdings · <span class="num">${fmtUsd(total)}</span></div>
+        <div class="holdings">${held.map(k => `<div><span>${k}</span><span>${fmtTok(state.balances[k], k)}</span></div>`).join("")}</div>
+        <div class="lbl">Recent activity</div>
+        ${state.activity.length ? `<ul class="activity">${state.activity.map(a => `<li><span>${escapeHtml(a.text)}</span><span>${a.hash}</span></li>`).join("")}</ul>` : `<p class="fine" style="margin:0">No swaps yet.</p>`}
+        <button class="btn btn-ghost" type="button" id="resetBal">Reset demo balances</button>
         <button class="btn btn-ghost" type="button" id="disconnectBtn">Disconnect</button>
       </div>`;
-      $("#copyAddr").addEventListener("click", e => copyText(state.address, e.currentTarget));
+      $("#copyAddr").addEventListener("click", e => copyText(state.address, e.currentTarget, "Copy"));
+      $("#resetBal").addEventListener("click", () => { state.balances = { ...DEMO_BALANCES }; walletDlg.close(); toast("ok", "Balances reset", "Demo balances are back to their starting amounts."); render(false); });
       $("#disconnectBtn").addEventListener("click", () => {
         state.connected = false; state.address = null; state.balances = {}; state.activity = [];
         walletDlg.close(); toast("ok", "Disconnected", "The demo wallet was disconnected."); render(false);
@@ -1009,12 +1326,12 @@ SOFTWARE.</pre></div>
       $("#walletDlgTitle").textContent = "Connect a wallet";
       walletBody.innerHTML = `
         <button class="wallet-opt" type="button" id="demoWallet">
-          <span class="wi" style="background:color-mix(in srgb,var(--teal) 20%,transparent)"><svg width="20" height="20" viewBox="0 0 26 26"><rect x="1" y="1" width="11" height="11" rx="2.5" fill="var(--teal)"/><rect x="14" y="1" width="11" height="11" rx="2.5" fill="var(--amber)"/><rect x="1" y="14" width="11" height="11" rx="2.5" fill="var(--amber)" opacity=".55"/><rect x="14" y="14" width="11" height="11" rx="2.5" fill="var(--teal)" opacity=".55"/></svg></span>
-          <span><b>Demo wallet</b><span>Simulated account with test balances</span></span>
+          <span class="wi" style="background:color-mix(in srgb,var(--teal) 20%,transparent)">${logo}</span>
+          <span><b>Demo wallet</b><span class="sub" id="demoSub">Simulated account with test balances</span></span>
         </button>
         <button class="wallet-opt" type="button" disabled>
           <span class="wi" style="background:var(--surface)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 12.5h2"/></svg></span>
-          <span><b>Browser wallet</b><span>Live trading is not enabled in this preview</span></span>
+          <span><b>Browser wallet</b><span class="sub">Live trading is not enabled in this preview</span></span>
         </button>
         <p class="fine">Tessera never asks for a seed phrase or private key.</p>`;
       $("#demoWallet").addEventListener("click", connectDemo);
@@ -1022,9 +1339,8 @@ SOFTWARE.</pre></div>
     openDlg(walletDlg);
   }
   function connectDemo() {
-    const btn = $("#demoWallet");
-    btn.disabled = true;
-    btn.querySelector("span span").textContent = "Connecting…";
+    $("#demoWallet").disabled = true;
+    $("#demoSub").textContent = "Connecting…";
     setTimeout(() => {
       state.connected = true;
       state.address = "0x" + Array.from(crypto.getRandomValues(new Uint8Array(20)), x => x.toString(16).padStart(2, "0")).join("");
@@ -1034,8 +1350,8 @@ SOFTWARE.</pre></div>
       render(false);
     }, 650);
   }
-  function copyText(text, btn) {
-    const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy"), 1400); };
+  function copyText(text, btn, label) {
+    const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = label), 1400); };
     if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
     else fallbackCopy(text, done);
   }
@@ -1049,33 +1365,37 @@ SOFTWARE.</pre></div>
   const reviewDlg = $("#reviewDlg"), reviewBody = $("#reviewBody");
   function openReview() {
     const q = state.quote; if (!q) return;
-    const snapshot = { ...q, legs: q.legs.slice(), min: minOut(q), slippage: state.slippage, deadline: state.deadline };
+    const snap = { ...q, legs: q.legs.slice(), min: minOut(q), deadline: state.deadline };
     reviewBody.innerHTML = `
       <div class="review-pair"><span class="lbl">You pay</span><div class="amt"><span>${fmtTok(q.inAmt, q.a)}</span>${tokIcon(q.a)}</div><span class="lbl">${fmtUsd(q.usdIn)}</span></div>
       <div class="review-pair"><span class="lbl">You receive (estimated)</span><div class="amt"><span>${fmtTok(q.out, q.b)}</span>${tokIcon(q.b)}</div><span class="lbl">${fmtUsd(q.outUsd)}</span></div>
       <div class="review-kv">
         <div><span>Rate</span><span class="num">1 ${q.a} = ${fmtRate(q.out / q.inAmt)} ${q.b}</span></div>
         <div><span>Price impact</span><span class="num ${impactClass(q.impact)}">${pct(q.impact)}</span></div>
-        <div><span>Minimum received</span><span class="num">${fmtTok(snapshot.min, q.b)} ${q.b}</span></div>
+        <div><span>Minimum received</span><span class="num">${fmtTok(snap.min, q.b)} ${q.b}</span></div>
         <div><span>Network fee</span><span class="num">${fmtUsd(q.gasUsd)}</span></div>
         <div><span>Route</span><span>${q.legs.map(l => `${l.venue.name} ${pct(l.share, 0)}`).join(" · ")}</span></div>
-        <div><span>Expires</span><span class="num">${snapshot.deadline} min after signing</span></div>
+        <div><span>Expires</span><span class="num">${snap.deadline} min after signing</span></div>
       </div>
       <button class="action" type="button" id="confirmBtn" style="margin-top:4px">Confirm swap</button>`;
-    $("#confirmBtn").addEventListener("click", () => { reviewDlg.close(); execute(snapshot); });
+    $("#confirmBtn").addEventListener("click", () => { reviewDlg.close(); execute(snap); });
     openDlg(reviewDlg);
   }
   function execute(snap) {
     state.pending = true; render(false);
     setTimeout(() => {
       state.pending = false;
-      // Settlement uses the live price at execution time and enforces minOut.
+      // Settlement re-quotes at the live price and enforces the minimum.
       const live = route(snap.inAmt, snap.a, snap.b);
       const hash = "0x" + Array.from(crypto.getRandomValues(new Uint8Array(4)), x => x.toString(16).padStart(2, "0")).join("") + "…";
-      if (!live || live.out < snap.min || (state.balances[snap.a] || 0) + 1e-12 < snap.inAmt) {
+      if (!state.connected) {
+        toast("err", "Swap cancelled", "The wallet disconnected before the swap settled.");
+      } else if ((state.balances[snap.a] || 0) + 1e-12 < snap.inAmt) {
+        toast("err", "Swap reverted", `Your ${snap.a} balance is too low for this swap. No tokens were spent.`);
+      } else if (!live || live.out < snap.min) {
         toast("err", "Swap reverted", `The output fell below your minimum of ${fmtTok(snap.min, snap.b)} ${snap.b}. No tokens were spent.`);
       } else {
-        state.balances[snap.a] = Math.max(0, (state.balances[snap.a] || 0) - snap.inAmt);
+        state.balances[snap.a] = Math.max(0, state.balances[snap.a] - snap.inAmt);
         state.balances[snap.b] = (state.balances[snap.b] || 0) + live.out;
         const text = `Swapped ${fmtTok(snap.inAmt, snap.a)} ${snap.a} for ${fmtTok(live.out, snap.b)} ${snap.b}`;
         state.activity.unshift({ text, hash }); state.activity = state.activity.slice(0, 6);
@@ -1085,17 +1405,16 @@ SOFTWARE.</pre></div>
     }, 1600);
   }
 
-  // license
   $("#licenseBtn").addEventListener("click", () => openDlg($("#licenseDlg")));
 
-  // toasts
   function toast(kind, title, body) {
     const t = document.createElement("div");
     t.className = "toast " + kind;
-    t.innerHTML = `<span class="ti">${kind === "ok" ? "✓" : "!"}</span><div><b></b><span></span></div><button type="button" aria-label="Dismiss">×</button>`;
-    t.querySelector("b").textContent = title; t.querySelector("div span").textContent = body;
-    const kill = () => { t.classList.add("out"); setTimeout(() => t.remove(), 260); };
-    t.querySelector("button").addEventListener("click", kill);
+    t.innerHTML = `<span class="ti">${kind === "ok" ? "✓" : "!"}</span><div><span class="tt"></span><span class="tb"></span></div><button class="tx" type="button" aria-label="Dismiss">×</button>`;
+    t.querySelector(".tt").textContent = title; t.querySelector(".tb").textContent = body;
+    let gone = false;
+    const kill = () => { if (gone) return; gone = true; t.classList.add("out"); setTimeout(() => t.remove(), 260); };
+    t.querySelector(".tx").addEventListener("click", kill);
     $("#toasts").appendChild(t);
     setTimeout(kill, 5200);
   }
@@ -1107,12 +1426,13 @@ SOFTWARE.</pre></div>
     el.refreshTxt.textContent = state.refreshIn + "s";
   }
   function drift() {
-    for (const [s, t] of Object.entries(TOKENS)) {
-      if (t.stable) continue;
-      t.price *= 1 + (Math.random() - 0.5) * 0.004;
+    for (const t of Object.values(TOKENS)) {
+      t.price = t.stable ? 1 + (Math.random() - 0.5) * 0.0008 : t.price * (1 + (Math.random() - 0.5) * 0.004);
+      t.short.push(t.price); t.short.shift();
+      t.long[LONG_N - 1] = t.price;
     }
   }
-  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); requote(true); }
+  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); renderMarkets(); requote(true); }
   $("#refreshBtn").addEventListener("click", refreshNow);
   setInterval(() => {
     if (document.hidden || state.pending) return;
@@ -1120,75 +1440,175 @@ SOFTWARE.</pre></div>
     if (state.refreshIn <= 0) refreshNow(); else tickRing();
   }, 1000);
 
-  // ---------- nav / theme ----------
-  const menuBtn = $("#menuBtn"), navLinks = $("#navLinks");
+  // ---------- nav, theme, scroll ----------
+  const nav = $("#nav"), menuBtn = $("#menuBtn"), navLinks = $("#navLinks"), toTop = $("#toTop"), hero = $(".hero");
   menuBtn.addEventListener("click", () => {
     const open = !navLinks.classList.contains("open");
     navLinks.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", String(open));
   });
   navLinks.addEventListener("click", e => { if (e.target.closest("a")) { navLinks.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); } });
+  document.addEventListener("click", e => { if (navLinks.classList.contains("open") && !e.target.closest("#nav")) { navLinks.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); } });
+  function onScroll() {
+    const y = window.scrollY;
+    nav.classList.toggle("on-hero", y < 40);
+    toTop.classList.toggle("away", y < 700);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: smooth() }));
+  // Highlight the nav link of the section in view.
+  const spy = new IntersectionObserver(es => {
+    es.forEach(en => { if (en.isIntersecting) $$(".nav-links a").forEach(a => a.classList.toggle("active", a.dataset.sec === en.target.id)); });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  ["hero", "routing", "safety", "faq"].forEach(id => spy.observe(document.getElementById(id)));
+
   const root = document.documentElement;
   const savedTheme = store.get("theme", null);
   if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
-  $("#themeBtn").addEventListener("click", () => {
-    const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-    const next = cur === "light" ? "dark" : "light";
-    root.dataset.theme = next; store.set("theme", next);
+  const curTheme = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  const themeBtn = $("#themeBtn");
+  const labelTheme = () => themeBtn.setAttribute("aria-label", `Switch to ${curTheme() === "light" ? "dark" : "light"} theme`);
+  themeBtn.addEventListener("click", () => {
+    const next = curTheme() === "light" ? "dark" : "light";
+    root.dataset.theme = next; store.set("theme", next); labelTheme(); renderChart();
   });
-  $("#year").textContent = String(new Date().getFullYear());
-  $("#metaVenues").textContent = String(VENUES.length);
+  labelTheme();
 
-  // ---------- mosaic background ----------
-  const canvas = $("#mosaic"), ctx = canvas.getContext("2d");
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-  let W = 0, H = 0, cells = [], colors = {}, raf = 0;
-  const CELL = 34, GAP = 4;
-  function readColors() {
-    const cs = getComputedStyle(root);
-    colors = { a: cs.getPropertyValue("--tile-a").trim(), b: cs.getPropertyValue("--tile-b").trim(), base: cs.getPropertyValue("--tile-base").trim() };
+  // FAQ expand/collapse all
+  const faqToggle = $("#faqToggle"), faqItems = $$("#faqList details");
+  const syncFaq = () => { faqToggle.textContent = faqItems.every(d => d.open) ? "Collapse all" : "Expand all"; };
+  faqToggle.addEventListener("click", () => { const open = !faqItems.every(d => d.open); faqItems.forEach(d => (d.open = open)); syncFaq(); });
+  faqItems.forEach(d => d.addEventListener("toggle", syncFaq));
+
+  $("#year").textContent = String(new Date().getFullYear());
+
+  // ---------- painted night sky ----------
+  const sky = $("#sky"), sctx = sky.getContext("2d");
+  let S = null, skyRaf = 0, heroVisible = true;
+  function makeLayer(w, h, dpr) { const c = document.createElement("canvas"); c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); const x = c.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); return [c, x]; }
+  function soft(x, cx, cy, r, color, alpha) {
+    const g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, `rgba(${color},${alpha})`); g.addColorStop(1, `rgba(${color},0)`);
+    x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.fill();
   }
-  function resize() {
-    const r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = r.width; H = r.height;
-    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cells = [];
-    for (let y = 0; y < H + CELL; y += CELL) for (let x = 0; x < W + CELL; x += CELL) {
-      const r0 = Math.random();
-      cells.push({ x, y, kind: r0 < 0.06 ? "a" : r0 < 0.1 ? "b" : "base", seed: Math.random() * Math.PI * 2, speed: 0.4 + Math.random() * 0.8 });
+  function blob(x, cx, cy, rx, ry, rot, fill) { x.fillStyle = fill; x.beginPath(); x.ellipse(cx, cy, rx, ry, rot, 0, Math.PI * 2); x.fill(); }
+
+  // A painterly tree: stacked foliage clumps with shadow, mid and highlight passes.
+  function tree(x, r, baseX, topY, bottomY, width, lean) {
+    const h = bottomY - topY;
+    x.strokeStyle = "#0A1C22"; x.lineWidth = Math.max(3, width * 0.05); x.lineCap = "round";
+    x.beginPath(); x.moveTo(baseX, bottomY); x.quadraticCurveTo(baseX + lean * 0.3, topY + h * 0.5, baseX + lean, topY + h * 0.08); x.stroke();
+    const clumps = [];
+    const rows = Math.max(6, Math.round(h / 34));
+    for (let i = 0; i < rows; i++) {
+      const t = i / (rows - 1), cy = topY + t * h * 0.92, spread = width * (0.18 + 0.5 * Math.sin(Math.min(1, t * 1.25) * Math.PI * 0.62));
+      const n = 3 + Math.round(spread / 11);
+      for (let k = 0; k < n; k++) {
+        const cx = baseX + lean * (1 - t) + (r() - 0.5) * 2 * spread, rr = (10 + r() * 20) * (0.55 + t * 0.7) * (width / 170);
+        clumps.push({ cx, cy: cy + (r() - 0.5) * 18, rx: rr * (1.05 + r() * 0.5), ry: rr * (0.62 + r() * 0.3), rot: (r() - 0.5) * 0.9 });
+      }
     }
-    readColors(); draw(performance.now());
+    clumps.forEach(c => blob(x, c.cx, c.cy, c.rx, c.ry, c.rot, "#0C2429"));
+    clumps.forEach(c => blob(x, c.cx - c.rx * 0.18, c.cy - c.ry * 0.22, c.rx * 0.78, c.ry * 0.62, c.rot, "#15393A"));
+    clumps.forEach(c => { if (r() < 0.75) blob(x, c.cx - c.rx * 0.32, c.cy - c.ry * 0.42, c.rx * 0.5, c.ry * 0.34, c.rot, "rgba(58,110,96,.72)"); });
+    clumps.forEach(c => { if (r() < 0.45) blob(x, c.cx - c.rx * 0.42, c.cy - c.ry * 0.52, c.rx * 0.26, c.ry * 0.16, c.rot, "rgba(150,196,168,.32)"); });
   }
-  function draw(t) {
-    ctx.clearRect(0, 0, W, H);
-    const s = t / 1000;
-    for (const c of cells) {
-      const wave = Math.sin(s * c.speed + c.seed + (c.x + c.y) * 0.004);
-      const alpha = c.kind === "base" ? 0.28 + 0.14 * wave : 0.22 + 0.3 * (wave * 0.5 + 0.5);
-      ctx.fillStyle = `rgba(${colors[c.kind]},${alpha.toFixed(3)})`;
-      const inset = c.kind === "base" ? 0 : 3 * (1 - (wave * 0.5 + 0.5));
-      roundRect(c.x + GAP / 2 + inset, c.y + GAP / 2 + inset, CELL - GAP - inset * 2, CELL - GAP - inset * 2, 5);
+
+  function buildSky() {
+    const rect = sky.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = Math.max(1, rect.width), H = Math.max(1, rect.height);
+    sky.width = Math.round(W * dpr); sky.height = Math.round(H * dpr);
+    sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const r = rng(20260928), narrow = W < 760;
+
+    // Base sky, milky band and static stars.
+    const [bg, bx] = makeLayer(W, H, dpr);
+    const g = bx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "#07142E"); g.addColorStop(0.28, "#10306A"); g.addColorStop(0.55, "#2A5BA0"); g.addColorStop(0.8, "#5F8DC6"); g.addColorStop(1, "#8FB2DC");
+    bx.fillStyle = g; bx.fillRect(0, 0, W, H);
+    soft(bx, W * 0.8, H * 0.1, W * 0.45, "120,160,255", 0.18);
+    soft(bx, W * 0.15, H * 0.9, W * 0.5, "170,205,240", 0.22);
+    const band = t => ({ x: W * (0.25 + 0.55 * t), y: H * (1.05 - 1.1 * t) });
+    for (let i = 0; i < 26; i++) { const p = band(r()); soft(bx, p.x, p.y, 60 + r() * 120, "200,215,255", 0.05 + r() * 0.05); }
+    for (let i = 0; i < 1800; i++) {
+      const t = r(), p = band(t), off = (r() + r() + r() - 1.5) * W * 0.07;
+      bx.fillStyle = `rgba(235,240,255,${(0.08 + r() * 0.35).toFixed(2)})`;
+      bx.fillRect(p.x + off * 0.8, p.y + off * 0.6, 1, 1);
     }
+    for (let i = 0; i < (narrow ? 260 : 520); i++) {
+      const y = Math.pow(r(), 1.6) * H * 0.85;
+      bx.fillStyle = `rgba(255,255,255,${(0.25 + r() * 0.6).toFixed(2)})`;
+      bx.beginPath(); bx.arc(r() * W, y, r() < 0.93 ? 0.6 + r() * 0.5 : 1.2 + r() * 0.6, 0, Math.PI * 2); bx.fill();
+    }
+
+    // Cloud sprites: long wispy plume plus a few puffs.
+    const clouds = [];
+    const plume = (w, h, seed, curve) => {
+      const rr = rng(seed), [c, x] = makeLayer(w, h, dpr);
+      for (let i = 0; i < 180; i++) {
+        const t = rr(), px = t * w, py = h * 0.5 + Math.sin(t * Math.PI * curve) * h * 0.28 + (rr() - 0.5) * h * 0.22;
+        soft(x, px, py, (18 + rr() * 46) * (0.5 + Math.sin(t * Math.PI) * 0.8), "255,255,255", 0.05 + rr() * 0.06);
+      }
+      return c;
+    };
+    clouds.push({ img: plume(W * 0.6, H * 0.34, 11, 1.4), x: W * 0.38, y: H * 0.22, rot: -0.42, speed: 5, w: W * 0.6, h: H * 0.34 });
+    clouds.push({ img: plume(W * 0.45, H * 0.2, 23, 2), x: W * 0.02, y: H * 0.5, rot: -0.12, speed: 3, w: W * 0.45, h: H * 0.2 });
+    clouds.push({ img: plume(W * 0.35, H * 0.16, 37, 1), x: W * 0.62, y: H * 0.62, rot: 0.08, speed: 4, w: W * 0.35, h: H * 0.16 });
+
+    // Twinkling stars drawn per frame.
+    const twinkles = Array.from({ length: narrow ? 40 : 90 }, () => ({ x: r() * W, y: Math.pow(r(), 1.4) * H * 0.7, s: 0.8 + r() * 1.3, ph: r() * 6.28, sp: 0.6 + r() * 1.6 }));
+
+    // Trees framing both edges.
+    const [tr, tx] = makeLayer(W, H, dpr);
+    const k = narrow ? 0.55 : Math.min(1.25, W / 1200);
+    tree(tx, r, W * 0.03, H * 0.16, H + 20, 260 * k, 24 * k);
+    tree(tx, r, W * 0.13, H * 0.42, H + 20, 170 * k, -10 * k);
+    tree(tx, r, -W * 0.02, H * 0.55, H + 20, 200 * k, 10 * k);
+    tree(tx, r, W * 0.97, H * 0.24, H + 20, 240 * k, -22 * k);
+    tree(tx, r, W * 0.88, H * 0.5, H + 20, 160 * k, 12 * k);
+    tree(tx, r, W * 1.02, H * 0.6, H + 20, 190 * k, -8 * k);
+    // Atmospheric haze at the horizon.
+    const hz = tx.createLinearGradient(0, H * 0.7, 0, H);
+    hz.addColorStop(0, "rgba(143,178,220,0)"); hz.addColorStop(1, "rgba(143,178,220,.25)");
+    tx.fillStyle = hz; tx.fillRect(0, H * 0.7, W, H * 0.3);
+
+    S = { W, H, bg, tr, clouds, twinkles };
+    drawSky(performance.now());
   }
-  function roundRect(x, y, w, h, r) {
-    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); ctx.fill();
+  function drawSky(t) {
+    if (!S) return;
+    const { W, H } = S, s = t / 1000;
+    sctx.clearRect(0, 0, W, H);
+    sctx.drawImage(S.bg, 0, 0, W, H);
+    for (const c of S.clouds) {
+      const span = W + c.w, dx = ((c.x + s * c.speed) % span + span) % span - c.w * 0.3;
+      sctx.save(); sctx.translate(dx + c.w / 2, c.y + c.h / 2); sctx.rotate(c.rot); sctx.drawImage(c.img, -c.w / 2, -c.h / 2, c.w, c.h); sctx.restore();
+    }
+    for (const st of S.twinkles) {
+      const a = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(s * st.sp + st.ph));
+      sctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+      sctx.beginPath(); sctx.arc(st.x, st.y, st.s, 0, Math.PI * 2); sctx.fill();
+      if (st.s > 1.7) { sctx.fillStyle = `rgba(255,255,255,${(a * 0.25).toFixed(3)})`; sctx.fillRect(st.x - st.s * 3, st.y - 0.4, st.s * 6, 0.8); sctx.fillRect(st.x - 0.4, st.y - st.s * 3, 0.8, st.s * 6); }
+    }
+    sctx.drawImage(S.tr, 0, 0, W, H);
   }
-  let heroVisible = true;
-  function loop(t) { raf = 0; if (heroVisible && !document.hidden) draw(t); if (!reduce.matches) raf = requestAnimationFrame(loop); }
-  function start() { if (!raf && !reduce.matches) raf = requestAnimationFrame(loop); }
-  new ResizeObserver(resize).observe(canvas);
-  new IntersectionObserver(es => { heroVisible = es[0].isIntersecting; }).observe(canvas);
-  new MutationObserver(() => { readColors(); draw(performance.now()); }).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-  matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => { readColors(); draw(performance.now()); });
-  reduce.addEventListener("change", () => { if (reduce.matches) { cancelAnimationFrame(raf); raf = 0; draw(performance.now()); } else start(); });
+  function skyLoop(t) { skyRaf = 0; if (heroVisible && !document.hidden) drawSky(t); if (!reduce.matches) skyRaf = requestAnimationFrame(skyLoop); }
+  function startSky() { if (!skyRaf && !reduce.matches) skyRaf = requestAnimationFrame(skyLoop); }
+  let lastW = 0, rsT = 0;
+  new ResizeObserver(() => {
+    const w = Math.round(sky.getBoundingClientRect().width), h = Math.round(sky.getBoundingClientRect().height);
+    if (S && w === lastW && Math.abs(h - S.H) < 80) return; // ignore mobile toolbar jitter
+    lastW = w; clearTimeout(rsT); rsT = setTimeout(buildSky, S ? 120 : 0);
+  }).observe(sky);
+  new IntersectionObserver(es => { heroVisible = es[0].isIntersecting; }).observe(sky);
+  reduce.addEventListener("change", () => { if (reduce.matches) { cancelAnimationFrame(skyRaf); skyRaf = 0; drawSky(performance.now()); } else startSky(); });
 
   // ---------- boot ----------
   renderSlip();
   tickRing();
+  renderMarkets();
   requote(false);
-  resize();
-  start();
+  onScroll();
+  startSky();
 
   // Test hook for the audit script.
   window.__tessera = { state, route, TOKENS };

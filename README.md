@@ -11,7 +11,10 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 - Live quotes: prices drift every 12 seconds, shown on a countdown ring. You can also refresh manually.
 - Settings: slippage presets or a custom value (validated to 0.01–50%) and a transaction deadline.
 - Demo wallet: simulated balances, a review dialog, a pending state, and settlement that reverts when the output falls below the minimum. Includes an activity list, disconnect, and toasts.
-- Light and dark themes, an animated mosaic canvas (which respects reduced motion), and a mobile nav.
+- Hero: a night sky painted in code on a canvas (stars, a milky band, drifting clouds, trees) with a grid overlay. It respects reduced motion.
+- Price chart for the selected pair (1H/1D/1W/1M, hover tooltip, invert) and a markets list with 24h sparklines and filters. Click a market to pay with that token.
+- Route presets (1 / 25 / 250 / 1,500 ETH), 25% / 50% / MAX buttons, copy quote, reset settings, account holdings, reset balances, expand-all FAQ, back-to-top, section-aware nav, and a `/` shortcut to the amount field.
+- Light and dark themes and a mobile nav.
 
 **Demo only.** No real wallet or on-chain transactions. Going live would need an aggregator API or router contract.
 
