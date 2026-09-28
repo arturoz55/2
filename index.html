@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nodal Swap</title>
 <meta name="description" content="Nodal splits every trade across several liquidity venues to find the best total output.">
+<!-- Social previews: once the site is deployed, make these image URLs absolute (https://your-domain/marketing/nodal-og-image.png). -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nodal">
+<meta property="og:description" content="Split-route swaps that cut every trade into its best pieces. Private payments in shielded ZEC.">
+<meta property="og:image" content="marketing/nodal-og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nodal">
+<meta name="twitter:description" content="Split-route swaps that cut every trade into its best pieces. Private payments in shielded ZEC.">
+<meta name="twitter:image" content="marketing/nodal-og-image.png">
+<meta name="theme-color" content="#0A1834">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22-20%20-110%20409%20409%22%3E%3Crect%20x%3D%22-20%22%20y%3D%22-110%22%20width%3D%22409%22%20height%3D%22409%22%20rx%3D%2290%22%20fill%3D%22%230B1020%22/%3E%3Cpath%20d%3D%22M321.7%200C325.3%20-0.3%20330.2%20-0.2%20333.7%200.3C337.2%200.8%20339.4%201.5%20342.7%203C346%204.5%20350.5%207.1%20353.5%209.5C356.6%2011.9%20358.9%2014.5%20361.1%2017.5C363.2%2020.5%20365.1%2024.3%20366.3%2027.5C367.6%2030.6%20368.1%2033%20368.4%2036.5C368.7%2040%20368.8%2044.6%20368.3%2048.5C367.8%2052.3%20367.3%2055.5%20365.3%2059.5C363.3%2063.4%20359.7%2068.8%20356.4%2072.3C353.1%2075.7%20349.5%2078%20345.7%2080C341.9%2082%20339%2083.2%20333.7%2084C328.3%2084.8%20319%2084.3%20313.7%2084.9C308.3%2085.4%20305.5%2086.2%20301.7%2087.4C297.8%2088.6%20294%2090.4%20290.7%2092.3C287.3%2094.2%20284.6%2096.2%20281.7%2098.9C278.8%20101.6%20275.6%20105.2%20273.2%20108.5C270.8%20111.7%20270.4%20110.3%20267.5%20118.5C264.6%20126.6%20258.3%20150%20255.7%20157.5C253.1%20164.9%20253.5%20161.4%20251.8%20163.2C250.1%20165%20248.3%20167%20245.6%20168.5C242.9%20170.1%20238.7%20171.7%20235.7%20172.5C232.7%20173.2%20230.3%20173.1%20227.7%20172.9C225%20172.7%20222.3%20172.2%20219.7%20171.2C217%20170.2%20213.9%20168.3%20211.7%20166.7C209.5%20165%20208.1%20163.5%20206.5%20161.5C205%20159.4%20205%20163%20202.5%20154.5C199.9%20146%20193.8%20119.5%20191.2%20110.5C188.6%20101.5%20188.7%20103.8%20186.8%20100.5C184.9%2097.1%20183.1%2093.8%20180.1%2090.5C177%2087.1%20172.4%2082.8%20168.7%2080.2C164.9%2077.6%20161.5%2076%20157.7%2074.6C153.8%2073.2%20150.2%2072.2%20145.7%2071.7C141.2%2071.3%20134.5%2071.5%20130.7%2071.8C126.8%2072.1%20125.8%2072.3%20122.7%2073.3C119.5%2074.4%20115%2076.2%20111.7%2078C108.4%2079.8%20105.8%2081.8%20102.9%2084.3C100%2086.9%2096.7%2090.4%2094.3%2093.5C92%2096.5%2090.4%2099.1%2088.9%20102.5C87.3%20105.8%2085.9%20109.8%2085%20113.5C84.1%20117.1%2083.8%20118.5%2083.7%20124.5C83.6%20130.5%2084.9%20143.1%2084.3%20149.5C83.8%20155.8%2082.2%20158.7%2080.5%20162.5C78.7%20166.2%2076.3%20169.4%2073.8%20172.1C71.3%20174.9%2068.4%20177.3%2065.7%20179.1C63%20181%2060.7%20182.2%2057.7%20183.3C54.7%20184.5%2050.8%20185.4%2047.7%20185.9C44.5%20186.3%2042.3%20186.6%2038.7%20186.1C35%20185.6%2029.3%20184.3%2025.7%20182.9C22%20181.5%2019.5%20179.8%2016.7%20177.6C13.8%20175.4%2010.8%20172.5%208.5%20169.5C6.2%20166.4%204.2%20163.1%202.8%20159.5C1.4%20155.8%200.4%20151.3%200%20147.5C-0.4%20143.6%20-0.2%20140%200.4%20136.5C1%20133%201.7%20130.2%203.5%20126.5C5.4%20122.8%208.2%20117.8%2011.6%20114.3C15%20110.9%2019.8%20107.7%2023.7%20105.7C27.5%20103.6%2029.8%20102.9%2034.7%20102.1C39.5%20101.4%2047.7%20101.8%2052.7%20101.2C57.7%20100.6%2060.7%20100.1%2064.7%2098.8C68.7%2097.5%2073%2095.7%2076.7%2093.6C80.3%2091.5%2083.7%2088.9%2086.6%2086.2C89.5%2083.5%2092%2080.6%2094.2%2077.5C96.4%2074.3%2097%2075.5%2099.7%2067.5C102.5%2059.5%20108%2036.9%20110.5%2029.5C113.1%2022%20113.1%2024.8%20114.9%2022.7C116.6%2020.7%20118.1%2018.9%20120.9%2017.2C123.7%2015.5%20128.2%2013.4%20131.7%2012.5C135.1%2011.7%20138.5%2011.8%20141.7%2012.2C144.8%2012.6%20148%2013.8%20150.7%2015.1C153.3%2016.3%20155.1%2017.3%20157.5%2019.9C159.8%2022.4%20161.5%2021.2%20164.7%2030.5C167.8%2039.7%20173.1%2065.3%20176.5%2075.5C179.8%2085.6%20181.9%2087.2%20184.7%2091.5C187.6%2095.7%20190.3%2098.1%20193.7%20100.9C197%20103.7%20200.7%20106.3%20204.7%20108.3C208.7%20110.3%20213%20111.9%20217.7%20112.8C222.3%20113.7%20228.2%20114.1%20232.7%20113.9C237.2%20113.7%20240.7%20112.9%20244.7%20111.7C248.7%20110.4%20253%20108.7%20256.7%20106.6C260.3%20104.5%20263.8%20101.7%20266.7%2099.2C269.5%2096.7%20271.7%2094.3%20273.9%2091.5C276%2088.7%20277.9%2085.8%20279.5%2082.5C281.1%2079.1%20282.6%2074.8%20283.5%2071.5C284.4%2068.1%20284.8%2068%20284.9%2062.5C285%2057%20283.5%2045.1%20284.1%2038.5C284.8%2031.8%20287%2026.6%20288.9%2022.5C290.7%2018.3%20292.8%2016.1%20295.1%2013.5C297.4%2010.9%20299.9%208.8%20302.7%206.9C305.4%205.1%20308.5%203.5%20311.7%202.3C314.8%201.2%20318%200.3%20321.7%200Z%22%20fill%3D%22%2343D3C3%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,11 +31,12 @@
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --r-sm:8px; --r-md:14px; --r-lg:20px;
   /* The hero is a painted night scene in both themes. */
+  --s1:#27A597; --s2:#C4861A;
   --sky-text:#F6F8FF; --sky-muted:rgba(228,236,255,.84); --sky-line:rgba(255,255,255,.26);
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    color-scheme:light;
+    color-scheme:light; --s1:#0E8F83; --s2:#A96E00;
     --bg:#F2F4F9; --surface:#FFFFFF; --surface-2:#EEF1F7; --line:#D7DCE7; --line-soft:#E3E7EF;
     --text:#131827; --muted:#555E73; --faint:#8990A3;
     --teal:#0E8F83; --teal-ink:#FFFFFF; --amber:#A96E00; --rose:#C3354D; --good:#1C8547;
@@ -33,7 +44,7 @@
   }
 }
 :root[data-theme="light"]{
-  color-scheme:light;
+  color-scheme:light; --s1:#0E8F83; --s2:#A96E00;
   --bg:#F2F4F9; --surface:#FFFFFF; --surface-2:#EEF1F7; --line:#D7DCE7; --line-soft:#E3E7EF;
   --text:#131827; --muted:#555E73; --faint:#8990A3;
   --teal:#0E8F83; --teal-ink:#FFFFFF; --amber:#A96E00; --rose:#C3354D; --good:#1C8547;
@@ -286,6 +297,26 @@ section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--
 .route-sum div{font-size:12px;color:var(--muted)}
 .route-sum b{display:block;color:var(--text);font:500 16px var(--mono);margin-top:2px}
 .route-sum .gain b{color:var(--good)}
+.impact-panel{margin-top:clamp(24px,4vw,40px);padding:22px}
+.ip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.ip-head h3{font-size:18px}
+.ip-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.ip-legend{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.ip-legend span{display:inline-flex;align-items:center;gap:6px}
+.ip-legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.ip-chart{position:relative;height:260px;touch-action:pan-y}
+.ip-chart svg{display:block;width:100%;height:100%;overflow:visible}
+.ip-chart .grid line{stroke:var(--line-soft)}
+.ip-chart .axis text{fill:var(--faint);font:11px var(--mono)}
+.ip-chart .lbl{fill:var(--text);font:600 12px var(--body)}
+.ip-chart .lock{stroke:var(--rose);stroke-dasharray:4 4;stroke-width:1}
+.ip-chart .lock-t{fill:var(--muted);font:11px var(--mono)}
+.ip-chart .now{stroke:var(--faint);stroke-dasharray:3 3}
+.ip-table{overflow-x:auto}
+.ip-table table{width:100%;border-collapse:collapse;font-size:13px}
+.ip-table th,.ip-table td{padding:8px 10px;border-bottom:1px solid var(--line-soft);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ip-table th:first-child,.ip-table td:first-child{text-align:left}
+.ip-table th{color:var(--muted);font-weight:500;font-family:var(--body)}
 
 .features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--r-lg);overflow:hidden}
 .feature{background:var(--bg);padding:30px 28px 34px;display:grid;gap:12px;align-content:start;transition:background .25s}
@@ -730,6 +761,22 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <div class="gain">Gained by splitting<b id="rpGain">–</b></div>
           </div>
         </div>
+      </div>
+
+      <div class="panel impact-panel">
+        <div class="ip-head">
+          <div>
+            <h3 id="ipTitle">Price impact by order size</h3>
+            <p id="ipSub">ETH → USDC, split route versus the best single venue</p>
+          </div>
+          <div class="ip-legend">
+            <span><i style="background:var(--s1)"></i>Nodal split</span>
+            <span><i style="background:var(--s2)"></i>Best single venue</span>
+            <button class="link-btn" type="button" id="ipTableBtn" aria-expanded="false" aria-controls="ipTable">Show table</button>
+          </div>
+        </div>
+        <div class="ip-chart" id="ipChart"></div>
+        <div class="ip-table" id="ipTable" hidden></div>
       </div>
     </div>
   </section>
@@ -1307,6 +1354,7 @@ SOFTWARE.</pre></div>
     renderConnect();
     renderRoutePanel();
     renderChart();
+    if (typeof renderImpact === "function") renderImpact();
   }
 
   function actionState() {
@@ -2168,6 +2216,77 @@ SOFTWARE.</pre></div>
   $("#tipCopyAddr").addEventListener("click", e => copyText(active().address, e.currentTarget, "Copy address"));
   { const saved = store.get("reqAddr", ""); if (typeof saved === "string" && saved) { reqAddr.value = saved; setReqAddress(saved); } }
 
+  // ---------- price impact by order size ----------
+  const ipChart = $("#ipChart");
+  let ipGeom = null;
+  function impactSeries() {
+    let a = state.tokenIn, b = state.tokenOut;
+    if (!a || !b || a === b) { a = "ETH"; b = "USDC"; }
+    const pIn = TOKENS[a].price, pts = [];
+    for (let k = 0; k <= 43; k++) {
+      const usd = k === 43 ? 2e7 : 10 ** (3 + k / 10), q = route(usd / pIn, a, b);
+      if (!q) continue;
+      const v = q.singleVenue, singleImpact = Math.max(0, 1 - (q.singleOut * TOKENS[b].price / (1 - PROTOCOL_FEE)) / (usd * (1 - v.fee)));
+      pts.push({ usd, split: q.impact, single: singleImpact });
+    }
+    return { a, b, pts };
+  }
+  const fmtK = u => (u >= 999.5e3 ? `$${+(u / 1e6).toFixed(u >= 9.95e6 ? 0 : 1)}M` : u >= 999.5 ? `$${+(u / 1e3).toFixed(0)}k` : `$${u.toFixed(0)}`);
+  function renderImpact() {
+    const { a, b, pts } = impactSeries();
+    $("#ipSub").textContent = `${a} → ${b}, split route versus the best single venue`;
+    const W = ipChart.clientWidth || 800, H = ipChart.clientHeight || 260, pad = { l: 44, r: 118, t: 12, b: 28 };
+    const yMax = Math.min(0.6, Math.max(0.18, ...pts.map(p => p.single)) * 1.08);
+    const lx = u => pad.l + ((Math.log10(u) - 3) / (Math.log10(2e7) - 3)) * (W - pad.l - pad.r);
+    const ly = v => pad.t + (1 - Math.min(v, yMax) / yMax) * (H - pad.t - pad.b);
+    const path = k => pts.map((p, i) => `${i ? "L" : "M"}${lx(p.usd).toFixed(1)},${ly(p[k]).toFixed(1)}`).join("");
+    const yt = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6].filter(v => v <= yMax + 1e-9);
+    const xt = [1e3, 1e4, 1e5, 1e6, 1e7];
+    const last = pts[pts.length - 1];
+    const cur = parsedIn() * TOKENS[a].price;
+    const showCur = state.tokenIn === a && cur >= 1e3 && cur <= 2e7;
+    // Direct labels at the right end, nudged apart when they collide.
+    let y1 = ly(last.split), y2 = ly(last.single);
+    if (Math.abs(y1 - y2) < 16) { const m = (y1 + y2) / 2; y1 = m + (y1 >= y2 ? 8 : -8); y2 = m + (y2 > y1 ? 8 : -8); }
+    ipChart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Price impact for ${a} to ${b} orders from $1k to $20M. At $20M the split route has ${pct(last.split, 1)} impact versus ${pct(last.single, 1)} for the best single venue.">
+      <g class="grid">${yt.map(v => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${ly(v).toFixed(1)}" y2="${ly(v).toFixed(1)}"/>`).join("")}</g>
+      <g class="axis">${yt.map(v => `<text x="${pad.l - 8}" y="${(ly(v) + 4).toFixed(1)}" text-anchor="end">${Math.round(v * 100)}%</text>`).join("")}
+        ${xt.map(u => `<text x="${lx(u).toFixed(1)}" y="${H - 8}" text-anchor="middle">${fmtK(u)}</text>`).join("")}</g>
+      ${0.15 <= yMax ? `<line class="lock" x1="${pad.l}" x2="${W - pad.r}" y1="${ly(0.15)}" y2="${ly(0.15)}"/><text class="lock-t" x="${pad.l + 6}" y="${ly(0.15) - 6}">Swap locks at 15%</text>` : ""}
+      ${showCur ? `<line class="now" x1="${lx(cur)}" x2="${lx(cur)}" y1="${pad.t}" y2="${H - pad.b}"/><text class="lock-t" x="${lx(cur) + 6}" y="${pad.t + 12}">Your order</text>` : ""}
+      <path d="${path("single")}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round"/>
+      <path d="${path("split")}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="${lx(last.usd)}" cy="${ly(last.single)}" r="4" fill="var(--s2)" stroke="var(--surface)" stroke-width="2"/>
+      <circle cx="${lx(last.usd)}" cy="${ly(last.split)}" r="4" fill="var(--s1)" stroke="var(--surface)" stroke-width="2"/>
+      <text class="lbl" x="${lx(last.usd) + 10}" y="${y1 + 4}">Split ${pct(last.split, 1)}</text>
+      <text class="lbl" x="${lx(last.usd) + 10}" y="${y2 + 4}">Single ${pct(last.single, 1)}</text>
+      <line id="ipX" x1="-10" x2="-10" y1="${pad.t}" y2="${H - pad.b}" stroke="var(--faint)" visibility="hidden"/>
+      <circle id="ipD1" r="4" fill="var(--s1)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+      <circle id="ipD2" r="4" fill="var(--s2)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+    </svg><div class="tip" id="ipTip" hidden></div>`;
+    ipGeom = { pts, lx, ly, W, pad };
+    const rows = [1e4, 1e5, 1e6, 5e6, 2e7].map(u => pts.reduce((best, p) => (Math.abs(Math.log10(p.usd / u)) < Math.abs(Math.log10(best.usd / u)) ? p : best)));
+    $("#ipTable").innerHTML = `<table><thead><tr><th>Order size</th><th>Nodal split</th><th>Best single venue</th></tr></thead><tbody>${rows.map(p => `<tr><td>${fmtK(p.usd)}</td><td>${pct(p.split)}</td><td>${pct(p.single)}</td></tr>`).join("")}</tbody></table>`;
+  }
+  ipChart.addEventListener("pointermove", e => {
+    if (!ipGeom) return;
+    const { pts, lx, ly, W, pad } = ipGeom, r = ipChart.getBoundingClientRect(), px = ((e.clientX - r.left) / r.width) * W;
+    let i = 0, bd = Infinity; pts.forEach((p, k) => { const d = Math.abs(lx(p.usd) - px); if (d < bd) { bd = d; i = k; } });
+    const p = pts[i], X = $("#ipX"), d1 = $("#ipD1"), d2 = $("#ipD2"), tip = $("#ipTip");
+    if (!X || px < pad.l - 10 || px > W - pad.r + 10) return;
+    X.setAttribute("x1", lx(p.usd)); X.setAttribute("x2", lx(p.usd)); X.setAttribute("visibility", "visible");
+    d1.setAttribute("cx", lx(p.usd)); d1.setAttribute("cy", ly(p.split)); d1.setAttribute("visibility", "visible");
+    d2.setAttribute("cx", lx(p.usd)); d2.setAttribute("cy", ly(p.single)); d2.setAttribute("visibility", "visible");
+    tip.innerHTML = `<b>${fmtK(p.usd)} order</b><span>Split ${pct(p.split)} · Single ${pct(p.single)}</span>`;
+    tip.hidden = false; tip.style.left = Math.max(90, Math.min(r.width - 90, (lx(p.usd) / W) * r.width)) + "px";
+  });
+  ipChart.addEventListener("pointerleave", () => { ["#ipX", "#ipD1", "#ipD2"].forEach(id => $(id)?.setAttribute("visibility", "hidden")); const t = $("#ipTip"); if (t) t.hidden = true; });
+  $("#ipTableBtn").addEventListener("click", e => {
+    const t = $("#ipTable"), open = t.hidden; t.hidden = !open;
+    e.currentTarget.setAttribute("aria-expanded", String(open)); e.currentTarget.textContent = open ? "Hide table" : "Show table";
+  });
+  new ResizeObserver(() => renderImpact()).observe(ipChart);
+
   // ---------- $NDL token ----------
   const tokSec = $("#token"), ndl = { address: (tokSec.dataset.ndlAddress || "").trim(), chain: (tokSec.dataset.ndlChain || "").trim() };
   function renderNdl() {
@@ -2360,8 +2479,19 @@ SOFTWARE.</pre></div>
     // Twinkling stars drawn per frame.
     const twinkles = Array.from({ length: narrow ? 40 : 90 }, () => ({ x: r() * W, y: Math.pow(r(), 1.4) * H * 0.7, s: 0.8 + r() * 1.3, ph: r() * 6.28, sp: 0.6 + r() * 1.6 }));
 
-    // Trees framing both edges.
+    // Trees framing both edges, with rounded cloud banks along the horizon behind them.
     const [tr, tx] = makeLayer(W, H, dpr);
+    const bank = (x0, x1, base, h, col, alpha) => {
+      const bumps = []; let bxp = x0;
+      while (bxp < x1) { const rr = h * (0.4 + r() * 0.6); bumps.push([bxp, base - rr * 0.5, rr]); bxp += rr * (0.75 + r() * 0.5); }
+      tx.save(); tx.globalAlpha = alpha; tx.fillStyle = col; tx.beginPath();
+      for (const [cx, cy, rr] of bumps) { tx.moveTo(cx + rr, cy); tx.arc(cx, cy, rr, 0, Math.PI * 2); }
+      const top = Math.max(...bumps.map(q => q[1])); tx.rect(bumps[0][0], top, bumps[bumps.length - 1][0] - bumps[0][0], H - top + 10);
+      tx.fill(); tx.restore();
+    };
+    bank(-60, W * 0.55, H * 1.0, H * 0.12, "#5C88CC", 0.35);
+    bank(W * 0.45, W + 60, H * 1.02, H * 0.1, "#5C88CC", 0.32);
+    bank(W * 0.1, W * 0.5, H * 1.05, H * 0.09, "#86A9DD", 0.3);
     const k = narrow ? 0.55 : Math.min(1.25, W / 1200);
     tree(tx, r, W * 0.03, H * 0.16, H + 20, 260 * k, 24 * k);
     tree(tx, r, W * 0.13, H * 0.42, H + 20, 170 * k, -10 * k);
@@ -2483,7 +2613,7 @@ SOFTWARE.</pre></div>
   startSky();
 
   // Test hook for the audit script.
-  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri, ndl, renderNdl };
+  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri, ndl, renderNdl, impactSeries };
 })();
 </script>
 </body>
