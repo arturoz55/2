@@ -6,7 +6,19 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 
 ## X bio (160 characters max)
 
-> Split-route swaps that cut every trade into its best pieces. Private tips in shielded $ZEC. Home of $NDL. Only trust links from this account. 🌙
+**Main (English):**
+> Split-route swaps that cut every trade into its best pieces. Private payments in shielded $ZEC. Home of $NDL. Only trust links from this account. 🌙
+
+**Short (English):**
+> Every trade, split smart. 🌙 Split-route swaps + private $ZEC payments. Home of $NDL.
+
+**Spanish:**
+> Swaps que dividen cada trade en sus mejores partes. Pagos privados en $ZEC blindado. Hogar de $NDL. Solo confía en los enlaces de esta cuenta. 🌙
+
+**Other profile fields**
+- Name: `Nodal 🌙` or `Nodal | $NDL`
+- Website: [website link]
+- Pinned post: the launch tweet
 
 ---
 
@@ -16,7 +28,7 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 >
 > It cuts a big trade into slices, sends each slice to the venue that prices it best, and settles everything in one transaction.
 >
-> Try the router demo and tip us in shielded $ZEC. $NDL is here.
+> Try the router demo. Request $ZEC privately. $NDL is here.
 >
 > CA: [contract address]
 > [website link]
@@ -32,12 +44,12 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 >
 > Every trade, split smart. $NDL
 
-**2. Private tips in ZEC**
-> Want to support Nodal without broadcasting it?
+**2. Private ZEC payment requests**
+> Get paid in $ZEC without broadcasting it.
 >
-> Tip us in shielded $ZEC. The amount, your address and your memo stay encrypted. Scan the QR code or tap the link, and your wallet fills in the rest.
+> Paste your shielded address on Nodal, pick an amount, add a memo, and share the QR code or link. The payer's wallet fills in the rest, and the amount and memo stay encrypted.
 >
-> [website link]#tips
+> [website link]
 
 **3. Address checks**
 > Pasting a Zcash address into Nodal?
@@ -96,9 +108,11 @@ You can watch this happen on the site. Enter a large order and the live route pa
 
 ### Privacy with Zcash
 
-We wanted a way for people to support Nodal without putting that support on a public ledger. So Nodal takes tips in shielded ZEC.
+Payments shouldn't have to be public to be simple. So Nodal includes private ZEC payment requests.
 
-The tip section builds a standard ZIP-321 payment request (the Zcash payment link format) with the amount and an optional memo, and shows it as a QR code and a link. Zcash wallets read it and fill everything in. Because the address is shielded, the amount, the sender and the memo stay encrypted on chain.
+Paste your shielded Zcash address, choose an amount and add an optional memo. Nodal builds a standard ZIP-321 payment request (the Zcash payment link format) and shows it as a QR code and a link you can share. The payer's wallet reads it and fills everything in. Because the address is shielded, the amount, the sender and the memo stay encrypted on chain. Your address never leaves your browser.
+
+At launch, the same section also lets anyone tip the Nodal builders in shielded ZEC.
 
 The same care goes into sending. When you send ZEC to an address, Nodal verifies the checksum offline and tells you whether it's shielded or transparent. It rejects testnet and retired Sprout addresses, and it offers an encrypted memo only when the recipient can read one.
 
@@ -118,7 +132,7 @@ Today you can:
 
 - Try the router with simulated prices and a demo wallet.
 - Connect your own wallet (MetaMask, Phantom, Rabby, Coinbase Wallet and more) in read-only mode to see your balances.
-- Tip in shielded ZEC.
+- Create private ZEC payment requests with a QR code.
 - Read all of the code under the MIT License.
 
 Next, we're connecting the router to on-chain settlement so that the quote you see becomes a trade you can sign. We'll share progress here as it lands.
