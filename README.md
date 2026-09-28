@@ -1,4 +1,4 @@
-# Tessera Swap
+# Nodal Swap
 
 A single-page site for a split-route DEX aggregator. It includes a working demo router that splits each order into 5% slices across several liquidity venues.
 
@@ -17,6 +17,20 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 - Light and dark themes and a mobile nav.
 
 **Demo only.** No real wallet or on-chain transactions. Going live would need an aggregator API or router contract.
+
+## Wallets
+
+- **Connect wallet** lists every browser wallet the visitor has installed. This uses [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), so MetaMask, Phantom, Rabby, Coinbase Wallet, Trust, OKX, Brave, Rainbow, Backpack and any other compliant wallet show up with their own icon. Phantom, Backpack and Solflare also connect on Solana.
+- Wallets that aren't installed get an **Install** link, or **Open in app** on phones (MetaMask, Phantom, Coinbase, Trust).
+- Real wallets connect **read-only**:
+  - They show the real address, the network, and balances: native plus USDC/USDT/DAI/WBTC/LINK/ARB on Ethereum, USDC/ARB on Arbitrum, and USDC on Base.
+  - They follow account and network changes and reconnect silently on reload.
+  - They never request a signature. Review shows the full quote, but live trading is off until a router contract is connected.
+- The **demo wallet** keeps the full simulated swap flow.
+
+## Social link
+
+The X button next to **Connect wallet** is `<a id="xLink" href="https://x.com/">` in `index.html`. Replace the `href` with your profile URL.
 
 ## Zcash
 
