@@ -123,6 +123,11 @@ section[id],main[id]{scroll-margin-top:76px}
 .ticker{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font:500 13px/1.3 var(--mono);color:var(--sky-muted)}
 .ticker b{color:var(--sky-text);font-weight:500}
 .ticker .up{color:#7EF0A8} .ticker .down{color:#FF9DAE}
+.ca-chip{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px;padding:7px 8px 7px 12px;border-radius:999px;background:rgba(10,24,52,.55);border:1px solid rgba(159,239,228,.35);backdrop-filter:blur(6px);font-size:13px;color:var(--sky-text)}
+.ca-chip .ca-label{font:500 11px var(--mono);letter-spacing:.1em;color:#9FEFE4}
+.ca-chip .num{font-size:13px}
+.ca-chip button,.ca-chip a{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;height:28px;padding:0 12px;font:600 12px var(--body);text-decoration:none;display:inline-flex;align-items:center}
+.ca-chip button:hover,.ca-chip a:hover{background:rgba(255,255,255,.18)}
 .hero-sub p{margin:0 0 20px;color:var(--sky-muted);font-size:17px;max-width:54ch}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
 .rise{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
@@ -682,6 +687,12 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
         <div class="rise d3">
           <div class="eyebrow">Split-route DEX aggregator</div>
           <div class="ticker" id="ticker" aria-label="Live prices"></div>
+          <div class="ca-chip" id="caChip" hidden>
+            <span class="ca-label">$NDL CA</span>
+            <span class="num" id="caText"></span>
+            <button type="button" id="caCopy" aria-label="Copy the NDL contract address">Copy</button>
+            <a href="#token">Details</a>
+          </div>
         </div>
         <div class="rise d4">
           <p>Nodal breaks a large order into small slices, sends each slice to the venue that prices it best, and settles all of them together. You get more out and pay less in price impact.</p>
@@ -911,7 +922,8 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
     </div>
   </section>
 
-  <section class="block" id="token" data-ndl-address="" data-ndl-chain="">
+  <!-- Set data-ndl-chain (e.g. "Base") once the network is confirmed; that turns on "Add to wallet" and the Live badge. -->
+  <section class="block" id="token" data-ndl-address="0x263187d5882a7a17f867a8f527c50c6bae7d0a8c" data-ndl-chain="">
     <div class="wrap token-grid">
       <div class="panel token-card">
         <div class="tok-head">
@@ -938,7 +950,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
         <div class="sec-head" style="margin-bottom:0">
           <span class="eyebrow">Token</span>
           <h2>The token of the Nodal community.</h2>
-          <p>$NDL is the community token of the Nodal project. The contract address will appear on this page at launch, and this page is the one place to check it.</p>
+          <p>$NDL is the community token of the Nodal project. The contract address on this page is the only official one. Always check it here before you trade.</p>
         </div>
         <ul class="safe-list">
           <li><b>Check the contract.</b> Only trust the address shown here or posted from <a href="https://x.com/Nodalftech" target="_blank" rel="noopener noreferrer">@Nodalftech</a> on X.</li>
@@ -2392,15 +2404,22 @@ SOFTWARE.</pre></div>
     const lo = Math.min(...arr), hi = Math.max(...arr), rg = hi - lo || 1, W = 400, H = 64;
     const pts = arr.map((v, i) => `${((i / (arr.length - 1)) * W).toFixed(1)},${(H - 4 - ((v - lo) / rg) * (H - 8)).toFixed(1)}`);
     $("#ndlSpark").innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="nfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--teal)" stop-opacity=".25"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs><path d="M${pts.join("L")}L${W},${H}L0,${H}Z" fill="url(#nfill)"/><polyline points="${pts.join(" ")}" fill="none" stroke="var(--teal)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
-    const live = /^0x[0-9a-fA-F]{40}$/.test(ndl.address);
-    $("#ndlAddr").textContent = live ? shortAddr(ndl.address) : "Published at launch";
-    $("#ndlAddr").title = live ? ndl.address : "";
-    $("#ndlCopy").hidden = !live;
+    const hasAddr = /^0x[0-9a-fA-F]{40}$/.test(ndl.address), live = hasAddr && !!ndl.chain;
+    $("#ndlAddr").textContent = hasAddr ? shortAddr(ndl.address) : "Published at launch";
+    $("#ndlAddr").title = hasAddr ? ndl.address : "";
+    $("#ndlCopy").hidden = !hasAddr;
     $("#ndlChain").textContent = ndl.chain || "Announced at launch";
-    const status = $("#ndlStatus"); status.textContent = live ? "Live" : "Pre-launch"; status.className = "pill" + (live ? " ok" : "");
-    $("#ndlShare").href = intent(`$NDL — split-route swaps and private ZEC tips from Nodal.${live ? " Contract: " + ndl.address : ""}`);
+    const status = $("#ndlStatus");
+    status.textContent = live ? "Live" : hasAddr ? "Contract published" : "Pre-launch";
+    status.className = "pill" + (live ? " ok" : "");
+    $("#ndlShare").href = intent(`$NDL: split-route swaps and private ZEC payments from Nodal.${hasAddr ? " CA: " + ndl.address : ""}`);
+    // Contract chip in the hero, shown once an address is set.
+    const chip = $("#caChip");
+    chip.hidden = !hasAddr;
+    if (hasAddr) { $("#caText").textContent = shortAddr(ndl.address); $("#caText").title = ndl.address; }
   }
   $("#ndlCopy").addEventListener("click", e => copyText(ndl.address, e.currentTarget, "Copy"));
+  $("#caCopy").addEventListener("click", e => copyText(ndl.address, e.currentTarget, "Copy"));
   $("#ndlBuy").addEventListener("click", () => { state.tokenIn = "USDC"; state.tokenOut = "NDL"; setAmount("100", true); focusSwap(); });
   $("#ndlChart").addEventListener("click", () => {
     state.tokenIn = "NDL"; state.tokenOut = "USDC"; state.invert = false; setAmount(state.amountIn || "1000", true);
@@ -2410,6 +2429,7 @@ SOFTWARE.</pre></div>
   $("#ndlWatch").addEventListener("click", async () => {
     const note = $("#ndlNote");
     if (!/^0x[0-9a-fA-F]{40}$/.test(ndl.address)) { note.textContent = "NDL can be added to wallets once the contract is published at launch."; return; }
+    if (!ndl.chain) { note.textContent = "Add to wallet turns on once the NDL network is announced. You can copy the contract address now."; return; }
     if (state.wallet?.kind !== "evm") { note.textContent = "Connect MetaMask, Rabby or another EVM wallet first."; openWallet(); return; }
     try {
       const added = await state.wallet.provider.request({ method: "wallet_watchAsset", params: { type: "ERC20", options: { address: ndl.address, symbol: "NDL", decimals: 18 } } });

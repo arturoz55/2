@@ -2,7 +2,7 @@
 
 Official account: [@Nodalftech](https://x.com/Nodalftech). The site links to it from the entry page, the header and the footer, and "Share on X" posts credit it with `via @Nodalftech`.
 
-Replace everything in `[brackets]` before posting. Keep the contract address identical everywhere: the site, the bio and every tweet.
+$NDL contract: `0x263187d5882a7a17f867a8f527c50c6bae7d0a8c` (also shown on the site). Replace the remaining `[brackets]` before posting.
 
 ---
 
@@ -40,7 +40,7 @@ All 1600×900 (16:9, the shape X shows uncropped in the timeline): `nodal-tweet-
 >
 > Try the router demo. Request $ZEC privately. $NDL is here.
 >
-> CA: [contract address]
+> CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
 > [website link]
 
 ---
@@ -153,4 +153,4 @@ Nodal's site is open source under the MIT License. Read the router, check the ad
 
 Every trade, split smart. 🌙
 
-[website link] · CA: [contract address]
+[website link] · CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
