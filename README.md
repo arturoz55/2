@@ -41,6 +41,7 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 - `launch-kit.md`: X bio, launch tweet, six tweets, and an article with its title.
 - `nodal-launch.mp4`: 16 s, 1280×720, H.264 presentation video.
 - `nodal-x-banner.png` / `nodal-x-banner-logo.png`: X header images, exactly 1500×500.
+- `nodal-tweet-*.png`: 1600×900 tweet images ($NDL coin, split route, private ZEC, safety).
 - `nodal-og-image.png`: 1200×630 link preview image, used by the `og:` and `twitter:` meta tags. Make those URLs absolute once the site is deployed.
 - `art-source.html` and `promo-source.html`: the canvas sources the images and video were rendered from.
 

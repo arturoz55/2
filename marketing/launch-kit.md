@@ -26,7 +26,13 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 
 ---
 
-## Launch tweet (attach `nodal-launch.mp4`)
+## Images
+
+All 1600×900 (16:9, the shape X shows uncropped in the timeline): `nodal-tweet-ndl.png`, `nodal-tweet-split.png`, `nodal-tweet-zec.png`, `nodal-tweet-safety.png`. The split image uses the router simulation's numbers and says so on the image.
+
+---
+
+## Launch tweet (attach `nodal-launch.mp4`, or `nodal-tweet-ndl.png` for a still post)
 
 > Meet Nodal 🌙
 >
@@ -41,14 +47,14 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 
 ## Tweets
 
-**1. Why split a trade**
+**1. Why split a trade** · image: `nodal-tweet-split.png`
 > One pool gets more expensive the deeper you trade into it.
 >
 > Nodal splits your order into 5% slices and gives each slice to the venue that returns the most for it. If a split doesn't beat its own gas, it doesn't happen.
 >
 > Every trade, split smart. $NDL
 
-**2. Private ZEC payment requests**
+**2. Private ZEC payment requests** · image: `nodal-tweet-zec.png`
 > Get paid in $ZEC without broadcasting it.
 >
 > Paste your shielded address on Nodal, pick an amount, add a memo, and share the QR code or link. The payer's wallet fills in the rest, and the amount and memo stay encrypted.
@@ -62,7 +68,7 @@ Replace everything in `[brackets]` before posting. Keep the contract address ide
 >
 > One typo shouldn't cost you a transfer.
 
-**4. Safety**
+**4. Safety** · image: `nodal-tweet-safety.png` (pin this one too)
 > Safety first 🛡️
 >
 > • The only $NDL contract is the one on our site and pinned here.

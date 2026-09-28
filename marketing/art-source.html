@@ -42,6 +42,63 @@ function scene(g,W,H,opts={}){const r=rng(opts.seed||2027);
     g.save();g.textAlign="center";g.fillStyle="#F6F8FF";g.shadowColor="rgba(3,10,30,.5)";g.shadowBlur=20;g.font=`800 ${opts.titlePx}px "Bricolage Grotesque"`;g.fillText("Nodal",cx,cy+opts.titlePx*.55);
     g.font=`500 ${opts.subPx}px "IBM Plex Mono"`;g.fillStyle="#9FEFE4";g.letterSpacing=(opts.subPx*.18)+"px";g.fillText(opts.sub||"EVERY TRADE, SPLIT SMART",cx,cy+opts.titlePx*.55+opts.subPx*2.1);g.restore();}
 }
+
+function coin(g,cx,cy,R){
+  soft(g,cx,cy,R*2.2,"67,211,195",.22);
+  g.save();g.translate(cx,cy);
+  // shadow + edge thickness
+  g.fillStyle="rgba(2,8,24,.45)";g.beginPath();g.ellipse(R*.06,R*.12,R*1.02,R*1.0,0,0,7);g.fill();
+  const edge=g.createLinearGradient(-R,-R,R,R);edge.addColorStop(0,"#BFFBF3");edge.addColorStop(.35,"#43D3C3");edge.addColorStop(.7,"#16706A");edge.addColorStop(1,"#0B3B3A");
+  g.fillStyle=edge;g.beginPath();g.arc(0,0,R,0,7);g.fill();
+  // milled rim
+  g.strokeStyle="rgba(4,30,32,.35)";g.lineWidth=R*.012;for(let i=0;i<160;i++){const a=i/160*Math.PI*2;g.beginPath();g.moveTo(Math.cos(a)*R*.9,Math.sin(a)*R*.9);g.lineTo(Math.cos(a)*R*.995,Math.sin(a)*R*.995);g.stroke();}
+  // face
+  const face=g.createRadialGradient(-R*.3,-R*.35,R*.1,0,0,R*.86);face.addColorStop(0,"#1C4C9A");face.addColorStop(.6,"#10306A");face.addColorStop(1,"#08183C");
+  g.fillStyle=face;g.beginPath();g.arc(0,0,R*.86,0,7);g.fill();
+  g.strokeStyle="rgba(159,239,228,.55)";g.lineWidth=R*.012;g.beginPath();g.arc(0,0,R*.78,0,7);g.stroke();
+  for(let i=0;i<24;i++){const a=i/24*Math.PI*2;g.fillStyle="rgba(159,239,228,.55)";g.beginPath();g.arc(Math.cos(a)*R*.72,Math.sin(a)*R*.72,R*.012,0,7);g.fill();}
+  // engraved mark
+  const mw=R*1.02,sc=mw/MW;g.save();g.translate(-mw/2,-R*.12-MH*sc/2);g.scale(sc,sc);
+  const mg=g.createLinearGradient(0,0,MW,MH);mg.addColorStop(0,"#FFFFFF");mg.addColorStop(1,"#9FEFE4");g.fillStyle=mg;g.shadowColor="rgba(0,0,0,.35)";g.shadowBlur=8/sc;g.shadowOffsetY=4/sc;g.fill(MARK);g.restore();
+  g.font=`800 ${R*.24}px "Bricolage Grotesque"`;g.textAlign="center";g.fillStyle="#EAFBF8";g.letterSpacing=(R*.02)+"px";g.fillText("NDL",0,R*.42);
+  // specular highlight
+  const sh=g.createLinearGradient(-R,-R,R*.2,R*.2);sh.addColorStop(0,"rgba(255,255,255,.28)");sh.addColorStop(.5,"rgba(255,255,255,0)");g.fillStyle=sh;g.beginPath();g.arc(0,0,R*.99,0,7);g.fill();
+  g.restore();}
+function txt(g,s,x,y,font,col,align="left",ls=0){g.save();g.font=font;g.fillStyle=col;g.textAlign=align;if(ls)g.letterSpacing=ls+"px";g.shadowColor="rgba(3,10,30,.55)";g.shadowBlur=22;g.fillText(s,x,y);g.restore();}
+function card(g,x,y,w,h){g.save();g.fillStyle="rgba(10,24,52,.72)";g.strokeStyle="rgba(159,239,228,.35)";g.lineWidth=2;g.beginPath();g.roundRect(x,y,w,h,22);g.fill();g.stroke();
+  const tl=g.createLinearGradient(x,0,x+w,0);tl.addColorStop(0,"rgba(159,239,228,0)");tl.addColorStop(.5,"#9FEFE4");tl.addColorStop(1,"rgba(159,239,228,0)");g.fillStyle=tl;g.fillRect(x+w*.14,y-1,w*.72,2);g.restore();}
+function scrim(g,W,H,x,y){const s=g.createRadialGradient(x,y,40,x,y,W*.55);s.addColorStop(0,"rgba(4,10,28,.55)");s.addColorStop(1,"rgba(4,10,28,0)");g.fillStyle=s;g.fillRect(0,0,W,H);}
+function handle(g,W,H){txt(g,"@Nodalftech",W-70,H-50,'500 26px "IBM Plex Mono"',"rgba(228,236,255,.85)","right");}
+window.tweet=function(kind){const c=document.getElementById("c"),W=1600,H=900;c.width=W;c.height=H;const g=c.getContext("2d");
+  if(kind==="ndl"){scene(g,W,H,{seed:811,moonX:.9,moonY:.16,sparkles:26});scrim(g,W,H,W*.55,H*.45);coin(g,W*.33,H*.45,230);
+    txt(g,"$NDL",W*.56,H*.43,'800 170px "Bricolage Grotesque"',"#F6F8FF");
+    txt(g,"The Nodal community token",W*.565,H*.52,'500 44px "IBM Plex Sans"',"#9FEFE4");
+    txt(g,"Every trade, split smart.",W*.567,H*.6,'500 30px "IBM Plex Sans"',"rgba(228,236,255,.85)");handle(g,W,H);}
+  if(kind==="split"){scene(g,W,H,{seed:822,moonX:.9,moonY:.14,sparkles:18});scrim(g,W,H,W*.5,H*.45);
+    txt(g,"Every trade, split smart.",W/2,170,'800 88px "Bricolage Grotesque"',"#F6F8FF","center");
+    txt(g,"One $1M order, four venues, one transaction",W/2,228,'500 30px "IBM Plex Sans"',"rgba(228,236,255,.88)","center");
+    const V=[["Arc v3",.6,"#43D3C3"],["Loom RFQ",.2,"#E7708A"],["Kiln AMM",.15,"#F4B740"],["Ferry v2",.05,"#6FA8E8"]];let x=260;const tot=1080-14*3;
+    V.forEach(([n,sh,col])=>{const w=tot*sh;g.fillStyle=col;g.beginPath();g.roundRect(x,300,w,74,14);g.fill();if(sh>=.15){txt(g,Math.round(sh*100)+"%",x+w/2,349,'600 30px "IBM Plex Mono"',"#0B1633","center");txt(g,n,x+w/2,418,'500 28px "IBM Plex Sans"',"#F6F8FF","center");}x+=w+14;});
+    card(g,370,480,860,170);
+    txt(g,"2.6%",560,575,'800 72px "Bricolage Grotesque"',"#7EF0A8","center");txt(g,"price impact, split",560,618,'500 24px "IBM Plex Sans"',"rgba(228,236,255,.85)","center");
+    txt(g,"vs",800,575,'500 32px "IBM Plex Mono"',"rgba(228,236,255,.6)","center");
+    txt(g,"5.3%",1040,575,'800 72px "Bricolage Grotesque"',"#F4B740","center");txt(g,"best single venue",1040,618,'500 24px "IBM Plex Sans"',"rgba(228,236,255,.85)","center");
+    txt(g,"Router simulation, ETH → USDC",W/2,700,'500 22px "IBM Plex Mono"',"rgba(228,236,255,.6)","center");handle(g,W,H);}
+  if(kind==="zec"){scene(g,W,H,{seed:833,moonX:.12,moonY:.16,sparkles:22});scrim(g,W,H,W*.55,H*.45);
+    g.save();g.translate(W*.28,H*.46);g.scale(3.2,3.2);const shp=new Path2D("M0 -64 L52 -42 L52 -6 C52 34 30 58 0 68 C-30 58 -52 34 -52 -6 L-52 -42 Z");
+    soft(g,0,0,120,"67,211,195",.2);g.fillStyle="rgba(67,211,195,.16)";g.fill(shp);g.strokeStyle="#43D3C3";g.lineWidth=4;g.lineJoin="round";g.stroke(shp);
+    g.fillStyle="#F4B740";g.beginPath();g.roundRect(-18,-6,36,28,5);g.fill();g.strokeStyle="#F4B740";g.lineWidth=5;g.beginPath();g.arc(0,-8,11,Math.PI,0);g.stroke();g.fillStyle="#0B1633";g.beginPath();g.arc(0,6,4,0,7);g.fill();g.restore();
+    txt(g,"Private payments",W*.48,H*.36,'800 92px "Bricolage Grotesque"',"#F6F8FF");txt(g,"in shielded ZEC",W*.48,H*.36+100,'800 92px "Bricolage Grotesque"',"#9FEFE4");
+    card(g,W*.48,H*.55,700,150);
+    txt(g,"zcash:u1…?amount=0.25&memo=…",W*.48+36,H*.55+62,'500 30px "IBM Plex Mono"',"#9FEFE4");
+    g.save();g.font='500 24px "IBM Plex Mono"';const lab="Shielded · unified address",lw=g.measureText(lab).width+36;g.fillStyle="rgba(126,240,168,.12)";g.strokeStyle="rgba(126,240,168,.6)";g.lineWidth=2;g.beginPath();g.roundRect(W*.48+36,H*.55+86,lw,42,21);g.fill();g.stroke();g.fillStyle="#7EF0A8";g.fillText(lab,W*.48+54,H*.55+115);g.restore();
+    txt(g,"Amount, sender and memo stay encrypted.",W*.48,H*.55+210,'500 30px "IBM Plex Sans"',"rgba(228,236,255,.88)");handle(g,W,H);}
+  if(kind==="safety"){scene(g,W,H,{seed:844,moonX:.93,moonY:.12,sparkles:20});scrim(g,W,H,W*.5,H*.45);coin(g,W*.2,H*.44,150);
+    txt(g,"Stay safe with $NDL",W*.36,H*.3,'800 76px "Bricolage Grotesque"',"#F6F8FF");
+    [["✓","Only trust the contract on our site and @Nodalftech."],["✓","We never DM first."],["✓","We never ask for your seed phrase."]].forEach(([k,l],i)=>{const y=H*.4+i*104;card(g,W*.36,y,880,82);txt(g,k,W*.36+44,y+54,'700 34px "IBM Plex Sans"',"#7EF0A8","center");txt(g,l,W*.36+84,y+53,'500 32px "IBM Plex Sans"',"#F6F8FF");});
+    handle(g,W,H);}
+  return c.toDataURL("image/png");};
+
 window.render=function(W,H,opts){const c=document.getElementById("c");c.width=W;c.height=H;scene(c.getContext("2d"),W,H,opts);return c.toDataURL("image/png");};
-window.ready=Promise.all(['800 40px "Bricolage Grotesque"','500 20px "IBM Plex Mono"'].map(f=>document.fonts.load(f)));
+window.ready=Promise.all(['800 40px "Bricolage Grotesque"','500 20px "IBM Plex Mono"','500 20px "IBM Plex Sans"'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready);
 </script></body></html>

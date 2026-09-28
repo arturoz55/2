@@ -385,6 +385,13 @@ html.intro-open,html.intro-open body{overflow:hidden}
 .intro.leaving{opacity:0;transform:scale(1.06);filter:blur(6px);pointer-events:none}
 @keyframes introMark{from{opacity:0;transform:translateY(12px) scale(.7)}to{opacity:1;transform:none}}
 
+/* ---------- cursor firefly ---------- */
+.firefly{position:absolute;left:0;top:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .5s}
+.firefly.on{opacity:1}
+.firefly i{position:absolute;left:0;top:0;border-radius:50%;background:radial-gradient(circle,rgba(246,255,196,1) 0,rgba(226,255,150,.85) 22%,rgba(200,255,120,.25) 50%,rgba(200,255,120,0) 72%);will-change:transform}
+.firefly i:first-child{width:26px;height:26px;margin:-13px 0 0 -13px;filter:drop-shadow(0 0 10px rgba(220,255,140,.8))}
+.firefly i:not(:first-child){width:10px;height:10px;margin:-5px 0 0 -5px}
+
 /* ---------- cookie banner ---------- */
 .cookie{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:120;width:min(760px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:16px 18px;display:grid;gap:14px;animation:toastIn .45s cubic-bezier(.2,.8,.3,1.1)}
 .cookie::before{content:"";position:absolute;left:14%;right:14%;top:-1px;height:1px;background:linear-gradient(90deg,transparent,#9FEFE4,transparent)}
@@ -2700,6 +2707,55 @@ SOFTWARE.</pre></div>
   const sceneRO = new ResizeObserver(es => es.forEach(e => paintScene(e.target)));
   scenes.forEach(c => sceneRO.observe(c));
 
+  // ---------- cursor firefly ----------
+  // A firefly drifts after the pointer over the night sky, with a short fading trail.
+  function attachFirefly(host) {
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return null;
+    const el = document.createElement("div");
+    el.className = "firefly"; el.setAttribute("aria-hidden", "true");
+    el.innerHTML = "<i></i><i></i><i></i><i></i><i></i>";
+    host.appendChild(el);
+    const dots = [...el.children], trail = dots.map(() => ({ x: 0, y: 0 }));
+    let tx = 0, ty = 0, cx = -1, cy = -1, inside = false, raf = 0, t0 = performance.now();
+    const move = e => {
+      cx = e.clientX; cy = e.clientY;
+      const r = host.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (!inside) { inside = true; trail.forEach(p => { p.x = tx; p.y = ty; }); el.classList.add("on"); }
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const leave = () => { inside = false; el.classList.remove("on"); };
+    function tick(now) {
+      raf = 0;
+      const still = reduce.matches;
+      const t = (now - t0) / 1000;
+      // The head wanders a little around the pointer; each trail dot follows the one before it.
+      const hx = tx + (still ? 0 : Math.sin(t * 2.1) * 9), hy = ty + (still ? 0 : Math.cos(t * 1.7) * 7);
+      trail[0].x += (hx - trail[0].x) * (still ? 1 : 0.12); trail[0].y += (hy - trail[0].y) * (still ? 1 : 0.12);
+      for (let i = 1; i < trail.length; i++) { trail[i].x += (trail[i - 1].x - trail[i].x) * 0.35; trail[i].y += (trail[i - 1].y - trail[i].y) * 0.35; }
+      const pulse = still ? 1 : 0.75 + 0.25 * Math.sin(t * 5);
+      dots.forEach((d, i) => { d.style.transform = `translate3d(${trail[i].x}px,${trail[i].y}px,0) scale(${i ? (1 - i * 0.16) * pulse : pulse})`; d.style.opacity = i ? String(0.55 - i * 0.1) : "1"; });
+      if (inside || Math.abs(trail[0].x - hx) > 0.5) raf = requestAnimationFrame(tick);
+    }
+    // Scrolling moves the sky out from under a still cursor without any pointer event.
+    const onScrollAway = () => {
+      if (!inside) return;
+      const r = host.getBoundingClientRect();
+      if (cx < r.left || cx > r.right || cy < r.top || cy > r.bottom) leave();
+    };
+    host.addEventListener("pointermove", move);
+    host.addEventListener("pointerleave", leave);
+    window.addEventListener("scroll", onScrollAway, { passive: true });
+    return {
+      remove() {
+        cancelAnimationFrame(raf);
+        host.removeEventListener("pointermove", move); host.removeEventListener("pointerleave", leave);
+        window.removeEventListener("scroll", onScrollAway); el.remove();
+      },
+    };
+  }
+  attachFirefly($(".hero"));
+
   // ---------- cookie consent ----------
   const cookieEl = $("#cookie"), ckPanel = $("#ckPanel"), ckPrefs = $("#ckPrefs");
   function saveConsent(prefs) {
@@ -2732,7 +2788,7 @@ SOFTWARE.</pre></div>
 
   // ---------- entry page ----------
   const intro = $("#intro");
-  let introSky = null;
+  let introSky = null, introFly = null;
   const pageParts = () => [$("#nav"), $("main"), $("footer")];
   function enterSite() {
     if (intro.hidden || intro.classList.contains("leaving")) return;
@@ -2741,7 +2797,7 @@ SOFTWARE.</pre></div>
     pageParts().forEach(el => el && (el.inert = false));
     document.documentElement.classList.remove("intro-open");
     setTimeout(() => {
-      intro.hidden = true; introSky?.stop(); introSky = null;
+      intro.hidden = true; introSky?.stop(); introSky = null; introFly?.remove(); introFly = null;
       if (!consent) showCookie(false);
     }, reduce.matches ? 0 : 900);
   }
@@ -2749,6 +2805,7 @@ SOFTWARE.</pre></div>
     pageParts().forEach(el => el && (el.inert = true));
     introSky = createSky($("#introSky"));
     introSky.start();
+    introFly = attachFirefly(intro);
     $("#introEnter").addEventListener("click", enterSite);
     document.addEventListener("keydown", e => {
       if (intro.hidden) return;
