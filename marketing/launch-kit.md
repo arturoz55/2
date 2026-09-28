@@ -1,0 +1,132 @@
+# Nodal launch kit
+
+Replace everything in `[brackets]` before posting. Keep the contract address identical everywhere: the site, the bio and every tweet.
+
+---
+
+## X bio (160 characters max)
+
+> Split-route swaps that cut every trade into its best pieces. Private tips in shielded $ZEC. Home of $NDL. Only trust links from this account. 🌙
+
+---
+
+## Launch tweet (attach `nodal-launch.mp4`)
+
+> Meet Nodal 🌙
+>
+> It cuts a big trade into slices, sends each slice to the venue that prices it best, and settles everything in one transaction.
+>
+> Try the router demo and tip us in shielded $ZEC. $NDL is here.
+>
+> CA: [contract address]
+> [website link]
+
+---
+
+## Tweets
+
+**1. Why split a trade**
+> One pool gets more expensive the deeper you trade into it.
+>
+> Nodal splits your order into 5% slices and gives each slice to the venue that returns the most for it. If a split doesn't beat its own gas, it doesn't happen.
+>
+> Every trade, split smart. $NDL
+
+**2. Private tips in ZEC**
+> Want to support Nodal without broadcasting it?
+>
+> Tip us in shielded $ZEC. The amount, your address and your memo stay encrypted. Scan the QR code or tap the link, and your wallet fills in the rest.
+>
+> [website link]#tips
+
+**3. Address checks**
+> Pasting a Zcash address into Nodal?
+>
+> It checks the checksum before you send, tells you whether the address is shielded (u1…, zs1…) or transparent (t1…), and rejects testnet addresses.
+>
+> One typo shouldn't cost you a transfer.
+
+**4. Safety**
+> Safety first 🛡️
+>
+> • The only $NDL contract is the one on our site and pinned here.
+> • We never DM first.
+> • We never ask for a seed phrase.
+>
+> If someone "from Nodal" messages you, it isn't us.
+
+**5. Open source**
+> Nodal's site is open source under the MIT License.
+>
+> Read the router, check the address validator, fork it, improve it. Building in public, one slice at a time. 🌙
+>
+> [repository link]
+
+**6. Community**
+> Night shift at Nodal 🌙
+>
+> What should the router support next: more venues, more chains, or limit orders?
+>
+> Reply below. $NDL holders help shape what we build.
+
+---
+
+## Article
+
+**Title for X:** Nodal: cutting every trade into its best pieces
+
+**Subtitle (optional):** Split-route swaps, private ZEC tips, and what $NDL is for.
+
+### The problem with one big trade
+
+Automated market makers price along a curve. The first unit you buy from a pool is cheap, and every unit after it costs a little more. On a small trade you barely notice. On a large one, a single pool can cost you several percent in price impact before fees.
+
+Most of that loss is avoidable. Liquidity is spread across many venues, and each one can absorb part of an order cheaply. The trick is deciding how much to send where.
+
+### How Nodal routes an order
+
+Nodal treats every order as twenty slices of 5% each.
+
+1. **Read every venue.** For the pair you're trading, Nodal looks at each venue's depth and fee tier. Stable-swap pools join only when both tokens are stablecoins.
+2. **Give each slice to the best bidder.** Slices go one at a time to whichever venue returns the most for that slice, given what earlier slices already took. Deep venues get more slices, and shallow ones fill up fast.
+3. **Weigh the gas.** Every extra leg costs gas. Nodal compares the split route with the best single venue after gas and keeps the split only when it actually wins.
+4. **Settle together.** All legs execute in one transaction with a minimum-output check. If the market moves further than your slippage setting allows, the whole swap reverts instead of filling at a bad price.
+
+You can watch this happen on the site. Enter a large order and the live route panel shows each leg, its share and the amount it returns.
+
+### Privacy with Zcash
+
+We wanted a way for people to support Nodal without putting that support on a public ledger. So Nodal takes tips in shielded ZEC.
+
+The tip section builds a standard ZIP-321 payment request (the Zcash payment link format) with the amount and an optional memo, and shows it as a QR code and a link. Zcash wallets read it and fill everything in. Because the address is shielded, the amount, the sender and the memo stay encrypted on chain.
+
+The same care goes into sending. When you send ZEC to an address, Nodal verifies the checksum offline and tells you whether it's shielded or transparent. It rejects testnet and retired Sprout addresses, and it offers an encrypted memo only when the recipient can read one.
+
+### What $NDL is
+
+$NDL is the community token of the Nodal project. The contract address is published on the Nodal site and pinned on this account. Those are the only two places to check it.
+
+Please be careful:
+
+- Only use the contract address shown on our site.
+- Nodal never DMs first and never asks for a seed phrase.
+- Crypto is volatile. Nothing here is financial advice.
+
+### What's live today, and what's next
+
+Today you can:
+
+- Try the router with simulated prices and a demo wallet.
+- Connect your own wallet (MetaMask, Phantom, Rabby, Coinbase Wallet and more) in read-only mode to see your balances.
+- Tip in shielded ZEC.
+- Read all of the code under the MIT License.
+
+Next, we're connecting the router to on-chain settlement so that the quote you see becomes a trade you can sign. We'll share progress here as it lands.
+
+### Open by default
+
+Nodal's site is open source under the MIT License. Read the router, check the address validator, and tell us where it could be better.
+
+Every trade, split smart. 🌙
+
+[website link] · CA: [contract address]

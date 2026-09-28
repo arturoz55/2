@@ -28,6 +28,19 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
   - They never request a signature. Review shows the full quote, but live trading is off until a router contract is connected.
 - The **demo wallet** keeps the full simulated swap flow.
 
+## Token section
+
+`<section id="token" data-ndl-address="" data-ndl-chain="">` powers the $NDL card:
+- **Until you add an address:** it shows "Pre-launch".
+- **Once you add the contract address and network:** it switches to "Live" and shows the contract with a copy button. "Add to wallet" (EIP-747 `wallet_watchAsset`) then works, and "Share on X" includes the contract.
+- The card also has "Try a swap to NDL" and "View chart".
+
+## Launch kit
+
+`marketing/` holds the launch materials:
+- `launch-kit.md`: X bio, launch tweet, six tweets, and an article with its title.
+- `nodal-launch.mp4`: 16 s, 1280×720, H.264 presentation video.
+
 ## Social link
 
 The X button next to **Connect wallet** is `<a id="xLink" href="https://x.com/">` in `index.html`. Replace the `href` with your profile URL.

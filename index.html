@@ -91,7 +91,7 @@ section[id],main[id]{scroll-margin-top:76px}
 /* Over the night scene the nav goes transparent with light ink. */
 .nav.on-hero{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .nav.on-hero .brand,.nav.on-hero .nav-links:not(.open) a{color:var(--sky-text)}
-.nav.on-hero .nav-links:not(.open) a:hover{background:rgba(255,255,255,.12)}
+.nav.on-hero .nav-links:not(.open) a:hover,.nav.on-hero .nav-links:not(.open) a.active{background:rgba(255,255,255,.14);color:#fff}
 .nav.on-hero .icon-btn,.nav.on-hero .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);color:#fff}
 .nav.on-hero .btn-primary{background:#fff;color:#0B1633}
 
@@ -154,8 +154,12 @@ section[id],main[id]{scroll-margin-top:76px}
 .mk-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 10px}
 .mk-head h3{font-size:16px}
 .mk-list{list-style:none;margin:0;padding:0}
-.mk-list button{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) 56px auto;align-items:center;gap:10px;padding:9px 8px;border:0;background:none;border-radius:12px;text-align:left}
-.mk-list button:hover,.mk-list button:focus-visible{background:var(--surface-2)}
+.mk-list li{position:relative}
+.mk-list .star{position:absolute;right:-2px;top:50%;transform:translateY(-50%);width:22px;height:22px;border:0;background:none;color:var(--faint);font-size:13px;padding:0;border-radius:6px;display:grid;place-items:center}
+.mk-list .star:hover{color:var(--amber)}
+.mk-list .star[aria-pressed="true"]{color:var(--amber)}
+.mk-list button.row{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) 56px auto;padding-right:24px!important;align-items:center;gap:10px;padding:9px 8px;border:0;background:none;border-radius:12px;text-align:left}
+.mk-list button.row:hover,.mk-list button.row:focus-visible{background:var(--surface-2)}
 .mk-list .sym b{display:block;font-size:14px}
 .mk-list .sym span{font-size:11px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mk-list svg{width:56px;height:22px;overflow:visible}
@@ -311,11 +315,23 @@ section.block{padding-block:clamp(64px,9vw,112px);border-bottom:1px solid var(--
 .cta-band h2{font-size:clamp(28px,4vw,44px);font-weight:800;max-width:18ch}
 .cta-band .hero-ctas{gap:10px}
 
-footer{padding-block:40px 48px;color:var(--muted);font-size:14px}
+footer{position:relative;overflow:hidden;padding-block:250px 36px;background:#040B1C;color:var(--sky-muted);font-size:14px}
+footer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+footer .wrap{position:relative;z-index:1}
+footer .brand{color:var(--sky-text)}
+.foot{align-items:flex-end}
+.foot-brand{display:grid;gap:8px}
+.foot-brand p{margin:0;color:var(--sky-text);font:600 16px var(--display)}
+.night-card{position:relative;overflow:hidden;border-radius:var(--r-lg);background:#0A1B3F;color:var(--sky-text);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+.night-card canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.night-card .inner{position:relative;z-index:1;padding:clamp(28px,5vw,56px);min-height:280px;align-items:flex-start}
+.night-card h2{color:var(--sky-text);text-shadow:0 2px 24px rgba(3,10,30,.5);margin-top:10px}
+.cta-block{border-bottom:0}
+#connectBtn{gap:.3em}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer nav{display:flex;gap:18px;flex-wrap:wrap}
-footer a,footer button.linklike{color:var(--muted);text-decoration:none;background:none;border:0;padding:0}
-footer a:hover,footer button.linklike:hover{color:var(--text)}
+footer a,footer button.linklike{color:var(--sky-muted);text-decoration:none;background:none;border:0;padding:0}
+footer a:hover,footer button.linklike:hover{color:var(--sky-text)}
 
 .to-top{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);display:grid;place-items:center;box-shadow:var(--shadow);transition:opacity .25s,transform .25s}
 .to-top svg{width:18px;height:18px}
@@ -359,7 +375,28 @@ textarea.field{height:auto;min-height:64px;padding:10px 12px;resize:vertical;fon
 .tip-actions .btn{height:40px;font-size:14px}
 .setup{border:1px solid color-mix(in srgb,var(--amber) 45%,transparent);background:color-mix(in srgb,var(--amber) 10%,transparent);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--text)}
 .setup code{font:500 12px var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:5px}
-@media (max-width:920px){.tips-grid{grid-template-columns:minmax(0,1fr)}}
+.token-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.token-card{padding:24px;display:grid;gap:16px;position:relative;overflow:hidden}
+.token-card::before{content:"";position:absolute;inset:0 0 auto 0;height:120px;background:radial-gradient(ellipse 70% 100% at 20% 0%,color-mix(in srgb,var(--teal) 18%,transparent),transparent 70%);pointer-events:none}
+.tok-head{display:flex;align-items:center;gap:14px;position:relative}
+.tok-head h2{font-size:30px;font-weight:800}
+.tok-head .muted{color:var(--muted);font-size:14px}
+.tok-head .pill{margin-left:auto}
+.tok-badge{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#10306A,#0A1834);color:#9FEFE4;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.tok-badge svg{width:36px;height:20px}
+.tok-price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tok-price b{font-size:32px;font-weight:500;letter-spacing:-.02em}
+.tok-price span{font:500 13px var(--mono)}
+.tok-spark{height:64px}
+.tok-spark svg{width:100%;height:100%;display:block;overflow:visible}
+.tok-kv{margin:0;display:grid;gap:10px;font-size:14px}
+.tok-kv div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding-bottom:10px}
+.tok-kv dt{color:var(--muted)}
+.tok-kv dd{margin:0;text-align:right;word-break:break-all}
+.safe-list{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:12px}
+.safe-list li{padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.safe-list b{color:var(--text)}
+@media (max-width:920px){.tips-grid,.token-grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.tip-top{grid-template-columns:minmax(0,1fr)}.qr-box{justify-self:center;width:220px}}
 
 /* ---------- dialogs ---------- */
@@ -484,6 +521,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
       <a href="#top" data-sec="hero">Swap</a>
       <a href="#routing" data-sec="routing">Routing</a>
       <a href="#safety" data-sec="safety">Safety</a>
+      <a href="#token" data-sec="token">$NDL</a>
       <a href="#tips" data-sec="tips">Tip in ZEC</a>
       <a href="#faq" data-sec="faq">FAQ</a>
       <button class="nav-theme" type="button" id="themeBtn2">Switch theme</button>
@@ -496,7 +534,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
       <a class="icon-btn" id="xLink" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="Nodal on X" title="Nodal on X">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>
       </a>
-      <button class="btn btn-primary" id="connectBtn" type="button">Connect<span class="cw-long">&nbsp;wallet</span></button>
+      <button class="btn btn-primary" id="connectBtn" type="button">Connect<span class="cw-long">wallet</span></button>
       <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -632,7 +670,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <div class="kv"><span>Minimum received</span><span class="num" id="dMin"></span></div>
             <div class="kv"><span>Network fee</span><span class="num" id="dGas"></span></div>
             <div class="kv"><span>Max slippage</span><span class="num" id="dSlip"></span></div>
-            <div class="kv"><button class="link-btn" type="button" id="copyQuote">Copy quote</button><button class="link-btn" type="button" id="viewRoute">View full route</button></div>
+            <div class="kv"><button class="link-btn" type="button" id="copyQuote">Copy quote</button><a class="link-btn" id="shareQuote" target="_blank" rel="noopener noreferrer" href="#">Share on X</a><button class="link-btn" type="button" id="viewRoute">View full route</button></div>
           </div>
           <div class="routebar" id="routeBar" aria-hidden="true"></div>
           <div class="route-legend" id="routeLegend"></div>
@@ -650,6 +688,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             <button type="button" data-mk="all" aria-pressed="true">All</button>
             <button type="button" data-mk="vol" aria-pressed="false">Volatile</button>
             <button type="button" data-mk="stable" aria-pressed="false">Stable</button>
+            <button type="button" data-mk="watch" aria-pressed="false" aria-label="Watchlist">★</button>
           </div>
         </div>
         <ul class="mk-list" id="mkList"></ul>
@@ -732,6 +771,44 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
     </div>
   </section>
 
+  <section class="block" id="token" data-ndl-address="" data-ndl-chain="">
+    <div class="wrap token-grid">
+      <div class="panel token-card">
+        <div class="tok-head">
+          <span class="tok-badge"><svg class="mark" viewBox="0 0 368.4 186.1" aria-hidden="true"><path d="M321.7 0C325.3 -0.3 330.2 -0.2 333.7 0.3C337.2 0.8 339.4 1.5 342.7 3C346 4.5 350.5 7.1 353.5 9.5C356.6 11.9 358.9 14.5 361.1 17.5C363.2 20.5 365.1 24.3 366.3 27.5C367.6 30.6 368.1 33 368.4 36.5C368.7 40 368.8 44.6 368.3 48.5C367.8 52.3 367.3 55.5 365.3 59.5C363.3 63.4 359.7 68.8 356.4 72.3C353.1 75.7 349.5 78 345.7 80C341.9 82 339 83.2 333.7 84C328.3 84.8 319 84.3 313.7 84.9C308.3 85.4 305.5 86.2 301.7 87.4C297.8 88.6 294 90.4 290.7 92.3C287.3 94.2 284.6 96.2 281.7 98.9C278.8 101.6 275.6 105.2 273.2 108.5C270.8 111.7 270.4 110.3 267.5 118.5C264.6 126.6 258.3 150 255.7 157.5C253.1 164.9 253.5 161.4 251.8 163.2C250.1 165 248.3 167 245.6 168.5C242.9 170.1 238.7 171.7 235.7 172.5C232.7 173.2 230.3 173.1 227.7 172.9C225 172.7 222.3 172.2 219.7 171.2C217 170.2 213.9 168.3 211.7 166.7C209.5 165 208.1 163.5 206.5 161.5C205 159.4 205 163 202.5 154.5C199.9 146 193.8 119.5 191.2 110.5C188.6 101.5 188.7 103.8 186.8 100.5C184.9 97.1 183.1 93.8 180.1 90.5C177 87.1 172.4 82.8 168.7 80.2C164.9 77.6 161.5 76 157.7 74.6C153.8 73.2 150.2 72.2 145.7 71.7C141.2 71.3 134.5 71.5 130.7 71.8C126.8 72.1 125.8 72.3 122.7 73.3C119.5 74.4 115 76.2 111.7 78C108.4 79.8 105.8 81.8 102.9 84.3C100 86.9 96.7 90.4 94.3 93.5C92 96.5 90.4 99.1 88.9 102.5C87.3 105.8 85.9 109.8 85 113.5C84.1 117.1 83.8 118.5 83.7 124.5C83.6 130.5 84.9 143.1 84.3 149.5C83.8 155.8 82.2 158.7 80.5 162.5C78.7 166.2 76.3 169.4 73.8 172.1C71.3 174.9 68.4 177.3 65.7 179.1C63 181 60.7 182.2 57.7 183.3C54.7 184.5 50.8 185.4 47.7 185.9C44.5 186.3 42.3 186.6 38.7 186.1C35 185.6 29.3 184.3 25.7 182.9C22 181.5 19.5 179.8 16.7 177.6C13.8 175.4 10.8 172.5 8.5 169.5C6.2 166.4 4.2 163.1 2.8 159.5C1.4 155.8 0.4 151.3 0 147.5C-0.4 143.6 -0.2 140 0.4 136.5C1 133 1.7 130.2 3.5 126.5C5.4 122.8 8.2 117.8 11.6 114.3C15 110.9 19.8 107.7 23.7 105.7C27.5 103.6 29.8 102.9 34.7 102.1C39.5 101.4 47.7 101.8 52.7 101.2C57.7 100.6 60.7 100.1 64.7 98.8C68.7 97.5 73 95.7 76.7 93.6C80.3 91.5 83.7 88.9 86.6 86.2C89.5 83.5 92 80.6 94.2 77.5C96.4 74.3 97 75.5 99.7 67.5C102.5 59.5 108 36.9 110.5 29.5C113.1 22 113.1 24.8 114.9 22.7C116.6 20.7 118.1 18.9 120.9 17.2C123.7 15.5 128.2 13.4 131.7 12.5C135.1 11.7 138.5 11.8 141.7 12.2C144.8 12.6 148 13.8 150.7 15.1C153.3 16.3 155.1 17.3 157.5 19.9C159.8 22.4 161.5 21.2 164.7 30.5C167.8 39.7 173.1 65.3 176.5 75.5C179.8 85.6 181.9 87.2 184.7 91.5C187.6 95.7 190.3 98.1 193.7 100.9C197 103.7 200.7 106.3 204.7 108.3C208.7 110.3 213 111.9 217.7 112.8C222.3 113.7 228.2 114.1 232.7 113.9C237.2 113.7 240.7 112.9 244.7 111.7C248.7 110.4 253 108.7 256.7 106.6C260.3 104.5 263.8 101.7 266.7 99.2C269.5 96.7 271.7 94.3 273.9 91.5C276 88.7 277.9 85.8 279.5 82.5C281.1 79.1 282.6 74.8 283.5 71.5C284.4 68.1 284.8 68 284.9 62.5C285 57 283.5 45.1 284.1 38.5C284.8 31.8 287 26.6 288.9 22.5C290.7 18.3 292.8 16.1 295.1 13.5C297.4 10.9 299.9 8.8 302.7 6.9C305.4 5.1 308.5 3.5 311.7 2.3C314.8 1.2 318 0.3 321.7 0Z" fill="currentColor"/></svg></span>
+          <div><h2>$NDL</h2><span class="muted">Nodal community token</span></div>
+          <span class="pill" id="ndlStatus">Pre-launch</span>
+        </div>
+        <div class="tok-price"><b class="num" id="ndlPrice">–</b><span id="ndlChange"></span><span class="pill">Simulated</span></div>
+        <div class="tok-spark" id="ndlSpark" aria-hidden="true"></div>
+        <dl class="tok-kv">
+          <div><dt>Network</dt><dd id="ndlChain">Announced at launch</dd></div>
+          <div><dt>Contract</dt><dd><span class="num" id="ndlAddr">Published at launch</span> <button class="link-btn" type="button" id="ndlCopy" hidden>Copy</button></dd></div>
+          <div><dt>Ticker</dt><dd class="num">NDL</dd></div>
+        </dl>
+        <div class="tip-actions">
+          <button class="btn btn-primary" type="button" id="ndlBuy">Try a swap to NDL</button>
+          <button class="btn btn-ghost" type="button" id="ndlChart">View chart</button>
+          <button class="btn btn-ghost" type="button" id="ndlWatch">Add to wallet</button>
+          <a class="btn btn-ghost" id="ndlShare" target="_blank" rel="noopener noreferrer" href="#token">Share on X</a>
+        </div>
+        <p class="fine" id="ndlNote" style="margin:0"></p>
+      </div>
+      <div class="tokens-copy">
+        <div class="sec-head" style="margin-bottom:0">
+          <span class="eyebrow">Token</span>
+          <h2>The token of the Nodal community.</h2>
+          <p>$NDL is the community token of the Nodal project. The contract address will appear on this page at launch, and this page is the one place to check it.</p>
+        </div>
+        <ul class="safe-list">
+          <li><b>Check the contract.</b> Only trust the address shown here or posted from the official X account.</li>
+          <li><b>Nobody will DM you.</b> Nodal never sends direct messages, asks for a seed phrase or offers "support" in private.</li>
+          <li><b>Prices here are simulated.</b> The chart and quotes on this site are a demo until trading goes live.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="tips" data-zcash-address="">
     <div class="wrap tips-grid">
       <div class="tips-copy">
@@ -807,25 +884,41 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
     </div>
   </section>
 
-  <section class="block">
-    <div class="wrap cta-band">
-      <h2>Try a large order and watch it split.</h2>
-      <div class="hero-ctas">
-        <button class="btn btn-ghost" type="button" id="ctaWallet">Connect demo wallet</button>
-        <button class="btn btn-primary" type="button" id="ctaTry">Open the swap</button>
+  <section class="block cta-block">
+    <div class="wrap">
+      <div class="night-card">
+        <canvas data-scene="card" data-seed="31" aria-hidden="true"></canvas>
+        <div class="inner cta-band">
+          <div>
+            <span class="eyebrow" style="color:#9FEFE4">Nodal</span>
+            <h2>Try a large order and watch it split.</h2>
+          </div>
+          <div class="hero-ctas">
+            <button class="btn btn-glass" type="button" id="ctaWallet">Connect a wallet</button>
+            <button class="btn btn-light" type="button" id="ctaTry">Open the swap</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>© <span id="year">2026</span> Nodal. Released under the MIT License.</span>
+<footer class="night">
+  <canvas data-scene="footer" data-seed="53" aria-hidden="true"></canvas>
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="Nodal home"><svg class="mark" viewBox="0 0 368.4 186.1" aria-hidden="true"><path d="M321.7 0C325.3 -0.3 330.2 -0.2 333.7 0.3C337.2 0.8 339.4 1.5 342.7 3C346 4.5 350.5 7.1 353.5 9.5C356.6 11.9 358.9 14.5 361.1 17.5C363.2 20.5 365.1 24.3 366.3 27.5C367.6 30.6 368.1 33 368.4 36.5C368.7 40 368.8 44.6 368.3 48.5C367.8 52.3 367.3 55.5 365.3 59.5C363.3 63.4 359.7 68.8 356.4 72.3C353.1 75.7 349.5 78 345.7 80C341.9 82 339 83.2 333.7 84C328.3 84.8 319 84.3 313.7 84.9C308.3 85.4 305.5 86.2 301.7 87.4C297.8 88.6 294 90.4 290.7 92.3C287.3 94.2 284.6 96.2 281.7 98.9C278.8 101.6 275.6 105.2 273.2 108.5C270.8 111.7 270.4 110.3 267.5 118.5C264.6 126.6 258.3 150 255.7 157.5C253.1 164.9 253.5 161.4 251.8 163.2C250.1 165 248.3 167 245.6 168.5C242.9 170.1 238.7 171.7 235.7 172.5C232.7 173.2 230.3 173.1 227.7 172.9C225 172.7 222.3 172.2 219.7 171.2C217 170.2 213.9 168.3 211.7 166.7C209.5 165 208.1 163.5 206.5 161.5C205 159.4 205 163 202.5 154.5C199.9 146 193.8 119.5 191.2 110.5C188.6 101.5 188.7 103.8 186.8 100.5C184.9 97.1 183.1 93.8 180.1 90.5C177 87.1 172.4 82.8 168.7 80.2C164.9 77.6 161.5 76 157.7 74.6C153.8 73.2 150.2 72.2 145.7 71.7C141.2 71.3 134.5 71.5 130.7 71.8C126.8 72.1 125.8 72.3 122.7 73.3C119.5 74.4 115 76.2 111.7 78C108.4 79.8 105.8 81.8 102.9 84.3C100 86.9 96.7 90.4 94.3 93.5C92 96.5 90.4 99.1 88.9 102.5C87.3 105.8 85.9 109.8 85 113.5C84.1 117.1 83.8 118.5 83.7 124.5C83.6 130.5 84.9 143.1 84.3 149.5C83.8 155.8 82.2 158.7 80.5 162.5C78.7 166.2 76.3 169.4 73.8 172.1C71.3 174.9 68.4 177.3 65.7 179.1C63 181 60.7 182.2 57.7 183.3C54.7 184.5 50.8 185.4 47.7 185.9C44.5 186.3 42.3 186.6 38.7 186.1C35 185.6 29.3 184.3 25.7 182.9C22 181.5 19.5 179.8 16.7 177.6C13.8 175.4 10.8 172.5 8.5 169.5C6.2 166.4 4.2 163.1 2.8 159.5C1.4 155.8 0.4 151.3 0 147.5C-0.4 143.6 -0.2 140 0.4 136.5C1 133 1.7 130.2 3.5 126.5C5.4 122.8 8.2 117.8 11.6 114.3C15 110.9 19.8 107.7 23.7 105.7C27.5 103.6 29.8 102.9 34.7 102.1C39.5 101.4 47.7 101.8 52.7 101.2C57.7 100.6 60.7 100.1 64.7 98.8C68.7 97.5 73 95.7 76.7 93.6C80.3 91.5 83.7 88.9 86.6 86.2C89.5 83.5 92 80.6 94.2 77.5C96.4 74.3 97 75.5 99.7 67.5C102.5 59.5 108 36.9 110.5 29.5C113.1 22 113.1 24.8 114.9 22.7C116.6 20.7 118.1 18.9 120.9 17.2C123.7 15.5 128.2 13.4 131.7 12.5C135.1 11.7 138.5 11.8 141.7 12.2C144.8 12.6 148 13.8 150.7 15.1C153.3 16.3 155.1 17.3 157.5 19.9C159.8 22.4 161.5 21.2 164.7 30.5C167.8 39.7 173.1 65.3 176.5 75.5C179.8 85.6 181.9 87.2 184.7 91.5C187.6 95.7 190.3 98.1 193.7 100.9C197 103.7 200.7 106.3 204.7 108.3C208.7 110.3 213 111.9 217.7 112.8C222.3 113.7 228.2 114.1 232.7 113.9C237.2 113.7 240.7 112.9 244.7 111.7C248.7 110.4 253 108.7 256.7 106.6C260.3 104.5 263.8 101.7 266.7 99.2C269.5 96.7 271.7 94.3 273.9 91.5C276 88.7 277.9 85.8 279.5 82.5C281.1 79.1 282.6 74.8 283.5 71.5C284.4 68.1 284.8 68 284.9 62.5C285 57 283.5 45.1 284.1 38.5C284.8 31.8 287 26.6 288.9 22.5C290.7 18.3 292.8 16.1 295.1 13.5C297.4 10.9 299.9 8.8 302.7 6.9C305.4 5.1 308.5 3.5 311.7 2.3C314.8 1.2 318 0.3 321.7 0Z" fill="currentColor"/></svg> Nodal</a>
+      <p>Split-route swaps. Private ZEC tips.</p>
+      <span>© <span id="year">2026</span> Nodal. Released under the MIT License.</span>
+    </div>
     <nav aria-label="Footer">
       <a href="#routing">Routing</a>
       <a href="#safety">Safety</a>
       <a href="#faq">FAQ</a>
+      <a href="#token">$NDL</a>
+      <a href="#tips">Tip in ZEC</a>
       <button class="linklike" type="button" id="licenseBtn">License</button>
+      <a href="https://x.com/" id="xLinkFoot" target="_blank" rel="noopener noreferrer">X ↗</a>
     </nav>
   </div>
 </footer>
@@ -1277,7 +1370,7 @@ SOFTWARE.</pre></div>
       el.connect.setAttribute("aria-label", `${w?.name || "Wallet"} ${short(state.address)}, open account`);
     } else {
       el.connect.className = "btn btn-primary";
-      el.connect.innerHTML = `Connect<span class="cw-long">&nbsp;wallet</span>`;
+      el.connect.innerHTML = `Connect<span class="cw-long">wallet</span>`;
       el.connect.removeAttribute("aria-label");
     }
   }
@@ -1395,14 +1488,17 @@ SOFTWARE.</pre></div>
     const s = arr.slice(-48), lo = Math.min(...s), hi = Math.max(...s), r = hi - lo || 1;
     return `<svg viewBox="0 0 56 22" aria-hidden="true"><polyline points="${s.map((v, i) => `${((i / (s.length - 1)) * 56).toFixed(1)},${(20 - ((v - lo) / r) * 18).toFixed(1)}`).join(" ")}"/></svg>`;
   }
+  const watch = new Set((() => { const w = store.get("watch", ["ETH", "ZEC", "NDL"]); return Array.isArray(w) ? w.filter(k => k in TOKENS) : []; })());
   function renderMarkets() {
-    const list = Object.keys(TOKENS).filter(k => state.mkFilter === "all" || (state.mkFilter === "stable") === TOKENS[k].stable);
-    $("#mkList").innerHTML = list.map(k => {
-      const t = TOKENS[k], c = change24h(t);
-      return `<li><button type="button" data-mk-sym="${k}" aria-label="Pay with ${t.name}, ${fmtUsd(t.price)}">
+    const f = state.mkFilter;
+    const list = Object.keys(TOKENS).filter(k => f === "all" || (f === "watch" ? watch.has(k) : (f === "stable") === TOKENS[k].stable));
+    $("#mkList").innerHTML = list.length ? list.map(k => {
+      const t = TOKENS[k], c = change24h(t), on = watch.has(k);
+      return `<li><button class="row" type="button" data-mk-sym="${k}" aria-label="Pay with ${t.name}, ${fmtUsd(t.price)}">
         ${tokIcon(k)}<span class="sym"><b>${k}</b><span>${t.name}</span></span>${spark(t.long)}
-        <span class="px">${t.price >= 1 ? fmtUsd(t.price) : "$" + t.price.toFixed(4)}<small class="${c >= 0 ? "up" : "down"}">${signed(c)}</small></span></button></li>`;
-    }).join("");
+        <span class="px">${t.price >= 1 ? fmtUsd(t.price) : "$" + t.price.toFixed(4)}<small class="${c >= 0 ? "up" : "down"}">${signed(c)}</small></span></button>
+        <button class="star" type="button" data-star="${k}" aria-pressed="${on}" aria-label="${on ? "Remove" : "Add"} ${k} ${on ? "from" : "to"} watchlist">${on ? "★" : "☆"}</button></li>`;
+    }).join("") : `<li class="empty-state" style="padding:18px 8px">Star a token to add it to your watchlist.</li>`;
     $("#ticker").innerHTML = ["ETH", "WBTC", "ZEC", "NDL"].map(k => {
       const c = change24h(TOKENS[k]);
       return `<span>${k} <b>${fmtUsd(TOKENS[k].price)}</b> <span class="${c >= 0 ? "up" : "down"}">${signed(c)}</span></span>`;
@@ -1414,6 +1510,13 @@ SOFTWARE.</pre></div>
     renderMarkets();
   }));
   $("#mkList").addEventListener("click", e => {
+    const st = e.target.closest("[data-star]");
+    if (st) {
+      const k = st.dataset.star;
+      watch.has(k) ? watch.delete(k) : watch.add(k);
+      store.set("watch", [...watch]); renderMarkets();
+      return;
+    }
     const b = e.target.closest("[data-mk-sym]"); if (!b) return;
     state.picking = "in"; pickToken(b.dataset.mkSym);
     focusSwap();
@@ -1460,6 +1563,13 @@ SOFTWARE.</pre></div>
     const open = el.details.hidden;
     el.details.hidden = !open;
     el.detailsBtn.setAttribute("aria-expanded", String(open));
+  });
+  const intent = text => "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+  function quoteText(q) { return `Split ${fmtTok(q.inAmt, q.a)} ${q.a} → ${fmtTok(q.out, q.b)} ${q.b} across ${q.legs.length} venue${q.legs.length > 1 ? "s" : ""} on Nodal (${pct(q.impact)} impact).`; }
+  $("#shareQuote").addEventListener("click", e => {
+    const q = state.quote;
+    if (!q) { e.preventDefault(); return; }
+    e.currentTarget.href = intent(quoteText(q) + " $NDL");
   });
   $("#copyQuote").addEventListener("click", e => {
     const q = state.quote; if (!q) return;
@@ -1998,6 +2108,40 @@ SOFTWARE.</pre></div>
   $("#tipCopyLink").addEventListener("click", e => copyText(tipUri(), e.currentTarget, "Copy payment link"));
   $("#tipCopyAddr").addEventListener("click", e => copyText(tip.address, e.currentTarget, "Copy address"));
 
+  // ---------- $NDL token ----------
+  const tokSec = $("#token"), ndl = { address: (tokSec.dataset.ndlAddress || "").trim(), chain: (tokSec.dataset.ndlChain || "").trim() };
+  function renderNdl() {
+    const t = TOKENS.NDL, c = change24h(t), arr = t.long.slice(-96);
+    $("#ndlPrice").textContent = "$" + t.price.toFixed(4);
+    const ch = $("#ndlChange"); ch.textContent = `${signed(c)} 24h`; ch.className = c >= 0 ? "up" : "down";
+    const lo = Math.min(...arr), hi = Math.max(...arr), rg = hi - lo || 1, W = 400, H = 64;
+    const pts = arr.map((v, i) => `${((i / (arr.length - 1)) * W).toFixed(1)},${(H - 4 - ((v - lo) / rg) * (H - 8)).toFixed(1)}`);
+    $("#ndlSpark").innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="nfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--teal)" stop-opacity=".25"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs><path d="M${pts.join("L")}L${W},${H}L0,${H}Z" fill="url(#nfill)"/><polyline points="${pts.join(" ")}" fill="none" stroke="var(--teal)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
+    const live = /^0x[0-9a-fA-F]{40}$/.test(ndl.address);
+    $("#ndlAddr").textContent = live ? shortAddr(ndl.address) : "Published at launch";
+    $("#ndlAddr").title = live ? ndl.address : "";
+    $("#ndlCopy").hidden = !live;
+    $("#ndlChain").textContent = ndl.chain || "Announced at launch";
+    const status = $("#ndlStatus"); status.textContent = live ? "Live" : "Pre-launch"; status.className = "pill" + (live ? " ok" : "");
+    $("#ndlShare").href = intent(`$NDL — split-route swaps and private ZEC tips from Nodal.${live ? " Contract: " + ndl.address : ""}`);
+  }
+  $("#ndlCopy").addEventListener("click", e => copyText(ndl.address, e.currentTarget, "Copy"));
+  $("#ndlBuy").addEventListener("click", () => { state.tokenIn = "USDC"; state.tokenOut = "NDL"; setAmount("100", true); focusSwap(); });
+  $("#ndlChart").addEventListener("click", () => {
+    state.tokenIn = "NDL"; state.tokenOut = "USDC"; state.invert = false; setAmount(state.amountIn || "1000", true);
+    $("#chartPanel").scrollIntoView({ behavior: smooth(), block: "center" });
+  });
+  // EIP-747: ask the connected wallet to track NDL.
+  $("#ndlWatch").addEventListener("click", async () => {
+    const note = $("#ndlNote");
+    if (!/^0x[0-9a-fA-F]{40}$/.test(ndl.address)) { note.textContent = "NDL can be added to wallets once the contract is published at launch."; return; }
+    if (state.wallet?.kind !== "evm") { note.textContent = "Connect MetaMask, Rabby or another EVM wallet first."; openWallet(); return; }
+    try {
+      const added = await state.wallet.provider.request({ method: "wallet_watchAsset", params: { type: "ERC20", options: { address: ndl.address, symbol: "NDL", decimals: 18 } } });
+      note.textContent = added ? `NDL was added to ${state.wallet.name}.` : "The wallet didn't add NDL.";
+    } catch (err) { note.textContent = walletError(state.wallet.name, err); }
+  });
+
   // ---------- live prices ----------
   const CIRC = 50.27;
   function tickRing() {
@@ -2011,7 +2155,7 @@ SOFTWARE.</pre></div>
       t.long[LONG_N - 1] = t.price;
     }
   }
-  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); renderMarkets(); renderTip(); requote(true); }
+  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); renderMarkets(); renderTip(); renderNdl(); requote(true); }
   $("#refreshBtn").addEventListener("click", refreshNow);
   setInterval(() => {
     if (document.hidden || state.pending) return;
@@ -2038,7 +2182,7 @@ SOFTWARE.</pre></div>
   const spy = new IntersectionObserver(es => {
     es.forEach(en => { if (en.isIntersecting) $$(".nav-links a").forEach(a => a.classList.toggle("active", a.dataset.sec === en.target.id)); });
   }, { rootMargin: "-45% 0px -50% 0px" });
-  ["hero", "routing", "safety", "tips", "faq"].forEach(id => spy.observe(document.getElementById(id)));
+  ["hero", "routing", "safety", "token", "tips", "faq"].forEach(id => spy.observe(document.getElementById(id)));
 
   const root = document.documentElement;
   const savedTheme = store.get("theme", null);
@@ -2068,6 +2212,7 @@ SOFTWARE.</pre></div>
   faqItems.forEach(d => d.addEventListener("toggle", syncFaq));
 
   $("#year").textContent = String(new Date().getFullYear());
+  $("#xLinkFoot").href = $("#xLink").href;
 
   // ---------- painted night sky ----------
   const sky = $("#sky"), sctx = sky.getContext("2d");
@@ -2115,6 +2260,16 @@ SOFTWARE.</pre></div>
     bx.fillStyle = g; bx.fillRect(0, 0, W, H);
     soft(bx, W * 0.8, H * 0.1, W * 0.45, "120,160,255", 0.18);
     soft(bx, W * 0.15, H * 0.9, W * 0.5, "170,205,240", 0.22);
+    // Moon with a soft halo.
+    const mr = Math.max(16, Math.min(34, W * 0.022)), mx = W * (narrow ? 0.86 : 0.9), my = H * (narrow ? 0.06 : 0.085);
+    soft(bx, mx, my, mr * 7, "190,210,255", 0.16);
+    soft(bx, mx, my, mr * 2.6, "225,235,255", 0.22);
+    const mg = bx.createRadialGradient(mx - mr * 0.35, my - mr * 0.35, mr * 0.1, mx, my, mr);
+    mg.addColorStop(0, "#FFFDF4"); mg.addColorStop(1, "#DCE3F2");
+    bx.fillStyle = mg; bx.beginPath(); bx.arc(mx, my, mr, 0, Math.PI * 2); bx.fill();
+    [[0.3, -0.2, 0.22], [-0.35, 0.25, 0.16], [0.1, 0.45, 0.12], [-0.1, -0.45, 0.1]].forEach(([dx, dy, rr]) => {
+      bx.fillStyle = "rgba(160,172,200,.35)"; bx.beginPath(); bx.arc(mx + dx * mr, my + dy * mr, rr * mr, 0, Math.PI * 2); bx.fill();
+    });
     const band = t => ({ x: W * (0.25 + 0.55 * t), y: H * (1.05 - 1.1 * t) });
     for (let i = 0; i < 26; i++) { const p = band(r()); soft(bx, p.x, p.y, 60 + r() * 120, "200,215,255", 0.05 + r() * 0.05); }
     for (let i = 0; i < 1800; i++) {
@@ -2159,7 +2314,12 @@ SOFTWARE.</pre></div>
     hz.addColorStop(0, "rgba(143,178,220,0)"); hz.addColorStop(1, "rgba(143,178,220,.25)");
     tx.fillStyle = hz; tx.fillRect(0, H * 0.7, W, H * 0.3);
 
-    S = { W, H, bg, tr, clouds, twinkles };
+    // Fireflies drift in front of the trees near both edges.
+    const flies = Array.from({ length: narrow ? 14 : 30 }, () => {
+      const left = r() < 0.5;
+      return { x: left ? r() * W * 0.22 : W * (0.78 + r() * 0.22), y: H * (0.5 + r() * 0.45), ph: r() * 6.28, sp: 0.4 + r() * 0.8, amp: 8 + r() * 18 };
+    });
+    S = { W, H, bg, tr, clouds, twinkles, flies, meteor: null, nextMeteor: 2.5 };
     drawSky(performance.now());
   }
   function drawSky(t) {
@@ -2177,7 +2337,27 @@ SOFTWARE.</pre></div>
       sctx.beginPath(); sctx.arc(st.x, st.y, st.s, 0, Math.PI * 2); sctx.fill();
       if (st.s > 1.7) { sctx.fillStyle = `rgba(255,255,255,${(a * 0.25).toFixed(3)})`; sctx.fillRect(st.x - st.s * 3, st.y - 0.4, st.s * 6, 0.8); sctx.fillRect(st.x - 0.4, st.y - st.s * 3, 0.8, st.s * 6); }
     }
+    // Shooting star every few seconds, falling from the upper right.
+    if (!S.meteor && s > S.nextMeteor) S.meteor = { t0: s, x: W * (0.45 + Math.random() * 0.45), y: H * (0.04 + Math.random() * 0.2), len: 120 + Math.random() * 120 };
+    if (S.meteor) {
+      const m = S.meteor, k = (s - m.t0) / 0.9;
+      if (k >= 1) { S.meteor = null; S.nextMeteor = s + 5 + Math.random() * 6; }
+      else {
+        const hx = m.x - k * m.len * 1.6, hy = m.y + k * m.len * 0.7, a = Math.sin(k * Math.PI);
+        const gr = sctx.createLinearGradient(hx, hy, hx + m.len * 0.9, hy - m.len * 0.4);
+        gr.addColorStop(0, `rgba(255,255,255,${(0.9 * a).toFixed(3)})`); gr.addColorStop(1, "rgba(255,255,255,0)");
+        sctx.strokeStyle = gr; sctx.lineWidth = 1.6; sctx.lineCap = "round";
+        sctx.beginPath(); sctx.moveTo(hx, hy); sctx.lineTo(hx + m.len * 0.9, hy - m.len * 0.4); sctx.stroke();
+      }
+    }
     sctx.drawImage(S.tr, 0, 0, W, H);
+    for (const f of S.flies) {
+      const x = f.x + Math.sin(s * f.sp + f.ph) * f.amp, y = f.y + Math.cos(s * f.sp * 0.8 + f.ph) * f.amp * 0.6;
+      const a = 0.25 + 0.75 * Math.max(0, Math.sin(s * f.sp * 2.2 + f.ph));
+      const g = sctx.createRadialGradient(x, y, 0, x, y, 7);
+      g.addColorStop(0, `rgba(236,255,170,${(0.9 * a).toFixed(3)})`); g.addColorStop(1, "rgba(236,255,170,0)");
+      sctx.fillStyle = g; sctx.beginPath(); sctx.arc(x, y, 7, 0, Math.PI * 2); sctx.fill();
+    }
   }
   function skyLoop(t) { skyRaf = 0; if (heroVisible && !document.hidden) drawSky(t); if (!reduce.matches) skyRaf = requestAnimationFrame(skyLoop); }
   function startSky() { if (!skyRaf && !reduce.matches) skyRaf = requestAnimationFrame(skyLoop); }
@@ -2190,10 +2370,51 @@ SOFTWARE.</pre></div>
   new IntersectionObserver(es => { heroVisible = es[0].isIntersecting; }).observe(sky);
   reduce.addEventListener("change", () => { if (reduce.matches) { cancelAnimationFrame(skyRaf); skyRaf = 0; drawSky(performance.now()); } else startSky(); });
 
+  // Static night scenes (CTA card, footer) share the hero's painter.
+  function paintScene(cv) {
+    const rect = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = Math.max(1, rect.width), H = Math.max(1, rect.height);
+    if (cv._w === Math.round(W) && cv._h === Math.round(H)) return;
+    cv._w = Math.round(W); cv._h = Math.round(H);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const r = rng(Number(cv.dataset.seed) || 7), kind = cv.dataset.scene;
+    const g = x.createLinearGradient(0, 0, 0, H);
+    if (kind === "footer") { g.addColorStop(0, "rgba(7,20,46,0)"); g.addColorStop(0.35, "#07142E"); g.addColorStop(1, "#040B1C"); }
+    else { g.addColorStop(0, "#0A1B3F"); g.addColorStop(0.6, "#1B4485"); g.addColorStop(1, "#4F7DBA"); }
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    const top = kind === "footer" ? H * 0.3 : 0;
+    for (let i = 0; i < W * H / 2600; i++) {
+      x.fillStyle = `rgba(255,255,255,${(0.2 + r() * 0.6).toFixed(2)})`;
+      x.beginPath(); x.arc(r() * W, top + Math.pow(r(), 1.5) * (H - top) * 0.75, r() < 0.92 ? 0.5 + r() * 0.5 : 1.1 + r() * 0.5, 0, Math.PI * 2); x.fill();
+    }
+    if (kind !== "footer") { const cx = W * (W < 700 ? 0.84 : 0.58), cy = H * 0.2; soft(x, cx, cy, H * 0.5, "200,220,255", 0.14); x.fillStyle = "#F4F6FF"; x.beginPath(); x.arc(cx, cy, Math.min(24, H * 0.08), 0, Math.PI * 2); x.fill(); }
+    // Two hill layers, then a treeline along the bottom.
+    [["#10263F", 0.78, 0.07], ["#0B1C2C", 0.86, 0.05]].forEach(([c, base, amp], li) => {
+      x.fillStyle = c; x.beginPath(); x.moveTo(0, H);
+      for (let px = 0; px <= W + 20; px += 20) x.lineTo(px, H * base - Math.sin(px / (180 + li * 90) + li * 2) * H * amp - Math.sin(px / 67 + li) * H * 0.012);
+      x.lineTo(W, H); x.closePath(); x.fill();
+    });
+    const foot = kind === "footer", ground = foot ? H - 120 : H, scale = Math.min(1, (foot ? ground : H) / 320);
+    for (let px = -30; px < W + 40; px += 40 + r() * 70) {
+      const tall = foot ? (0.28 + r() * 0.34) * ground * 0.9 : (0.16 + r() * 0.2) * H;
+      tree(x, r, px, ground - tall, ground + 20, (70 + r() * 90) * scale, (r() - 0.5) * 16);
+    }
+    if (foot) {
+      const gg = x.createLinearGradient(0, ground - 30, 0, H);
+      gg.addColorStop(0, "rgba(4,11,28,0)"); gg.addColorStop(0.3, "#06101F"); gg.addColorStop(1, "#040B1C");
+      x.fillStyle = gg; x.fillRect(0, ground - 30, W, H - ground + 30);
+    }
+  }
+  const scenes = $$("canvas[data-scene]");
+  const sceneRO = new ResizeObserver(es => es.forEach(e => paintScene(e.target)));
+  scenes.forEach(c => sceneRO.observe(c));
+
   // ---------- boot ----------
   restoreWallet();
   if (!state.connected) setTimeout(resumeWallet, 400);
   setTipAddress(tip.address);
+  renderNdl();
   renderSlip();
   tickRing();
   renderMarkets();
@@ -2202,7 +2423,7 @@ SOFTWARE.</pre></div>
   startSky();
 
   // Test hook for the audit script.
-  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri };
+  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri, ndl, renderNdl };
 })();
 </script>
 </body>
