@@ -518,6 +518,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
 .wallet-opt .wtxt{flex:1;min-width:0}
 .wallet-opt .wtag{font:500 12px var(--mono);color:var(--muted);flex-shrink:0}
 .wallet-opt:hover .wtag{color:var(--teal)}
+.wlogo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff;border-radius:inherit}
 .wimg{width:38px;height:38px;border-radius:10px;flex-shrink:0;object-fit:contain;background:var(--surface)}
 .wimg.sm{width:20px;height:20px;border-radius:6px}
 .wallet-sec{font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:14px 0 8px}
@@ -620,7 +621,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
   <div class="ck-main">
     <div class="ck-text">
       <b>Cookies and storage</b>
-      <p>Florin can remember your theme, swap settings, watchlist, demo wallet and ZEC request address in this browser. No ads and no tracking. Fonts load from Google Fonts.</p>
+      <p>Florin can remember your theme, swap settings, watchlist, demo wallet and ZEC request address in this browser. No ads and no tracking. Fonts load from Google Fonts, and wallet logos load from each wallet's website when you open Connect wallet.</p>
     </div>
     <div class="ck-actions">
       <button class="btn btn-ghost" type="button" id="ckCustom" aria-expanded="false" aria-controls="ckPanel">Customize</button>
@@ -1878,16 +1879,16 @@ SOFTWARE.</pre></div>
   window.dispatchEvent(new Event("eip6963:requestProvider"));
 
   const KNOWN = [
-    { name: "MetaMask", rdns: "io.metamask", color: "#E2761B", url: "https://metamask.io/download/", app: () => `https://metamask.app.link/dapp/${location.host}${location.pathname}` },
-    { name: "Phantom", rdns: "app.phantom", sol: () => window.phantom?.solana?.isPhantom && window.phantom.solana, color: "#AB9FF2", url: "https://phantom.com/download", app: () => `https://phantom.app/ul/browse/${encodeURIComponent(location.href)}?ref=${encodeURIComponent(location.origin)}` },
-    { name: "Coinbase Wallet", rdns: "com.coinbase.wallet", color: "#0052FF", url: "https://www.coinbase.com/wallet/downloads", app: () => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(location.href)}` },
+    { name: "MetaMask", logo: "https://metamask.io/favicon.ico", rdns: "io.metamask", color: "#E2761B", url: "https://metamask.io/download/", app: () => `https://metamask.app.link/dapp/${location.host}${location.pathname}` },
+    { name: "Phantom", logo: "https://phantom.com/_web_platform_assets/favicon-96x96.png", rdns: "app.phantom", sol: () => window.phantom?.solana?.isPhantom && window.phantom.solana, color: "#AB9FF2", url: "https://phantom.com/download", app: () => `https://phantom.app/ul/browse/${encodeURIComponent(location.href)}?ref=${encodeURIComponent(location.origin)}` },
+    { name: "Coinbase Wallet", logo: "https://www.coinbase.com/favicon.ico", rdns: "com.coinbase.wallet", color: "#0052FF", url: "https://www.coinbase.com/wallet/downloads", app: () => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(location.href)}` },
     { name: "Rabby", rdns: "io.rabby", color: "#7084FF", url: "https://rabby.io/" },
-    { name: "Trust Wallet", rdns: "com.trustwallet.app", color: "#3375BB", url: "https://trustwallet.com/download", app: () => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(location.href)}` },
-    { name: "OKX Wallet", rdns: "com.okex.wallet", color: "#3B3B3B", url: "https://www.okx.com/web3" },
-    { name: "Brave Wallet", rdns: "com.brave.wallet", color: "#FB542B", url: "https://brave.com/wallet/" },
-    { name: "Rainbow", rdns: "me.rainbow", color: "#174299", url: "https://rainbow.me/download" },
-    { name: "Backpack", rdns: "app.backpack", sol: () => window.backpack?.isBackpack && window.backpack, color: "#E33E3F", url: "https://backpack.app/downloads" },
-    { name: "Solflare", sol: () => window.solflare?.isSolflare && window.solflare, color: "#FC7227", url: "https://solflare.com/download" },
+    { name: "Trust Wallet", logo: "https://trustwallet.com/favicon.ico", rdns: "com.trustwallet.app", color: "#3375BB", url: "https://trustwallet.com/download", app: () => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(location.href)}` },
+    { name: "OKX Wallet", logo: "https://www.okx.com/favicon.ico", rdns: "com.okex.wallet", color: "#3B3B3B", url: "https://www.okx.com/web3" },
+    { name: "Brave Wallet", logo: "https://brave.com/favicon.ico", rdns: "com.brave.wallet", color: "#FB542B", url: "https://brave.com/wallet/" },
+    { name: "Rainbow", logo: "https://rainbow.me/favicon.ico", rdns: "me.rainbow", color: "#174299", url: "https://rainbow.me/download" },
+    { name: "Backpack", logo: "https://backpack.app/favicon.ico", rdns: "app.backpack", sol: () => window.backpack?.isBackpack && window.backpack, color: "#E33E3F", url: "https://backpack.app/downloads" },
+    { name: "Solflare", logo: "https://solflare.com/favicon.ico", sol: () => window.solflare?.isSolflare && window.solflare, color: "#FC7227", url: "https://solflare.com/download" },
   ];
   const CHAINS = {
     "0x1": { name: "Ethereum", native: "ETH" }, "0xa4b1": { name: "Arbitrum One", native: "ETH" }, "0xa": { name: "OP Mainnet", native: "ETH" },
@@ -1902,10 +1903,12 @@ SOFTWARE.</pre></div>
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const topLevel = (() => { try { return window.top === window; } catch { return false; } })();
   const safeIcon = u => (typeof u === "string" && /^data:image\/(svg\+xml|png|jpeg|webp|gif)[;,]/.test(u) ? u : null);
-  function walletIcon(name, icon, color) {
+  function walletIcon(name, icon, color, logo) {
     const src = safeIcon(icon);
     if (src) return `<img class="wimg" src="${escapeHtml(src)}" alt="">`;
-    return `<span class="wi" style="background:${color || "var(--surface)"};color:#fff;font:700 13px var(--display)">${escapeHtml(name.slice(0, 1))}</span>`;
+    // The wallet's own icon from its website sits over a lettered tile, which shows if the icon can't load.
+    const img = logo && /^https:\/\//.test(logo) ? `<img class="wlogo" src="${escapeHtml(logo)}" alt="" referrerpolicy="no-referrer">` : "";
+    return `<span class="wi" style="background:${color || "var(--surface)"};color:#fff;font:700 13px var(--display);position:relative;overflow:hidden">${escapeHtml(name.slice(0, 1))}${img}</span>`;
   }
   function walletEntries() {
     const rows = [], claimed = new Set();
@@ -1914,9 +1917,9 @@ SOFTWARE.</pre></div>
       let sol = null; try { sol = k.sol ? k.sol() || null : null; } catch {}
       if (k.rdns) claimed.add(k.rdns);
       const icon = evm?.info.icon;
-      if (evm) rows.push({ key: k.rdns, name: k.name, sub: sol ? "Ethereum and EVM chains" : "Detected in this browser", icon, color: k.color, connect: () => connectEvm(k.name, evm) });
-      if (sol) rows.push({ key: k.name + ":sol", name: evm ? `${k.name} · Solana` : k.name, sub: "Solana account", icon, color: k.color, connect: () => connectSol(k.name, sol, icon) });
-      if (!evm && !sol) rows.push({ key: k.name, name: k.name, color: k.color, missing: true, href: isMobile && topLevel && k.app ? k.app() : k.url, action: isMobile && topLevel && k.app ? "Open in app" : "Install" });
+      if (evm) rows.push({ key: k.rdns, name: k.name, sub: sol ? "Ethereum and EVM chains" : "Detected in this browser", icon, color: k.color, logo: k.logo, connect: () => connectEvm(k.name, evm) });
+      if (sol) rows.push({ key: k.name + ":sol", name: evm ? `${k.name} · Solana` : k.name, sub: "Solana account", icon, color: k.color, logo: k.logo, connect: () => connectSol(k.name, sol, icon) });
+      if (!evm && !sol) rows.push({ key: k.name, name: k.name, color: k.color, logo: k.logo, missing: true, href: isMobile && topLevel && k.app ? k.app() : k.url, action: isMobile && topLevel && k.app ? "Open in app" : "Install" });
     }
     for (const [rdns, d] of discovered) if (!claimed.has(rdns)) rows.push({ key: rdns, name: d.info.name || "Browser wallet", sub: "Detected in this browser", icon: d.info.icon, connect: () => connectEvm(d.info.name || "Browser wallet", d) });
     if (!discovered.size && window.ethereum?.request && !rows.some(r => r.connect && !r.key.endsWith(":sol"))) {
@@ -1930,8 +1933,8 @@ SOFTWARE.</pre></div>
     const rows = walletEntries(), live = rows.filter(r => !r.missing), missing = rows.filter(r => r.missing);
     walletRows.clear(); rows.forEach(r => walletRows.set(r.key, r));
     const row = r => r.missing
-      ? `<a class="wallet-opt" href="${escapeHtml(r.href)}" target="_blank" rel="noopener noreferrer">${walletIcon(r.name, null, r.color)}<span class="wtxt"><b>${escapeHtml(r.name)}</b><span class="sub">Not installed</span></span><span class="wtag">${r.action} ↗</span></a>`
-      : `<button class="wallet-opt" type="button" data-wallet="${escapeHtml(r.key)}">${walletIcon(r.name, r.icon, r.color)}<span class="wtxt"><b>${escapeHtml(r.name)}</b><span class="sub${errKey === r.key ? " err" : ""}">${escapeHtml(errKey === r.key ? errMsg : r.sub)}</span></span><span class="wtag">Connect</span></button>`;
+      ? `<a class="wallet-opt" href="${escapeHtml(r.href)}" target="_blank" rel="noopener noreferrer">${walletIcon(r.name, null, r.color, r.logo)}<span class="wtxt"><b>${escapeHtml(r.name)}</b><span class="sub">Not installed</span></span><span class="wtag">${r.action} ↗</span></a>`
+      : `<button class="wallet-opt" type="button" data-wallet="${escapeHtml(r.key)}">${walletIcon(r.name, r.icon, r.color, r.logo)}<span class="wtxt"><b>${escapeHtml(r.name)}</b><span class="sub${errKey === r.key ? " err" : ""}">${escapeHtml(errKey === r.key ? errMsg : r.sub)}</span></span><span class="wtag">Connect</span></button>`;
     walletBody.innerHTML = `
       <div class="wallet-sec">Installed</div>
       ${live.length ? live.map(row).join("") : `<p class="fine" style="margin:0 0 12px">No browser wallet found. Install one below, or try the demo wallet.</p>`}
@@ -1943,6 +1946,10 @@ SOFTWARE.</pre></div>
       <div class="wallet-sec">More wallets</div>
       ${missing.map(row).join("")}
       <p class="fine">Real wallets connect read-only: Florin shows your address and balances but never asks for a signature or a seed phrase.</p>`;
+    $$("img.wlogo", walletBody).forEach(img => {
+      const drop = () => img.remove();
+      img.addEventListener("error", drop);
+    });
     $("#demoWallet").addEventListener("click", connectDemo);
     $$("[data-wallet]", walletBody).forEach(b => b.addEventListener("click", () => walletRows.get(b.dataset.wallet)?.connect()));
   }
