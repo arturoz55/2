@@ -1,4 +1,4 @@
-# Florin Swap
+# Ducat Swap
 
 A single-page site for a split-route DEX aggregator. It includes a working demo router that splits each order into 5% slices across several liquidity venues.
 
@@ -30,10 +30,10 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 
 ## Token section
 
-`<section id="token" data-ndl-address="" data-ndl-chain="">` powers the $FLRN card:
+`<section id="token" data-ndl-address="" data-ndl-chain="">` powers the $DUCT card:
 - **Until you add an address:** it shows "Pre-launch".
 - **Once you add the contract address and network:** it switches to "Live" and shows the contract with a copy button. "Add to wallet" (EIP-747 `wallet_watchAsset`) then works, and "Share on X" includes the contract.
-- The card also has "Try a swap to FLRN" and "View chart".
+- The card also has "Try a swap to DUCT" and "View chart".
 
 ## Launch kit
 
@@ -41,7 +41,7 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 - `launch-kit.md`: X bio, launch tweet, six tweets, and an article with its title.
 - `nodal-launch.mp4`: 16 s, 1280×720, H.264 presentation video.
 - `nodal-x-banner.png` / `nodal-x-banner-logo.png`: X header images, exactly 1500×500.
-- `nodal-tweet-*.png`: 1600×900 tweet images ($FLRN coin, split route, private ZEC, safety).
+- `nodal-tweet-*.png`: 1600×900 tweet images ($DUCT coin, split route, private ZEC, safety).
 - `nodal-og-image.png`: 1200×630 link preview image, used by the `og:` and `twitter:` meta tags. Make those URLs absolute once the site is deployed.
 - `art-source.html` and `promo-source.html`: the canvas sources the images and video were rendered from.
 
@@ -52,7 +52,7 @@ The X button next to **Connect wallet** is `<a id="xLink" href="https://x.com/">
 ## Zcash
 
 - **Request ZEC** (works without any setup): a visitor pastes their own Zcash address, and the section builds a payment request for it, checks the address and remembers it in that browser only.
-- **Tip Florin.** The same section builds a [ZIP-321](https://zips.z.cash/zip-0321) payment request (`zcash:<address>?amount=…&memo=…`) with a QR code, amount presets, an encrypted memo (512 bytes max), copy buttons and an "Open in Zcash wallet" link.
+- **Tip Ducat.** The same section builds a [ZIP-321](https://zips.z.cash/zip-0321) payment request (`zcash:<address>?amount=…&memo=…`) with a QR code, amount presets, an encrypted memo (512 bytes max), copy buttons and an "Open in Zcash wallet" link.
   **To turn tips on,** paste your shielded address (starting `u1…` or `zs1…`) into `data-zcash-address` on `<section id="tips">` in `index.html`. Until then, the section shows a setup notice.
 - **Send ZEC to an address.** In the swap card, "Send to another address" accepts a Zcash address when the receive token is ZEC. It checks the address offline:
   - Unified and TEX addresses: Bech32m checksum.
