@@ -1,7 +1,7 @@
 # Ducat launch kit
 
 Official account: [@UseDucat](https://x.com/UseDucat)
-$DUCT contract: `0x263187d5882a7a17f867a8f527c50c6bae7d0a8c` (also shown on the site)
+$DUCT contract: `0x991959b4a221b75fedbd45a833983648cc427bfe` (also shown on the site)
 
 Replace `[website link]` and `[repository link]` before posting. Keep the contract address identical everywhere.
 
@@ -52,7 +52,7 @@ The split image uses the router simulation's numbers and says so on the image.
 >
 > Ducat cuts a big trade into slices, sends each to the venue that prices it best, and settles them in one transaction.
 >
-> CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+> CA: 0x991959b4a221b75fedbd45a833983648cc427bfe
 > [website link]
 
 ---
@@ -156,7 +156,7 @@ Next, we're connecting the router to on-chain settlement so that the quote you s
 
 Every trade, split smart. ☀️
 
-[website link] · CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+[website link] · CA: 0x991959b4a221b75fedbd45a833983648cc427bfe
 
 ---
 
@@ -185,7 +185,7 @@ What $DUCT is
 
 $DUCT is the community token of the Ducat project.
 
-Contract: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+Contract: 0x991959b4a221b75fedbd45a833983648cc427bfe
 
 This contract is published on our site and pinned on this account. Those are the only two places to check it. We never DM first and we never ask for a seed phrase.
 
@@ -223,7 +223,7 @@ Every trade, split smart.
 **9. Check the contract**
 > The only $DUCT contract:
 >
-> 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+> 0x991959b4a221b75fedbd45a833983648cc427bfe
 >
 > It's on our site and pinned here. Anything else isn't us. ☀️
 
@@ -239,7 +239,7 @@ Named after the ducat, the gold coin traders trusted for centuries because it wa
 
 One contract. One official site. Nothing hidden.
 
-CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+CA: 0x991959b4a221b75fedbd45a833983648cc427bfe
 ```
 
 **2. What it is**
@@ -259,7 +259,7 @@ $DUCT follows the same rule: one contract, published on our site and pinned here
 
 If it's not this address, it's not $DUCT.
 
-0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+0x991959b4a221b75fedbd45a833983648cc427bfe
 ```
 
 **4. Community**
