@@ -144,6 +144,19 @@ section[id],main[id]{scroll-margin-top:76px}
 .cp-price{margin-top:10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .cp-price b{font:500 28px/1.1 var(--mono);letter-spacing:-.02em}
 .cp-price span{font:500 13px var(--mono)}
+.cp-tools{display:flex;align-items:center;gap:8px}
+.cp-tools .icon-btn{position:relative;width:34px;height:34px}
+.alert-count{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:9px;background:var(--amber);color:#fff;font:600 10px/17px var(--mono);text-align:center;padding:0 4px}
+.alert-panel{margin-top:12px;padding:12px;border-radius:var(--r-md);background:var(--surface-2);display:grid;gap:10px}
+.alert-form{display:grid;gap:6px}
+.alert-form label{font-size:13px;color:var(--muted)}
+.alert-row{display:flex;gap:8px}
+.alert-row .field{flex:1;min-width:0}
+.alert-row .btn{height:44px}
+.alert-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.alert-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;font:500 13px var(--mono);padding:8px 10px;border-radius:10px;background:var(--surface)}
+.alert-list button{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;padding:2px 6px;border-radius:6px}
+.alert-list button:hover{color:var(--rose)}
 .tf{display:flex;gap:2px;background:var(--surface-2);border-radius:10px;padding:3px}
 .tf button{border:0;background:none;height:28px;padding:0 10px;border-radius:7px;font:500 12px var(--mono);color:var(--muted)}
 .tf button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.25)}
@@ -631,7 +644,7 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
   </div>
   <div class="ck-panel" id="ckPanel" hidden>
     <label class="ck-row"><input type="checkbox" checked disabled> <span><b>Essential</b> Remembers this choice. Always on.</span></label>
-    <label class="ck-row"><input type="checkbox" id="ckPrefs"> <span><b>Preferences</b> Theme, slippage and deadline, watchlist, demo wallet, last connected wallet and your ZEC request address.</span></label>
+    <label class="ck-row"><input type="checkbox" id="ckPrefs"> <span><b>Preferences</b> Theme, slippage and deadline, watchlist, price alerts, demo wallet, last connected wallet and your ZEC request address.</span></label>
     <div class="ck-actions"><button class="btn btn-primary" type="button" id="ckSave">Save choices</button></div>
   </div>
 </div>
@@ -711,12 +724,26 @@ dialog::backdrop{background:rgba(6,8,12,.62);backdrop-filter:blur(3px)}
             </div>
             <div class="cp-price"><b id="cpPrice">–</b><span id="cpChange"></span></div>
           </div>
+          <div class="cp-tools">
+          <button class="icon-btn" type="button" id="alertBtn" aria-label="Price alerts" aria-expanded="false" aria-controls="alertPanel" title="Price alerts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+            <span class="alert-count" id="alertCount" hidden></span>
+          </button>
           <div class="tf" role="group" aria-label="Chart time range">
             <button type="button" data-tf="1H" aria-pressed="false">1H</button>
             <button type="button" data-tf="1D" aria-pressed="true">1D</button>
             <button type="button" data-tf="1W" aria-pressed="false">1W</button>
             <button type="button" data-tf="1M" aria-pressed="false">1M</button>
           </div>
+        </div>
+        </div>
+        <div class="alert-panel" id="alertPanel" hidden>
+          <form class="alert-form" id="alertForm">
+            <label for="alertPrice" id="alertLbl">Alert me when the price reaches</label>
+            <div class="alert-row"><input class="field" id="alertPrice" inputmode="decimal" autocomplete="off" placeholder="0.00"><button class="btn btn-primary" type="submit">Set alert</button></div>
+            <p class="fine" id="alertNote" style="margin:0"></p>
+          </form>
+          <ul class="alert-list" id="alertList"></ul>
         </div>
         <div class="chart" id="chart"></div>
         <p class="sr-only" id="chartSummary" aria-live="polite"></p>
@@ -1648,6 +1675,51 @@ SOFTWARE.</pre></div>
   $("#cpInvert").addEventListener("click", () => { state.invert = !state.invert; render(false); });
   new ResizeObserver(() => renderChart()).observe(chartEl);
 
+  // ---------- price alerts ----------
+  // Alerts watch the simulated pair price and fire a toast once when it crosses the target.
+  const alerts = (() => { const a = store.get("alerts", []); return Array.isArray(a) ? a.filter(x => x && x.a in TOKENS && x.b in TOKENS && Number.isFinite(x.target)) : []; })();
+  const pairPrice = (a, b) => TOKENS[a].price / TOKENS[b].price;
+  const alertPair = () => { let a = state.tokenIn, b = state.tokenOut; if (!a || !b || a === b) return null; if (state.invert) [a, b] = [b, a]; return { a, b }; };
+  function renderAlerts() {
+    const pr = alertPair(), note = $("#alertNote");
+    $("#alertLbl").textContent = pr ? `Alert me when ${pr.a} reaches (in ${pr.b})` : "Pick two different tokens first";
+    if (pr && document.activeElement !== $("#alertPrice")) $("#alertPrice").placeholder = fmtPx(pairPrice(pr.a, pr.b)).replace(/,/g, "");
+    $("#alertList").innerHTML = alerts.map((x, i) => `<li><span>${x.a}/${x.b} ${x.dir === "above" ? "≥" : "≤"} ${fmtPx(x.target)}</span><button type="button" data-rm-alert="${i}" aria-label="Remove alert">×</button></li>`).join("");
+    const c = $("#alertCount"); c.hidden = !alerts.length; c.textContent = String(alerts.length);
+    note.textContent = alerts.length ? "Alerts use the simulated prices on this page." : note.textContent;
+    store.set("alerts", alerts);
+  }
+  $("#alertBtn").addEventListener("click", () => {
+    const panel = $("#alertPanel"), open = panel.hidden; panel.hidden = !open;
+    $("#alertBtn").setAttribute("aria-expanded", String(open));
+    if (open) { renderAlerts(); $("#alertPrice").focus(); }
+  });
+  $("#alertPrice").addEventListener("input", e => { e.target.value = sanitize(e.target.value); });
+  $("#alertForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const pr = alertPair(), note = $("#alertNote"), v = parseFloat($("#alertPrice").value);
+    if (!pr) { note.textContent = "Pick two different tokens first."; return; }
+    if (!(v > 0)) { note.textContent = "Enter a price above 0."; return; }
+    const now = pairPrice(pr.a, pr.b);
+    if (Math.abs(v - now) / now < 1e-6) { note.textContent = "That's the current price. Pick a price above or below it."; return; }
+    if (alerts.length >= 8) { note.textContent = "You can keep up to 8 alerts. Remove one first."; return; }
+    alerts.push({ a: pr.a, b: pr.b, target: v, dir: v > now ? "above" : "below" });
+    $("#alertPrice").value = ""; note.textContent = `You'll get a notice when ${pr.a} goes ${v > now ? "above" : "below"} ${fmtPx(v)} ${pr.b}.`;
+    renderAlerts();
+  });
+  $("#alertList").addEventListener("click", e => { const b = e.target.closest("[data-rm-alert]"); if (!b) return; alerts.splice(Number(b.dataset.rmAlert), 1); renderAlerts(); });
+  function checkAlerts() {
+    let fired = false;
+    for (let i = alerts.length - 1; i >= 0; i--) {
+      const x = alerts[i], p = pairPrice(x.a, x.b);
+      if ((x.dir === "above" && p >= x.target) || (x.dir === "below" && p <= x.target)) {
+        toast("ok", `${x.a}/${x.b} ${x.dir === "above" ? "rose above" : "fell below"} ${fmtPx(x.target)}`, `Now ${fmtPx(p)} ${x.b} (simulated price).`);
+        alerts.splice(i, 1); fired = true;
+      }
+    }
+    if (fired) renderAlerts();
+  }
+
   // ---------- markets + ticker ----------
   function spark(arr) {
     const s = arr.slice(-48), lo = Math.min(...s), hi = Math.max(...s), r = hi - lo || 1;
@@ -2451,7 +2523,7 @@ SOFTWARE.</pre></div>
       t.long[LONG_N - 1] = t.price;
     }
   }
-  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); renderMarkets(); renderTip(); renderNdl(); requote(true); }
+  function refreshNow() { drift(); state.refreshIn = REFRESH; tickRing(); renderMarkets(); renderTip(); renderNdl(); checkAlerts(); requote(true); }
   $("#refreshBtn").addEventListener("click", refreshNow);
   setInterval(() => {
     if (document.hidden || state.pending) return;
@@ -2540,6 +2612,30 @@ SOFTWARE.</pre></div>
     clumps.forEach(c => { if (r() < 0.45) blob(x, c.cx - c.rx * 0.42, c.cy - c.ry * 0.52, c.rx * 0.26, c.ry * 0.16, c.rot, "rgba(206,236,140,.6)"); });
   }
 
+  // A striped hot-air balloon in the brand colours, drawn from simple shapes.
+  function drawBalloon(g, x, y, k, tilt) {
+    const R = 46 * k;
+    g.save(); g.translate(x, y); g.rotate(tilt);
+    const env = new Path2D();
+    env.moveTo(0, R * 1.35);
+    env.bezierCurveTo(-R * 0.55, R * 0.95, -R * 1.05, R * 0.35, -R, -R * 0.15);
+    env.bezierCurveTo(-R * 0.95, -R * 0.95, R * 0.95, -R * 0.95, R, -R * 0.15);
+    env.bezierCurveTo(R * 1.05, R * 0.35, R * 0.55, R * 0.95, 0, R * 1.35);
+    g.save(); g.clip(env);
+    const cols = ["#F4B740", "#FFFFFF", "#0E8F83", "#FFFFFF", "#F4B740", "#FFFFFF", "#0E8F83"];
+    cols.forEach((c, i) => { g.fillStyle = c; g.fillRect(-R * 1.1 + i * (R * 2.2 / cols.length), -R * 1.2, R * 2.2 / cols.length + 1, R * 2.7); });
+    const shade = g.createLinearGradient(-R, 0, R, 0);
+    shade.addColorStop(0, "rgba(255,255,255,.35)"); shade.addColorStop(0.45, "rgba(255,255,255,0)"); shade.addColorStop(1, "rgba(15,36,68,.28)");
+    g.fillStyle = shade; g.fillRect(-R * 1.2, -R * 1.2, R * 2.4, R * 2.8);
+    g.restore();
+    g.strokeStyle = "rgba(15,36,68,.25)"; g.lineWidth = 1; g.stroke(env);
+    // Ropes and basket
+    g.strokeStyle = "rgba(90,70,48,.8)"; g.lineWidth = Math.max(0.8, k);
+    [[-R * 0.32, -R * 0.2], [R * 0.32, R * 0.2]].forEach(([a, b]) => { g.beginPath(); g.moveTo(a, R * 1.18); g.lineTo(b, R * 1.72); g.stroke(); });
+    g.fillStyle = "#9A7048"; g.beginPath(); g.roundRect(-R * 0.26, R * 1.7, R * 0.52, R * 0.36, R * 0.06); g.fill();
+    g.fillStyle = "#7C5634"; g.fillRect(-R * 0.26, R * 1.7, R * 0.52, R * 0.08);
+    g.restore();
+  }
   // One animated sky per canvas: the hero and the entry page each get their own.
   function createSky(sky) {
   const sctx = sky.getContext("2d");
@@ -2623,7 +2719,9 @@ SOFTWARE.</pre></div>
       const left = r() < 0.5;
       return { x: left ? r() * W * 0.22 : W * (0.78 + r() * 0.22), y: H * (0.45 + r() * 0.45), ph: r() * 6.28, sp: 0.3 + r() * 0.5, amp: 14 + r() * 26, col: COLS[Math.floor(r() * COLS.length)], s: 4 + r() * 3 };
     });
-    S = { W, H, bg, tr, clouds, birds, flies, sun: { x: sx, y: sy, r: sr } };
+    // Dandelion seeds drifting on the breeze, in front of everything.
+    const seeds = Array.from({ length: narrow ? 6 : 12 }, () => ({ x: r() * W, y: H * (0.2 + r() * 0.7), sp: 8 + r() * 14, ph: r() * 6.28, s: 5 + r() * 4 }));
+    S = { W, H, bg, tr, clouds, birds, flies, seeds, sun: { x: sx, y: sy, r: sr }, balloon: narrow ? null : { x: W * 0.86, y: H * 0.27, k: Math.min(1, W / 1300) } };
     drawSky(performance.now());
   }
   function drawSky(t) {
@@ -2656,7 +2754,17 @@ SOFTWARE.</pre></div>
       sctx.beginPath(); sctx.moveTo(x - w, y - w * (0.35 + f * 0.5)); sctx.quadraticCurveTo(x - w * 0.4, y - w * 0.1, x, y);
       sctx.quadraticCurveTo(x + w * 0.4, y - w * 0.1, x + w, y - w * (0.35 + f * 0.5)); sctx.stroke();
     }
+    if (S.balloon) drawBalloon(sctx, S.balloon.x + Math.sin(s * 0.05) * W * 0.035, S.balloon.y + Math.sin(s * 0.35) * 7, S.balloon.k, Math.sin(s * 0.4) * 0.04);
     sctx.drawImage(S.tr, 0, 0, W, H);
+    for (const d of S.seeds) {
+      const x = ((d.x + s * d.sp) % (W + 60)) - 30, y = d.y - ((s * d.sp * 0.35) % (H * 0.3)) + Math.sin(s * 0.8 + d.ph) * 10;
+      sctx.save(); sctx.translate(x, y); sctx.rotate(Math.sin(s * 0.9 + d.ph) * 0.35);
+      sctx.strokeStyle = "rgba(255,255,255,.85)"; sctx.lineWidth = 0.8;
+      sctx.beginPath(); sctx.moveTo(0, 0); sctx.lineTo(0, d.s * 1.4); sctx.stroke();
+      for (let k = 0; k < 9; k++) { const a = -Math.PI / 2 + (k - 4) * 0.33; sctx.beginPath(); sctx.moveTo(0, 0); sctx.lineTo(Math.cos(a) * d.s, Math.sin(a) * d.s); sctx.stroke(); }
+      sctx.fillStyle = "#C9A36A"; sctx.beginPath(); sctx.arc(0, d.s * 1.45, 1.1, 0, Math.PI * 2); sctx.fill();
+      sctx.restore();
+    }
     for (const f of S.flies) {
       const x = f.x + Math.sin(s * f.sp + f.ph) * f.amp, y = f.y + Math.sin(s * f.sp * 1.7 + f.ph) * f.amp * 0.5;
       const flap = Math.abs(Math.sin(s * 9 + f.ph)), z = f.s;
@@ -2799,7 +2907,7 @@ SOFTWARE.</pre></div>
       try { Object.keys(localStorage).filter(k => k.startsWith("nodal:") && k !== CONSENT_KEY).forEach(k => localStorage.removeItem(k)); } catch {}
     } else {
       // Save what the visitor already set during this visit.
-      store.set("slippage", state.slippage); store.set("watch", [...watch]); saveWallet();
+      store.set("slippage", state.slippage); store.set("watch", [...watch]); store.set("alerts", alerts); saveWallet();
       if (root.dataset.theme) store.set("theme", root.dataset.theme);
       if (tip.req.address) store.set("reqAddr", tip.req.address);
       if (state.wallet && state.wallet.kind !== "demo") store.set("lastWallet", { kind: state.wallet.kind, rdns: state.wallet.rdns, name: state.wallet.name });
@@ -2852,6 +2960,7 @@ SOFTWARE.</pre></div>
   if (!state.connected) setTimeout(resumeWallet, 400);
   setTipAddress(tip.address);
   renderNdl();
+  renderAlerts();
   renderSlip();
   tickRing();
   renderMarkets();
@@ -2860,7 +2969,7 @@ SOFTWARE.</pre></div>
   heroSky.start();
 
   // Test hook for the audit script.
-  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri, ndl, renderNdl, impactSeries, enterSite };
+  window.__nodal = { state, route, TOKENS, ZADDR, setTipAddress, tipUri, ndl, renderNdl, impactSeries, enterSite, refreshNow, alerts };
 })();
 </script>
 </body>
