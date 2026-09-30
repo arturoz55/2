@@ -102,7 +102,7 @@ stills.seaBanner=function(){const W=1500,H=500,g=setup(W,H);seaScene(g,W,H,{sunX
   // tagline pill
   g.save();g.font='500 20px "IBM Plex Mono"';const tag="Every trade, split smart.",tgw=g.measureText(tag).width+40;g.restore();glass(g,W/2-tgw/2,H*.61,tgw,40);lab(g,"Every trade, split smart.",W/2,H*.61+26,20,ACC,500,"IBM Plex Mono","center");
   // coins floating around
-  tiltCoin(g,455,112,44,-.35,.86,0);tiltCoin(g,1045,408,40,.4,.82,0);tiltCoin(g,300,300,20,.2,.8,2.5);tiltCoin(g,1270,262,24,-.2,.84,1.5);tiltCoin(g,760,452,15,.1,.8,3);tiltCoin(g,640,60,13,-.3,.8,2.5);
+  tiltCoin(g,300,300,20,.2,.8,2.5);tiltCoin(g,1270,262,24,-.2,.84,1.5);
   // card: split route (top left)
   glass(g,40,34,300,128);lab(g,"• SPLIT ROUTE · $1M ORDER",60,64,12,"rgba(15,36,68,.6)",500,"IBM Plex Mono","left",1);
   const V=[[.6,"#1FB5A5"],[.2,"#E7708A"],[.15,"#F4B740"],[.05,"#6FA8E8"]];let bx=60;V.forEach(([sh,c])=>{const w=(256-9)*sh;g.fillStyle=c;g.beginPath();g.roundRect(bx,80,w,16,5);g.fill();bx+=w+3;});

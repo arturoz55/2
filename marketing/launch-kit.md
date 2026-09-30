@@ -157,3 +157,72 @@ Next, we're connecting the router to on-chain settlement so that the quote you s
 Every trade, split smart. ☀️
 
 [website link] · CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+
+---
+
+## X article, ready to paste
+
+**Title:** Ducat: trading the way a trusted coin should work
+
+```
+For centuries, the ducat was the coin people could count on. Its value came from being the same everywhere: the same weight, the same gold, no matter who handed it to you. We named our project after it because that is the standard we want to be held to.
+
+The problem with one big trade
+
+When you swap on a single pool, every unit you buy costs a little more than the last. On a small trade you barely notice. On a large one, a single pool can cost you several percent in price impact before fees. Most of that loss is avoidable, because liquidity is spread across many venues.
+
+How Ducat routes a trade
+
+Ducat splits every order into twenty slices of 5% each. Each slice goes to the venue that returns the most for it, given what earlier slices already took. A split is kept only when it beats the best single venue after gas. All legs settle together in one transaction, and if the market moves further than your slippage allows, the whole swap reverts instead of filling at a bad price.
+
+In our router simulation, splitting cuts price impact roughly in half across most order sizes. On a 1 million dollar order, that is about 2.6% instead of 5.3%.
+
+Private payments in ZEC
+
+Ducat also builds private payment requests in shielded Zcash. Paste your shielded address, pick an amount, add a memo, and share the QR code or link. With a shielded address, the amount, the sender and the memo stay encrypted, and your address never leaves your browser.
+
+What $DUCT is
+
+$DUCT is the community token of the Ducat project.
+
+Contract: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+
+This contract is published on our site and pinned on this account. Those are the only two places to check it. We never DM first and we never ask for a seed phrase.
+
+What works today
+
+You can try the router with simulated prices and a demo wallet, connect your own wallet in read-only mode, set price alerts, and create private ZEC payment requests. Next, we are connecting the router to on-chain settlement so the quote you see becomes a trade you can sign.
+
+The code is open source under the MIT License.
+
+Crypto is volatile and nothing here is financial advice.
+
+Every trade, split smart.
+```
+
+---
+
+## More tweets
+
+**7. The name**
+> Why "Ducat"?
+>
+> For centuries the ducat was the coin traders trusted, because it was the same gold everywhere.
+>
+> Same idea for $DUCT: one contract, one official site, everything open to read. ☀️
+
+**8. Big orders**
+> Big order, one pool = you pay for it in price impact.
+>
+> Ducat splits it into 20 slices across several venues and settles them together.
+>
+> In our router simulation: 2.6% impact instead of 5.3% on a $1M order.
+>
+> $DUCT
+
+**9. Check the contract**
+> The only $DUCT contract:
+>
+> 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+>
+> It's on our site and pinned here. Anything else isn't us. ☀️
