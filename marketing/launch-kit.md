@@ -226,3 +226,71 @@ Every trade, split smart.
 > 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
 >
 > It's on our site and pinned here. Anything else isn't us. ☀️
+
+---
+
+## Tweets about $DUCT
+
+**1. Meet the coin**
+```
+$DUCT is here. ☀️
+
+Named after the ducat, the gold coin traders trusted for centuries because it was the same everywhere.
+
+One contract. One official site. Nothing hidden.
+
+CA: 0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+```
+
+**2. What it is**
+```
+What is $DUCT?
+
+The community token of Ducat, the project splitting every trade into its best pieces.
+
+Holding $DUCT means being part of the community that builds it, from day one. ☀️
+```
+
+**3. Gold standard**
+```
+The ducat was trusted because nobody could fake its weight.
+
+$DUCT follows the same rule: one contract, published on our site and pinned here.
+
+If it's not this address, it's not $DUCT.
+
+0x263187d5882a7a17f867a8f527c50c6bae7d0a8c
+```
+
+**4. Community**
+```
+$DUCT holders, we want to hear from you. ☀️
+
+What should Ducat build next?
+• More venues
+• More chains
+• Limit orders
+
+Reply below. The community shapes the coin.
+```
+
+**5. Before you buy**
+```
+Before you buy $DUCT:
+
+✓ Check the contract on our site
+✓ Make sure it matches the one pinned here
+✓ Never share your seed phrase
+
+We never DM first. Stay safe. ☀️
+```
+
+**6. Gm**
+```
+gm from the coast ☀️🌊
+
+Every trade, split smart.
+Every holder, part of the story.
+
+$DUCT
+```
