@@ -21,7 +21,7 @@ Replace `[website link]` and `[repository link]` before posting. Keep the contra
 **Other fields**
 - Name: `Ducat ☀️` or `Ducat | $DUCT`
 - Profile photo: `ducat-x-avatar.png` (400×400)
-- Header: `ducat-x-banner.png` or `ducat-x-banner-logo.png` (1500×500)
+- Header: `ducat-x-banner-sea.png` (sea, logo and floating cards), `ducat-x-banner.png` or `ducat-x-banner-logo.png` (all 1500×500)
 - Website: [website link]
 - Pinned post: the launch tweet, then the safety tweet
 

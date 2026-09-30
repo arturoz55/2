@@ -75,6 +75,50 @@ window.stills={
    txt(g,"Stay safe with $DUCT",W*.36,H*.3,'800 76px "Bricolage Grotesque"',INK);
    [["Only trust the contract on our site and @Nodalftech."],["We never DM first."],["We never ask for your seed phrase."]].forEach(([l],i)=>{const y=H*.4+i*104;card(g,W*.36,y,880,82);txt(g,"✓",W*.36+44,y+54,'700 34px "IBM Plex Sans"',"#15803D","center");txt(g,l,W*.36+84,y+53,'500 32px "IBM Plex Sans"',INK);});handle(g,W,H);return out();},
 };
+
+// ---- sea banner ----
+function seaScene(g,W,H,o={}){const r=rng(o.seed||909),hz=H*(o.horizon||.74);
+  const sk=g.createLinearGradient(0,0,0,hz);sk.addColorStop(0,"#4FA6F2");sk.addColorStop(.7,"#86C6F8");sk.addColorStop(1,"#BFE3FC");g.fillStyle=sk;g.fillRect(0,0,W,hz+2);
+  const sx=W*(o.sunX||.9),sy=H*(o.sunY||.2),sr=H*.1;soft(g,sx,sy,W*.4,"255,244,205",.4);sun(g,sx,sy,sr,0);
+  // low clouds sitting on the horizon at both sides
+  const hill=(x0,x1,h,fill,dy)=>{const b=[];let x=x0;while(x<x1){const rr=h*(.45+r()*.55);b.push([x,hz-rr*.45+dy,rr]);x+=rr*(.8+r()*.4);}g.fillStyle=fill;g.beginPath();for(const [cx,cy,rr] of b){g.moveTo(cx+rr,cy);g.arc(cx,cy,rr,0,7);}g.rect(b[0][0],hz-2+dy,b[b.length-1][0]-b[0][0],6);g.fill();};
+  g.save();g.beginPath();g.rect(0,0,W,hz);g.clip();hill(-40,W*.33,H*.17,"rgba(222,238,252,.95)",0);hill(W*.72,W+40,H*.13,"rgba(222,238,252,.95)",0);hill(-40,W*.26,H*.11,"#FFFFFF",4);hill(W*.8,W+40,H*.09,"#FFFFFF",4);g.restore();
+  // sea with a sun glitter path
+  const sea=g.createLinearGradient(0,hz,0,H);sea.addColorStop(0,"#3FA9EE");sea.addColorStop(1,"#1F86D6");g.fillStyle=sea;g.fillRect(0,hz,W,H-hz);
+  g.fillStyle="rgba(255,255,255,.55)";g.fillRect(0,hz,W,1.5);
+  for(let i=0;i<60;i++){const y=hz+4+Math.pow(r(),1.3)*(H-hz-6),spread=20+(y-hz)*1.2,x=sx-W*.25+(r()-.5)*spread*2,w=10+r()*40*(1+(y-hz)/(H-hz));g.fillStyle=`rgba(255,255,255,${(.25+r()*.45).toFixed(2)})`;g.fillRect(x,y,w,1.5);}
+  for(let i=0;i<50;i++){const y=hz+6+r()*(H-hz-8);g.fillStyle="rgba(255,255,255,.18)";g.fillRect(r()*W,y,8+r()*26,1);}
+  bush(g,r,W*.02,H*1.08,W*.2,H*.5,false);bush(g,r,W*.99,H*1.08,W*.18,H*.46,true);}
+function tiltCoin(g,x,y,R,rot,sq,blur){g.save();if(blur)g.filter=`blur(${blur}px)`;g.translate(x,y);g.rotate(rot);g.scale(1,sq);coin(g,0,0,R);g.restore();}
+function glass(g,x,y,w,h){g.save();g.fillStyle="rgba(255,255,255,.82)";g.shadowColor="rgba(15,36,68,.22)";g.shadowBlur=26;g.shadowOffsetY=10;g.beginPath();g.roundRect(x,y,w,h,16);g.fill();g.shadowColor="transparent";g.strokeStyle="rgba(255,255,255,1)";g.lineWidth=1.5;g.stroke();g.restore();}
+function lab(g,s,x,y,px,col,w=500,fam="IBM Plex Mono",align="left",ls=0){g.save();g.font=`${w} ${px}px "${fam}"`;g.fillStyle=col;g.textAlign=align;if(ls)g.letterSpacing=ls+"px";g.fillText(s,x,y);g.restore();}
+stills.seaBanner=function(){const W=1500,H=500,g=setup(W,H);seaScene(g,W,H,{sunX:.685,sunY:.15});
+  // centre brand lock-up
+  soft(g,W*.5,H*.46,300,"255,255,255",.55);
+  g.save();g.font='800 118px "Bricolage Grotesque"';const tw=g.measureText("Ducat").width;g.restore();
+  const mh=118,mw=MW*(mh/MH),gap=26,total=mw+gap+tw,x0=W/2-total/2,cy=H*.44;
+  mark(g,x0+mw/2,cy,mh);
+  g.save();g.font='800 118px "Bricolage Grotesque"';g.fillStyle=INK;g.textBaseline="middle";g.shadowColor="rgba(255,255,255,.8)";g.shadowBlur=16;g.fillText("Ducat",x0+mw+gap,cy+4);g.restore();
+  // tagline pill
+  g.save();g.font='500 20px "IBM Plex Mono"';const tag="Every trade, split smart.",tgw=g.measureText(tag).width+40;g.restore();glass(g,W/2-tgw/2,H*.61,tgw,40);lab(g,"Every trade, split smart.",W/2,H*.61+26,20,ACC,500,"IBM Plex Mono","center");
+  // coins floating around
+  tiltCoin(g,455,112,44,-.35,.86,0);tiltCoin(g,1045,408,40,.4,.82,0);tiltCoin(g,300,300,20,.2,.8,2.5);tiltCoin(g,1270,262,24,-.2,.84,1.5);tiltCoin(g,760,452,15,.1,.8,3);tiltCoin(g,640,60,13,-.3,.8,2.5);
+  // card: split route (top left)
+  glass(g,40,34,300,128);lab(g,"• SPLIT ROUTE · $1M ORDER",60,64,12,"rgba(15,36,68,.6)",500,"IBM Plex Mono","left",1);
+  const V=[[.6,"#1FB5A5"],[.2,"#E7708A"],[.15,"#F4B740"],[.05,"#6FA8E8"]];let bx=60;V.forEach(([sh,c])=>{const w=(256-9)*sh;g.fillStyle=c;g.beginPath();g.roundRect(bx,80,w,16,5);g.fill();bx+=w+3;});
+  lab(g,"Impact",60,126,13,"rgba(15,36,68,.65)",500,"IBM Plex Sans");lab(g,"2.6%",60,150,22,"#15803D",700,"Bricolage Grotesque");lab(g,"vs 5.3% single venue",120,149,13,"rgba(15,36,68,.65)",500,"IBM Plex Sans");
+  // pill: venues (mid left, clear of the avatar corner)
+  g.save();g.font='500 15px "IBM Plex Mono"';const pv="5 venues · 1 transaction",pw=g.measureText(pv).width+30;g.restore();glass(g,300,196,pw,36);lab(g,pv,315,219,15,INK);
+  // card: private ZEC request (top right)
+  glass(g,1100,34,330,122);lab(g,"• PRIVATE ZEC REQUEST",1120,64,12,"rgba(15,36,68,.6)",500,"IBM Plex Mono","left",1);
+  lab(g,"zcash:u1…?amount=0.25",1120,97,17,ACC);
+  g.save();g.font='500 13px "IBM Plex Mono"';const sl="Shielded · unified",sw=g.measureText(sl).width+24;g.fillStyle="rgba(21,128,61,.1)";g.strokeStyle="rgba(21,128,61,.55)";g.lineWidth=1.5;g.beginPath();g.roundRect(1120,112,sw,28,14);g.fill();g.stroke();g.fillStyle="#15803D";g.fillText(sl,1132,131);g.restore();
+  // card: price alert (right, above the sea)
+  glass(g,1100,300,330,96);lab(g,"• PRICE ALERT",1120,328,12,"rgba(15,36,68,.6)",500,"IBM Plex Mono","left",1);lab(g,"ETH / USDC ≥ 2,460.00",1120,361,15,INK);
+  g.fillStyle=INK;g.beginPath();g.roundRect(1356,344,56,28,14);g.fill();lab(g,"Set",1384,363,13,"#fff",600,"IBM Plex Sans","center");
+  lab(g,"@Nodalftech",W-26,H-18,15,"rgba(255,255,255,.9)",500,"IBM Plex Mono","right");
+  return out();};
+
 // ---- video frame (1280x720, 16 s) ----
 const cl=v=>v<0?0:v>1?1:v,E=v=>1-Math.pow(1-cl(v),3),EI=v=>{v=cl(v);return v<.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;};
 const win=(t,a,b,fi=.45,fo=.45)=>Math.min(E((t-a)/fi),1-E((t-(b-fo))/fo));

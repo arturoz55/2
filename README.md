@@ -41,7 +41,7 @@ Open `index.html` in a browser. It needs no build step and has no dependencies o
 - `launch-kit.md`: X bios (English and Spanish), launch tweet, six tweets, and an article with its title.
 - `ducat-launch.mp4`: 16 s, 1280×720, H.264 presentation video.
 - `ducat-tweet-*.png`: 1600×900 tweet images (gold $DUCT coin, split route, private ZEC, safety).
-- `ducat-x-banner.png` / `ducat-x-banner-logo.png` (1500×500), `ducat-x-avatar.png` (400×400): X profile images.
+- `ducat-x-banner-sea.png` / `ducat-x-banner.png` / `ducat-x-banner-logo.png` (1500×500), `ducat-x-avatar.png` (400×400): X profile images.
 - `ducat-og-image.png`: 1200×630 link preview, used by the `og:` and `twitter:` meta tags. Make those URLs absolute once the site is deployed.
 - `ducat-art-source.html`: the canvas source that all of the above were rendered from.
 - `old-nodal/`: the earlier Nodal-branded night versions.
