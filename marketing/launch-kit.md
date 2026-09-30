@@ -1,6 +1,6 @@
 # Ducat launch kit
 
-Official account: [@Nodalftech](https://x.com/Nodalftech)
+Official account: [@UseDucat](https://x.com/UseDucat)
 $DUCT contract: `0x263187d5882a7a17f867a8f527c50c6bae7d0a8c` (also shown on the site)
 
 Replace `[website link]` and `[repository link]` before posting. Keep the contract address identical everywhere.
